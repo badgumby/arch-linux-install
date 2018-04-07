@@ -50,7 +50,7 @@ mkdir /mnt/boot/efi
 mount /dev/sdX1 /mnt/boot/efi
 
 # Install the system also includes stuff needed for starting wifi when first booting into the newly installed system
-pacstrap /mnt base base-devel grub-efi-x86_64 vim git efibootmgr dialog wpa_supplicant gdm mate mate-extra bluez-utils
+pacstrap /mnt base base-devel grub-efi-x86_64 vim git efibootmgr dialog wpa_supplicant xorg-server xorg-apps gdm mate mate-extra bluez-utils
 
 # 'install' fstab
 genfstab -pU /mnt >> /mnt/etc/fstab
