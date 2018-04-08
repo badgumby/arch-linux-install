@@ -134,7 +134,7 @@ reboot
 https://github.com/rmarquis/pacaur
 
 # Install base tools
-pacaur -S mate-tweak mate-media system-config-printer network-manager-applet oh-my-zsh-git neovim-gtk-git aic94xx-firmware wd719x-firmware
+pacaur -S mate-tweak mate-media system-config-printer network-manager-applet oh-my-zsh-git neovim-gtk-git aic94xx-firmware wd719x-firmware dconf-editor
 
 # Install the needful
 pacaur -S atom google-chrome filezilla tilda-git remmina remmina-plugin-rdesktop visual-studio-code-bin wps-office jdk8 jre8 scrot nmap
