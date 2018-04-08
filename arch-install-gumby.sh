@@ -50,7 +50,7 @@ mkdir /mnt/boot/efi
 mount /dev/sdX1 /mnt/boot/efi
 
 # Install the system also includes stuff needed for starting wifi when first booting into the newly installed system
-pacstrap /mnt base base-devel grub-efi-x86_64 vim git efibootmgr dialog wpa_supplicant xf86-video-intel xorg-server xorg-apps gdm mate mate-extra bluez-utils
+pacstrap /mnt base base-devel grub-efi-x86_64 zsh vim git efibootmgr dialog wpa_supplicant xf86-video-intel xorg-server xorg-apps gdm mate mate-extra bluez-utils
 
 # 'install' fstab
 genfstab -pU /mnt >> /mnt/etc/fstab
@@ -94,7 +94,9 @@ mkinitcpio -p linux
 
 # Setup grub
 grub-install
-In /etc/default/grub edit the line GRUB_CMDLINE_LINUX to GRUB_CMDLINE_LINUX="cryptdevice=/dev/sdX3:luks:allow-discards" then run:
+# In /etc/default/grub edit the line GRUB_CMDLINE_LINUX to:
+GRUB_CMDLINE_LINUX="cryptdevice=/dev/sdX3:luks:allow-discards" 
+# then run:
 grub-mkconfig -o /boot/grub/grub.cfg
 
 # Enable desired services
@@ -111,3 +113,12 @@ swapoff -a
 
 # Reboot into the new system, don't forget to remove the cd/usb
 reboot
+
+# Install pacaur
+https://github.com/rmarquis/pacaur
+
+# Install after pacaur
+pacaur -S mate-tweak mate-media system-config-printer network-manager-applet oh-my-zsh-git neovim-gtk-git
+
+# Add mate-menu if you want the advanced menu
+pacaur -S mate-menu
