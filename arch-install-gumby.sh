@@ -137,7 +137,7 @@ https://github.com/rmarquis/pacaur
 pacaur -S mate-tweak mate-media system-config-printer network-manager-applet oh-my-zsh-git neovim-gtk-git aic94xx-firmware wd719x-firmware dconf-editor
 
 # Install the needful
-pacaur -S atom google-chrome filezilla tilda-git remmina remmina-plugin-rdesktop visual-studio-code-bin wps-office jdk8 jre8 scrot nmap
+pacaur -S atom google-chrome filezilla tilda-git remmina remmina-plugin-rdesktop visual-studio-code-bin wps-office jdk8 jre8 scrot nmap poedit keepass
 
 # Install bonus apps
 pacaur -S ncmpcpp mopidy mopidy-gmusic keybase-bin signal-desktop-bin multibootusb neofetch correcthorse skype-electron zoom steam gimp inkscape
