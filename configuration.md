@@ -15,10 +15,15 @@
 
 ###### /org/mate/power-manager
 > backlight-battery-reduce: off
+
 > button-lic-ac: nothing
+
 > button-lid-battery: nothing
+
 > button-power: interactive
+
 > button-suspend: nothing
+
 > idle-dim-battery: off
 
 #### Set MATE defaults
