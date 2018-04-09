@@ -128,7 +128,6 @@ swapoff -a
 # Reboot into the new system, don't forget to remove the cd/usb
 reboot
 
-
 ##########################################################################################################################################################
 ##########################################################################################################################################################
 ##########################################################################################################################################################
@@ -143,14 +142,16 @@ makepkg -s
 sudo pacman -U aura-bin-1.4.0-1-x86_64.pkg.tar.xz
 
 ##########################################################################################################################################################
+# If on System76 machine, install this first
+sudo aura -Ax system76-driver system76-dkms-git system76-wallpapers
 
 # Install from Official Repo
-aura -S mate-media system-config-printer network-manager-applet dconf-editor remmina tilda filezilla poedit jdk8-openjdk jre8-openjdk scrot keepass atom ncmpcpp mopidy steam gimp inkscape neofetch conky p7zip ntfs-3g samba
+sudo aura -Sx mate-media system-config-printer network-manager-applet dconf-editor remmina tilda filezilla poedit jdk8-openjdk jre8-openjdk scrot keepass atom ncmpcpp mopidy steam gimp inkscape neofetch conky p7zip ntfs-3g samba
 
 # Install from AUR
-aura -A mate-tweak oh-my-zsh-git correcthorse neovim-gtk-git aic94xx-firmware wd719x-firmware remmina-plugin-rdesktop visual-studio-code-bin wps-office google-chrome mopidy-gmusic keybase-bin signal-desktop-bin zoom multibootusb skype-electron
+sudo aura -Ax mate-tweak oh-my-zsh-git correcthorse neovim-gtk-git aic94xx-firmware wd719x-firmware remmina-plugin-rdesktop visual-studio-code-bin wps-office google-chrome mopidy-gmusic keybase-bin signal-desktop-bin zoom multibootusb skype-electron
 
 # Install themes/fonts
-aura -A ant-nebula-gtk-theme candy-gtk-themes paper-icon-theme ttf-material-icons ttf-ms-fonts ttf-wps-fonts typecatcher
+sudo aura -Ax ant-nebula-gtk-theme candy-gtk-themes paper-icon-theme ttf-material-icons ttf-ms-fonts ttf-wps-fonts typecatcher
 
 ##########################################################################################################################################################
