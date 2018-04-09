@@ -127,9 +127,12 @@ swapoff -a
 
 # Reboot into the new system, don't forget to remove the cd/usb
 reboot
+
+
 ##########################################################################################################################################################
 ##########################################################################################################################################################
 ##########################################################################################################################################################
+
 # Install aura (Arch User Repository package manager)
 # Pull down the aura package.
 git clone https://aur.archlinux.org/aura-bin.git
@@ -138,9 +141,9 @@ cd aura-bin
 makepkg -s
 # When that is done, simply install the locally built package (version as of this build).
 sudo pacman -U aura-bin-1.4.0-1-x86_64.pkg.tar.xz
+
 ##########################################################################################################################################################
-##########################################################################################################################################################
-##########################################################################################################################################################
+
 # Install from Official Repo
 aura -S mate-media system-config-printer network-manager-applet dconf-editor remmina tilda filezilla poedit jdk8-openjdk jre8-openjdk scrot keepass atom ncmpcpp mopidy steam gimp inkscape neofetch conky p7zip ntfs-3g samba
 
@@ -149,6 +152,5 @@ aura -A mate-tweak oh-my-zsh-git correcthorse neovim-gtk-git aic94xx-firmware wd
 
 # Install themes/fonts
 aura -A ant-nebula-gtk-theme candy-gtk-themes paper-icon-theme ttf-material-icons ttf-ms-fonts ttf-wps-fonts typecatcher
-##########################################################################################################################################################
-##########################################################################################################################################################
+
 ##########################################################################################################################################################
