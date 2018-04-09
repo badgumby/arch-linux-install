@@ -1,7 +1,11 @@
-# Install ARCH Linux with encrypted file-system
-# Options for EFI or BIOS
-# The official installation guide (https://wiki.archlinux.org/index.php/Installation_Guide) contains a more verbose description.
-# Modified by BAD Gumby
+
+###############################################################
+###############################################################
+######## Install ARCH Linux with encrypted file-system ########
+########           Options for EFI or BIOS             ########
+########            Modified by BAD Gumby              ########
+###############################################################
+###############################################################
 
 # Download the archiso image from https://www.archlinux.org/
 # Copy to a usb-drive
@@ -14,9 +18,7 @@ wifi-menu
 
 # Create partitions
 fdisk -l
-echo "Enter your storage device (ex. For /dev/sda enter sda): "
-read STORAGEDEVICE
-cgdisk /dev/$STORAGEDEVICE
+cgdisk /dev/sdX
 
 #############################################################################
 # For EFI, use this
@@ -79,8 +81,6 @@ ln -s /usr/share/zoneinfo/America/Chicago /etc/localtime
 hwclock --systohc --utc
 
 # Set the hostname
-echo "Enter hostname: "
-read MYHOSTNAME
 echo $MYHOSTNAME > /etc/hostname
 
 # Enable locale(s)
@@ -93,11 +93,9 @@ echo LC_ALL=en_US.UTF-8 >> /etc/locale.conf
 # Set password for root
 passwd
 
-# Add real user remove -s flag if you don't whish to use zsh
-echo "Enter username: "
-read $MYHOSTNAME
-useradd -m -g users -G wheel $MYUSERNAME
-# passwd MYUSERNAME
+# Add real user remove -s flag if you don't wish to use zsh
+useradd -m -g users -G wheel -s /bin/zsh $MYUSERNAME
+passwd $MYUSERNAME
 
 # Configure mkinitcpio with modules needed for the initrd image
 vim /etc/mkinitcpio.conf
@@ -129,7 +127,9 @@ swapoff -a
 
 # Reboot into the new system, don't forget to remove the cd/usb
 reboot
-
+##########################################################################################################################################################
+##########################################################################################################################################################
+##########################################################################################################################################################
 # Install aura (Arch User Repository package manager)
 # Pull down the aura package.
 git clone https://aur.archlinux.org/aura-bin.git
@@ -138,12 +138,17 @@ cd aura-bin
 makepkg -s
 # When that is done, simply install the locally built package (version as of this build).
 sudo pacman -U aura-bin-1.4.0-1-x86_64.pkg.tar.xz
-
+##########################################################################################################################################################
+##########################################################################################################################################################
+##########################################################################################################################################################
 # Install from Official Repo
-aura -S mate-media system-config-printer network-manager-applet dconf-editor remmina tilda filezilla poedit jdk8-openjdk jre8-openjdk scrot keepass atom ncmpcpp mopidy steam gimp inkscape neofetch
+aura -S mate-media system-config-printer network-manager-applet dconf-editor remmina tilda filezilla poedit jdk8-openjdk jre8-openjdk scrot keepass atom ncmpcpp mopidy steam gimp inkscape neofetch conky p7zip ntfs-3g samba
 
 # Install from AUR
 aura -A mate-tweak oh-my-zsh-git correcthorse neovim-gtk-git aic94xx-firmware wd719x-firmware remmina-plugin-rdesktop visual-studio-code-bin wps-office google-chrome mopidy-gmusic keybase-bin signal-desktop-bin zoom multibootusb skype-electron
 
 # Install themes/fonts
 aura -A ant-nebula-gtk-theme candy-gtk-themes paper-icon-theme ttf-material-icons ttf-ms-fonts ttf-wps-fonts typecatcher
+##########################################################################################################################################################
+##########################################################################################################################################################
+##########################################################################################################################################################
