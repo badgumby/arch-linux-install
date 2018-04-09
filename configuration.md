@@ -16,7 +16,7 @@
 ###### /org/mate/power-manager
 > backlight-battery-reduce: off
 
-> button-lic-ac: nothing
+> button-lid-ac: nothing
 
 > button-lid-battery: nothing
 
