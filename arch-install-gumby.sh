@@ -130,17 +130,20 @@ swapoff -a
 # Reboot into the new system, don't forget to remove the cd/usb
 reboot
 
-# Install pacaur
-https://github.com/rmarquis/pacaur
+# Install aura (Arch User Repository package manager)
+# Pull down the aura package.
+git clone https://aur.archlinux.org/aura-bin.git
+# Change into the aura directory and make the package with all it’s dependencies.
+cd aura-bin
+makepkg -s
+# When that is done, simply install the locally built package (version as of this build).
+sudo pacman -U aura-bin-1.4.0-1-x86_64.pkg.tar.xz
 
-# Install base tools
-pacaur -S mate-tweak mate-media system-config-printer network-manager-applet oh-my-zsh-git neovim-gtk-git aic94xx-firmware wd719x-firmware dconf-editor
+# Install from Official Repo
+aura -S mate-media system-config-printer network-manager-applet dconf-editor remmina tilda filezilla poedit jdk8-openjdk jre8-openjdk scrot keepass atom ncmpcpp mopidy steam gimp inkscape neofetch
 
-# Install the needful
-pacaur -S atom google-chrome filezilla tilda-git remmina remmina-plugin-rdesktop visual-studio-code-bin wps-office jdk8 jre8 scrot nmap poedit keepass
-
-# Install bonus apps
-pacaur -S ncmpcpp mopidy mopidy-gmusic keybase-bin signal-desktop-bin multibootusb neofetch correcthorse skype-electron zoom steam gimp inkscape
+# Install from AUR
+aura -A mate-tweak oh-my-zsh-git correcthorse neovim-gtk-git aic94xx-firmware wd719x-firmware remmina-plugin-rdesktop visual-studio-code-bin wps-office google-chrome mopidy-gmusic keybase-bin signal-desktop-bin zoom multibootusb skype-electron 
 
 # Install themes/fonts
-pacaur -S ant-nebula-gtk-theme candy-gtk-themes paper-icon-theme ttf-material-icons ttf-ms-fonts ttf-wps-fonts typecatcher
+aura -A ant-nebula-gtk-theme candy-gtk-themes paper-icon-theme ttf-material-icons ttf-ms-fonts ttf-wps-fonts typecatcher
