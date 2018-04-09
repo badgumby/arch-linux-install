@@ -143,7 +143,7 @@ sudo pacman -U aura-bin-1.4.0-1-x86_64.pkg.tar.xz
 aura -S mate-media system-config-printer network-manager-applet dconf-editor remmina tilda filezilla poedit jdk8-openjdk jre8-openjdk scrot keepass atom ncmpcpp mopidy steam gimp inkscape neofetch
 
 # Install from AUR
-aura -A mate-tweak oh-my-zsh-git correcthorse neovim-gtk-git aic94xx-firmware wd719x-firmware remmina-plugin-rdesktop visual-studio-code-bin wps-office google-chrome mopidy-gmusic keybase-bin signal-desktop-bin zoom multibootusb skype-electron 
+aura -A mate-tweak oh-my-zsh-git correcthorse neovim-gtk-git aic94xx-firmware wd719x-firmware remmina-plugin-rdesktop visual-studio-code-bin wps-office google-chrome mopidy-gmusic keybase-bin signal-desktop-bin zoom multibootusb skype-electron
 
 # Install themes/fonts
 aura -A ant-nebula-gtk-theme candy-gtk-themes paper-icon-theme ttf-material-icons ttf-ms-fonts ttf-wps-fonts typecatcher
