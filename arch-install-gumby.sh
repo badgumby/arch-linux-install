@@ -220,6 +220,46 @@ fi
 echo -e $drawline${NC}
 
 ##############################################################################################################
+##### BINARIES in mkinitcpio
+##############################################################################################################
+echo -e ${BLUE}$drawline
+echo -e "Configure mkinitcpio with ${RED}BINARIES${BLUE} needed for the initrd image"
+echo -e "Default: (*none*)"
+read -r -p "Would you like to customize your BINARIES? [y/n]: " response
+if [[ "$response" =~ ^([yY][eE][sS]|[yY])+$ ]]
+  then
+    echo -e "Please enter BINARIES, separated by spaces. None will be configured by default:${NC}"
+    read MYBINARIES
+    sed -i '/^BINARIES=/c\BINARIES=('"${MYBINARIES}"')' /etc/mkinitcpio.conf
+    echo -e "${BLUE}The following BINARIES have been added: ${RED}${MYBINARIES}${BLUE}"
+    read -p "ENTER to continue..."
+  else
+    echo -e "${BLUE}The there are no default BINARIES to configure."
+    read -p "ENTER to continue..."
+fi
+echo -e $drawline${NC}
+
+##############################################################################################################
+##### FILES in mkinitcpio
+##############################################################################################################
+echo -e ${BLUE}$drawline
+echo -e "Configure mkinitcpio with ${RED}FILES${BLUE} needed for the initrd image"
+echo -e "Default: (*none*)"
+read -r -p "Would you like to customize your FILES? [y/n]: " response
+if [[ "$response" =~ ^([yY][eE][sS]|[yY])+$ ]]
+  then
+    echo -e "Please enter FILES, separated by spaces. None will be configured by default:${NC}"
+    read MYBINARIES
+    sed -i '/^FILES=/c\FILES=('"${MYFILES}"')' /etc/mkinitcpio.conf
+    echo -e "${BLUE}The following FILES have been added: ${RED}${MYFILES}${BLUE}"
+    read -p "ENTER to continue..."
+  else
+    echo -e "${BLUE}The there are no default FILES to configure."
+    read -p "ENTER to continue..."
+fi
+echo -e $drawline${NC}
+
+##############################################################################################################
 ##### HOOKS in mkinitcpio
 ##############################################################################################################
 echo -e ${BLUE}$drawline
