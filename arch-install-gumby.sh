@@ -1,14 +1,15 @@
 #!/bin/bash
+
+# 1. Download the archiso image from https://www.archlinux.org/
+# 2. Copy to a usb-drive on linux
+#    dd if=archlinux.img of=/dev/sdX bs=16M && sync
+# 3. Boot from the usb. If the usb fails to boot, make sure that secure boot is disabled in the BIOS configuration.
+# 4. Setup network connections
+#    For WiFi only system, use wifi-menu
+# 5. Execute this script:
+#    bash <(curl --tlsv1.2 --insecure --request GET "https://raw.githubusercontent.com/badgumby/arch-linux-install/master/arch-install-gumby.sh")
+
 #Line separator variable
-
-# Download the archiso image from https://www.archlinux.org/
-# Copy to a usb-drive on linux
-# dd if=archlinux.img of=/dev/sdX bs=16M && sync
-# Boot from the usb. If the usb fails to boot, make sure that secure boot is disabled in the BIOS configuration.
-
-# This assumes a wifi only system...
-# wifi-menu
-
 drawline=`printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' -`
 # Colors
 RED='\033[0;31m'
@@ -249,7 +250,7 @@ read -r -p "Would you like to customize your FILES? [y/n]: " response
 if [[ "$response" =~ ^([yY][eE][sS]|[yY])+$ ]]
   then
     echo -e "Please enter FILES, separated by spaces. None will be configured by default:${NC}"
-    read MYBINARIES
+    read MYFILES
     sed -i '/^FILES=/c\FILES=('"${MYFILES}"')' /etc/mkinitcpio.conf
     echo -e "${BLUE}The following FILES have been added: ${RED}${MYFILES}${BLUE}"
     read -p "ENTER to continue..."
