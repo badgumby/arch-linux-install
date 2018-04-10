@@ -33,7 +33,9 @@ echo -e '|       ||   _|  __||     |     _|   |_ |     |__ --||   _|  _  ||  |  
 echo -e '|___|___||__| |____||__|__|    |_______||__|__|_____||____|___._||__|__||_____|__|  '
 echo -e ${NC}${NB}
 
-# Functions for system selection
+##############################################################################################################
+##### Functions for system selection
+##############################################################################################################
 function efi_install {
   echo -e ${BLUE}$drawline
   echo -e "Installing packages for EFI system"
@@ -48,6 +50,9 @@ function bios_install {
   pacstrap /mnt base base-devel grub-bios zsh vim wget git dialog wpa_supplicant xf86-video-intel xorg-server xorg-apps gdm mate mate-extra bluez-utils
 }
 
+##############################################################################################################
+##### Creating partitions
+##############################################################################################################
 echo -e ${BLUE}$drawline
 echo -e "Creating partitions"
 echo -e "${RED}WARNING:${BLUE} You are about to format your drive. Press CTRL+C to quit. Press ENTER to continue."
@@ -94,6 +99,10 @@ fdisk -l $storagedevice
 # 3 100% size partiton   # Hex code 8300 (to be encrypted)
 #############################################################################
 
+
+##############################################################################################################
+##### Creating file systems / encrypting partitions
+##############################################################################################################
 echo -e ${BLUE}$drawline
 echo -e "Creating file systems on the EFI/BIOS and boot partitions..."
 echo -e $drawline${NC}
@@ -130,6 +139,9 @@ mount ${storagedevice}2 /mnt/boot
 mkdir /mnt/boot/efi
 mount ${storagedevice}1 /mnt/boot/efi
 
+##############################################################################################################
+##### Install base Arch packages with pacstrap / select EFI or BIOS
+##############################################################################################################
 options=("EFI System" "BIOS")
 echo ""
 echo -e "${BLUE}${BOLD}Choose your system type: ${NB}${NC}"
@@ -141,6 +153,9 @@ case $REPLY in
   esac
 done
 
+##############################################################################################################
+##### Build /etc/fstab
+##############################################################################################################
 echo -e ${BLUE}$drawline
 echo "Writing current fstab to file /mnt/etc/fstab"
 echo -e $drawline${NC}
@@ -152,11 +167,17 @@ echo -e $drawline${NC}
 echo 'tmpfs	/tmp	tmpfs	defaults,noatime,mode=1777	0	0' >> /mnt/etc/fstab
 # Change relatime on all non-boot partitions to noatime (reduces wear if using an SSD)
 
+##############################################################################################################
+##### Enter arch-chroot
+##############################################################################################################
 echo -e ${BLUE}$drawline
 echo -e "Entering the new system..."
 echo -e $drawline${NC}
 arch-chroot /mnt /bin/bash
 
+##############################################################################################################
+##### Configure timezone / hostname / locale
+##############################################################################################################
 echo -e ${BLUE}$drawline
 echo -e "Setup system clock with local timezone (ex. America/Chicago): "
 echo -e $drawline${NC}
@@ -180,10 +201,15 @@ echo LANG=en_US.UTF-8 >> /etc/locale.conf
 echo LANGUAGE=en_US.UTF-8 >> /etc/locale.conf
 echo LC_ALL=en_US.UTF-8 >> /etc/locale.conf
 
+##############################################################################################################
+##### Configure root user / allow wheel in sudoers file / add new user
+##############################################################################################################
 echo -e ${BLUE}$drawline
 echo -e "Please enter a password for ${RED}'root'${BLUE}:"
 echo -e $drawline${NC}
 passwd
+
+sed -i '/%wheel ALL=(ALL) ALL/c\%wheel ALL=(ALL) ALL'  /etc/sudoers
 
 echo -e ${BLUE}$drawline
 echo -e "Please enter your username (user will be in ${RED}wheel${BLUE} group):"
