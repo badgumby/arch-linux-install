@@ -202,10 +202,10 @@ echo -e "Setting up grub..."
 echo -e $drawline${NC}
 grub-install
 
-
-# In /etc/default/grub edit the line GRUB_CMDLINE_LINUX to
-GRUB_CMDLINE_LINUX="cryptdevice=/dev/sdX3:luks:allow-discards"
-# then run
+echo -e ${BLUE}$drawline
+echo -e "Modifying grub file to select encrypted partition..."
+echo -e $drawline${NC}
+sed -i '/GRUB_CMDLINE_LINUX=/c\GRUB_CMDLINE_LINUX="cryptdevice='${storagedevice}'3:luks:allow-discards"'  /etc/default/grub
 grub-mkconfig -o /boot/grub/grub.cfg
 
 echo -e ${BLUE}$drawline
