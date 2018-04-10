@@ -1,15 +1,15 @@
 #!/bin/bash
-###############################################################
-###############################################################
-######## Install ARCH Linux with encrypted file-system ########
-########           Options for EFI or BIOS             ########
-########            Modified by BAD Gumby              ########
-###############################################################
-###############################################################
-
 #Line separator variable
-drawline=`printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' -`
 
+# Download the archiso image from https://www.archlinux.org/
+# Copy to a usb-drive on linux
+# dd if=archlinux.img of=/dev/sdX bs=16M && sync
+# Boot from the usb. If the usb fails to boot, make sure that secure boot is disabled in the BIOS configuration.
+
+# This assumes a wifi only system...
+# wifi-menu
+
+drawline=`printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' -`
 # Colors
 RED='\033[0;31m'
 GREEN='\033[0;32m'
@@ -32,13 +32,20 @@ echo -e '|       ||   _|  __||     |     _|   |_ |     |__ --||   _|  _  ||  |  
 echo -e '|___|___||__| |____||__|__|    |_______||__|__|_____||____|___._||__|__||_____|__|  '
 echo -e ${NC}${NB}
 
-# Download the archiso image from https://www.archlinux.org/
-# Copy to a usb-drive on linux
-# dd if=archlinux.img of=/dev/sdX bs=16M && sync
-# Boot from the usb. If the usb fails to boot, make sure that secure boot is disabled in the BIOS configuration.
+# Functions for system selection
+function efi_install {
+  echo -e ${BLUE}$drawline
+  echo -e "Installing packages for EFI system"
+  echo -e $drawline${NC}
+  pacstrap /mnt base base-devel grub-efi-x86_64 efibootmgr zsh vim git dialog wpa_supplicant xf86-video-intel xorg-server xorg-apps gdm mate mate-extra bluez-utils
+}
 
-# This assumes a wifi only system...
-# wifi-menu
+function bios_install {
+  echo -e ${BLUE}$drawline
+  echo -e "Installing packages for BIOS"
+  echo -e $drawline${NC}
+  pacstrap /mnt base base-devel grub-bios zsh vim git dialog wpa_supplicant xf86-video-intel xorg-server xorg-apps gdm mate mate-extra bluez-utils
+}
 
 echo -e ${BLUE}$drawline
 echo -e "Creating partitions"
@@ -122,21 +129,24 @@ mount ${storagedevice}2 /mnt/boot
 mkdir /mnt/boot/efi
 mount ${storagedevice}1 /mnt/boot/efi
 
-##########################################################################################################################################################
-# For EFI, use this
-pacstrap /mnt base base-devel grub-efi-x86_64 efibootmgr zsh vim git dialog wpa_supplicant xf86-video-intel xorg-server xorg-apps gdm mate mate-extra bluez-utils
-
-# For BIOS, instead of EFI use this
-pacstrap /mnt base base-devel grub-bios zsh vim git dialog wpa_supplicant xf86-video-intel xorg-server xorg-apps gdm mate mate-extra bluez-utils
-##########################################################################################################################################################
+options=("EFI System" "BIOS")
+echo ""
+echo -e "${BLUE}${BOLD}Choose your system type: ${NB}${NC}"
+select opt in "${options[@]}"; do
+case $REPLY in
+  1) efi_install; break ;;
+  2) bios_install; break ;;
+  *) clear; echo -e "${RED}Invalid option selected. Please try again.${NC}"; break ;;
+  esac
+done
 
 echo -e ${BLUE}$drawline
-echo "Writing current fstab to file /etc/fstab"
+echo "Writing current fstab to file /mnt/etc/fstab"
 echo -e $drawline${NC}
 genfstab -pU /mnt >> /mnt/etc/fstab
 
 echo -e ${BLUE}$drawline
-echo -e "Making /tmp a ramdisk (adding tmpfs to /etc/fstab)"
+echo -e "Making /tmp a ramdisk (adding tmpfs to /mnt/etc/fstab)"
 echo -e $drawline${NC}
 echo 'tmpfs	/tmp	tmpfs	defaults,noatime,mode=1777	0	0' >> /mnt/etc/fstab
 # Change relatime on all non-boot partitions to noatime (reduces wear if using an SSD)
@@ -186,11 +196,51 @@ read MYSHELL
 useradd -m -g users -G wheel -s $MYSHELL $MYUSERNAME
 passwd $MYUSERNAME
 
-# Configure mkinitcpio with modules needed for the initrd image
-vim /etc/mkinitcpio.conf
-# Add 'ext4' to MODULES
-# Add 'encrypt' and 'lvm2' to HOOKS before filesystems
-# Move 'keyboard' before encrypt in HOOKS
+##############################################################################################################
+##### MODULES in mkinitcpio
+##############################################################################################################
+echo -e ${BLUE}$drawline
+echo -e "Configure mkinitcpio with ${RED}MODULES${BLUE} needed for the initrd image"
+echo -e "Default: (ext4)"
+BASEMODULES='ext4'
+read -r -p "Do you need additional MODULES? [y/n]: " response
+if [[ "$response" =~ ^([yY][eE][sS]|[yY])+$ ]]
+  then
+    echo -e "Please enter additional MODULES, separated by spaces. Defaults will still be configured:${NC}"
+    read MYMODULES
+    sed -i '/^MODULES=/c\MODULES=('"${BASEMODULES}"' '"${MYMODULES}"')' /home/smarta/Desktop/mkinitcpio.conf
+    echo -e "${BLUE}The following MODULES have been added: ${RED}${MODULES} ${MYMODULES}${BLUE}"
+    read -p "ENTER to continue..."
+  else
+    echo -e "Using default MODULES"
+    sed -i '/^MODULES=/c\MODULES=('"${BASEMODULES}"')' /home/smarta/Desktop/mkinitcpio.conf
+    echo -e "${BLUE}The following MODULES have been added: ${RED}${BASEMODULES}${BLUE}"
+    read -p "ENTER to continue..."
+fi
+echo -e $drawline${NC}
+
+##############################################################################################################
+##### HOOKS in mkinitcpio
+##############################################################################################################
+echo -e ${BLUE}$drawline
+echo -e "Configure mkinitcpio with ${RED}HOOKS${BLUE} needed for the initrd image"
+echo -e "Default: (base udev autodetect modconf block keyboard encrypt lvm2 filesystems fsck)"
+BASEHOOKS='base udev autodetect modconf block keyboard encrypt lvm2 filesystems fsck'
+read -r -p "Do you need other HOOKS? [y/n]: " response
+if [[ "$response" =~ ^([yY][eE][sS]|[yY])+$ ]]
+  then
+    echo -e "Please enter additional HOOKS, separated by spaces. Defaults will still be configured:${NC}"
+    read MYHOOKS
+    sed -i '/^HOOKS=/c\HOOKS=('"${BASEHOOKS}"' '"${MYHOOKS}"')' /home/smarta/Desktop/mkinitcpio.conf
+    echo -e "${BLUE}The following HOOKS have been added: ${RED}${BASEHOOKS} ${MYHOOKS}${BLUE}"
+    read -p "ENTER to continue..."
+  else
+    echo -e "Using default HOOKS"
+    sed -i '/^HOOKS=/c\HOOKS=('"${BASEHOOKS}"')' /home/smarta/Desktop/mkinitcpio.conf
+    echo -e "${BLUE}The following HOOKS have been added: ${RED}${BASEHOOKS}${BLUE}"
+    read -p "ENTER to continue..."
+fi
+echo -e $drawline${NC}
 
 echo -e ${BLUE}$drawline
 echo -e "Regenerating the initrd image..."
