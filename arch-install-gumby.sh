@@ -38,14 +38,14 @@ function efi_install {
   echo -e ${BLUE}$drawline
   echo -e "Installing packages for EFI system"
   echo -e $drawline${NC}
-  pacstrap /mnt base base-devel grub-efi-x86_64 efibootmgr zsh vim git dialog wpa_supplicant xf86-video-intel xorg-server xorg-apps gdm mate mate-extra bluez-utils
+  pacstrap /mnt base base-devel grub-efi-x86_64 efibootmgr zsh vim wget git dialog wpa_supplicant xf86-video-intel xorg-server xorg-apps gdm mate mate-extra bluez-utils
 }
 
 function bios_install {
   echo -e ${BLUE}$drawline
   echo -e "Installing packages for BIOS"
   echo -e $drawline${NC}
-  pacstrap /mnt base base-devel grub-bios zsh vim git dialog wpa_supplicant xf86-video-intel xorg-server xorg-apps gdm mate mate-extra bluez-utils
+  pacstrap /mnt base base-devel grub-bios zsh vim wget git dialog wpa_supplicant xf86-video-intel xorg-server xorg-apps gdm mate mate-extra bluez-utils
 }
 
 echo -e ${BLUE}$drawline
@@ -283,21 +283,63 @@ if [[ "$response" =~ ^([yY][eE][sS]|[yY])+$ ]]
 fi
 echo -e $drawline${NC}
 
+##############################################################################################################
+##### Regenerate initrd
+##############################################################################################################
+
 echo -e ${BLUE}$drawline
 echo -e "Regenerating the initrd image..."
 echo -e $drawline${NC}
 mkinitcpio -p linux
 
+##############################################################################################################
+##### Install/Configure GRUB
+##############################################################################################################
+
 echo -e ${BLUE}$drawline
-echo -e "Setting up grub..."
+echo -e "Setting up GRUB..."
 echo -e $drawline${NC}
 grub-install
 
 echo -e ${BLUE}$drawline
-echo -e "Modifying grub file to select encrypted partition..."
+echo -e "Modifying GRUB file to select encrypted partition..."
 echo -e $drawline${NC}
 sed -i '/GRUB_CMDLINE_LINUX=/c\GRUB_CMDLINE_LINUX="cryptdevice='${storagedevice}'3:luks:allow-discards"'  /etc/default/grub
 grub-mkconfig -o /boot/grub/grub.cfg
+
+##############################################################################################################
+##### Initialize pacman-key
+##############################################################################################################
+
+echo -e ${BLUE}$drawline
+echo -e "Initializing pacman-key..."
+echo -e $drawline${NC}
+pacman-key --init
+pacman-key --populate archlinux
+
+##############################################################################################################
+##### Install AUR Helper (Aura)
+##############################################################################################################
+
+echo -e ${BLUE}$drawline
+echo -e "Install aura (Arch User Repository package manager)"
+echo -e $drawline${NC}
+# Pull down the aura PKGBUILD.
+mkdir /root/aura-bin
+cd /root/aura-bin
+wget --no-check-certificate https://aur.archlinux.org/cgit/aur.git/plain/PKGBUILD\?h\=aura-bin --output-document=./PKGBUILD
+makepkg -si
+
+##############################################################################################################
+##### Install common packages from Official Repo
+##############################################################################################################
+
+COMMONPKGS="intel-ucode mate-media system-config-printer network-manager-applet dconf-editor remmina tilda filezilla poedit jdk8-openjdk jre8-openjdk scrot keepass atom ncmpcpp mopidy steam gimp inkscape neofetch conky p7zip ntfs-3g samba"
+
+echo -e ${BLUE}$drawline
+echo -e "Install common packages from Official Repo"
+echo -e $drawline${NC}
+pacman -S ${COMMONPKGS}
 
 echo -e ${BLUE}$drawline
 echo -e "Enabling gdm, bluetooth, and NetworkManager..."
@@ -306,24 +348,9 @@ systemctl enable gdm
 systemctl enable bluetooth
 systemctl enable NetworkManager
 
-echo -e ${BLUE}$drawline
-echo -e "Initializing pacman-key..."
-echo -e $drawline${NC}
-pacman-key --init
-pacman-key --populate archlinux
-
-echo -e ${BLUE}$drawline
-echo -e "Install aura (Arch User Repository package manager)"
-echo -e $drawline${NC}
-# Pull down the aura package.
-cd /root/
-git clone https://aur.archlinux.org/aura-bin.git
-# Change into the aura directory and make the package with all it’s dependencies.
-cd aura-bin
-makepkg -s
-aurapkg=$(find . -name "aura-bin*.xz")
-# When that is done, simply install the locally built package (version as of this build).
-pacman -U $aurapkg
+##############################################################################################################
+##### Finished with initial setup, time to reboot
+##############################################################################################################
 
 echo -e ${BLUE}$drawline
 echo -e "Are you ready to reboot? Press ENTER to continue, CTRL+C to stay in chroot."
@@ -352,9 +379,6 @@ reboot
 
 # If on System76 machine, install this first
 sudo aura -Ax system76-driver system76-dkms-git system76-wallpapers
-
-# Install from Official Repo
-sudo aura -Sx intel-ucode mate-media system-config-printer network-manager-applet dconf-editor remmina tilda filezilla poedit jdk8-openjdk jre8-openjdk scrot keepass atom ncmpcpp mopidy steam gimp inkscape neofetch conky p7zip ntfs-3g samba
 
 # Install from AUR
 sudo aura -Ax mate-tweak oh-my-zsh-git correcthorse neovim-gtk-git aic94xx-firmware wd719x-firmware remmina-plugin-rdesktop visual-studio-code-bin wps-office google-chrome mopidy-gmusic keybase-bin signal-desktop-bin zoom multibootusb skype-electron
