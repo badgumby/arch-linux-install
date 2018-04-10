@@ -203,7 +203,7 @@ echo -e ${BLUE}$drawline
 echo -e "Configure mkinitcpio with ${RED}MODULES${BLUE} needed for the initrd image"
 echo -e "Default: (ext4)"
 BASEMODULES='ext4'
-read -r -p "Do you need additional MODULES? [y/n]: " response
+read -r -p "Would you like to customize your MODULES? [y/n]: " response
 if [[ "$response" =~ ^([yY][eE][sS]|[yY])+$ ]]
   then
     echo -e "Please enter MODULES, separated by spaces. None will be configured by default:${NC}"
@@ -226,7 +226,7 @@ echo -e ${BLUE}$drawline
 echo -e "Configure mkinitcpio with ${RED}HOOKS${BLUE} needed for the initrd image"
 echo -e "Default: (base udev autodetect modconf block keyboard encrypt lvm2 filesystems fsck)"
 BASEHOOKS='base udev autodetect modconf block keyboard encrypt lvm2 filesystems fsck'
-read -r -p "Do you need other HOOKS? [y/n]: " response
+read -r -p "Would you like to customize your HOOKS? [y/n]: " response
 if [[ "$response" =~ ^([yY][eE][sS]|[yY])+$ ]]
   then
     echo -e "Please enter HOOKS, separated by spaces. None will be configured by default:${NC}"
