@@ -307,6 +307,25 @@ systemctl enable bluetooth
 systemctl enable NetworkManager
 
 echo -e ${BLUE}$drawline
+echo -e "Initializing pacman-key..."
+echo -e $drawline${NC}
+pacman-key --init
+pacman-key --populate archlinux
+
+echo -e ${BLUE}$drawline
+echo -e "Install aura (Arch User Repository package manager)"
+echo -e $drawline${NC}
+# Pull down the aura package.
+cd /root/
+git clone https://aur.archlinux.org/aura-bin.git
+# Change into the aura directory and make the package with all it’s dependencies.
+cd aura-bin
+makepkg -s
+aurapkg=$(find . -name "aura-bin*.xz")
+# When that is done, simply install the locally built package (version as of this build).
+pacman -U $aurapkg
+
+echo -e ${BLUE}$drawline
 echo -e "Are you ready to reboot? Press ENTER to continue, CTRL+C to stay in chroot."
 echo -e $drawline${NC}
 read MYREBOOT
@@ -331,20 +350,6 @@ reboot
 ##########################################################################################################################################################
 ##########################################################################################################################################################
 
-# Initialize pacman keys
-pacman-key --init
-pacman-key --populate archlinux
-
-# Install aura (Arch User Repository package manager)
-# Pull down the aura package.
-git clone https://aur.archlinux.org/aura-bin.git
-# Change into the aura directory and make the package with all it’s dependencies.
-cd aura-bin
-makepkg -s
-# When that is done, simply install the locally built package (version as of this build).
-sudo pacman -U aura-bin-1.4.0-1-x86_64.pkg.tar.xz
-
-##########################################################################################################################################################
 # If on System76 machine, install this first
 sudo aura -Ax system76-driver system76-dkms-git system76-wallpapers
 
