@@ -42,9 +42,9 @@ echo -e ${NC}${NB}
 
 echo -e ${BLUE}$drawline
 echo -e "Creating partitions"
-echo -e "${RED}WARNING:${BLUE} You are about to format your drive. Press CTRL+C to quit. Enter to continue."
+echo -e "${RED}WARNING:${BLUE} You are about to format your drive. Press CTRL+C to quit. Press ENTER to continue."
 echo -e $drawline${NC}
-read warning
+read WARNING
 
 echo -e ${BLUE}$drawline
 echo -e "List of storage devices"
@@ -86,27 +86,37 @@ fdisk -l $storagedevice
 # 3 100% size partiton   # Hex code 8300 (to be encrypted)
 #############################################################################
 
-echo "Creating file systems on the EFI/BIOS and boot partitions..."
+echo -e ${BLUE}$drawline
+echo -e "Creating file systems on the EFI/BIOS and boot partitions..."
+echo -e $drawline${NC}
 mkfs.vfat -F32 ${storagedevice}1
 mkfs.ext2 ${storagedevice}2
 
-echo "Setting up the encryption of the system..."
+echo -e ${BLUE}$drawline
+echo -e "Setting up the encryption of the system..."
+echo -e $drawline${NC}
 cryptsetup -c aes-xts-plain64 -y --use-random luksFormat ${storagedevice}3
 cryptsetup luksOpen ${storagedevice}3 luks
 
-echo "Creating encrypted partitions..."
+echo -e ${BLUE}$drawline
+echo -e "Creating encrypted partitions..."
+echo -e $drawline${NC}
 pvcreate /dev/mapper/luks
 vgcreate vg0 /dev/mapper/luks
 lvcreate --size 8G vg0 --name swap
 lvcreate -l +100%FREE vg0 --name root
 
-echo "Creating filesystems on encrypted partitions..."
+echo -e ${BLUE}$drawline
+echo -e "Creating filesystems on encrypted partitions..."
+echo -e $drawline${NC}
 mkfs.ext4 /dev/mapper/vg0-root
 mkswap /dev/mapper/vg0-swap
 
-echo "Mounting the new system..."
-mount /dev/mapper/vg0-root /mnt # /mnt is the installed system
-swapon /dev/mapper/vg0-swap # Not needed but a good thing to test
+echo -e ${BLUE}$drawline
+echo -e "Mounting the new system..."
+echo -e $drawline${NC}
+mount /dev/mapper/vg0-root /mnt
+swapon /dev/mapper/vg0-swap
 mkdir /mnt/boot
 mount ${storagedevice}2 /mnt/boot
 mkdir /mnt/boot/efi
@@ -182,29 +192,48 @@ vim /etc/mkinitcpio.conf
 # Add 'encrypt' and 'lvm2' to HOOKS before filesystems
 # Move 'keyboard' before encrypt in HOOKS
 
-# Regenerate initrd image
+echo -e ${BLUE}$drawline
+echo -e "Regenerating the initrd image..."
+echo -e $drawline${NC}
 mkinitcpio -p linux
 
-# Setup grub
+echo -e ${BLUE}$drawline
+echo -e "Setting up grub..."
+echo -e $drawline${NC}
 grub-install
+
+
 # In /etc/default/grub edit the line GRUB_CMDLINE_LINUX to
 GRUB_CMDLINE_LINUX="cryptdevice=/dev/sdX3:luks:allow-discards"
 # then run
 grub-mkconfig -o /boot/grub/grub.cfg
 
-# Enable desired services
+echo -e ${BLUE}$drawline
+echo -e "Enabling gdm, bluetooth, and NetworkManager..."
+echo -e $drawline${NC}
 systemctl enable gdm
 systemctl enable bluetooth
 systemctl enable NetworkManager
 
-# Exit new system and go into the cd shell
+echo -e ${BLUE}$drawline
+echo -e "Are you ready to reboot? Press ENTER to continue, CTRL+C to stay in chroot."
+echo -e $drawline${NC}
+read MYREBOOT
+
+echo -e ${BLUE}$drawline
+echo -e "Exiting chroot..."
+echo -e $drawline${NC}
 exit
 
-# Unmount all partitions
+echo -e ${BLUE}$drawline
+echo -e "Unmounting all partitions..."
+echo -e $drawline${NC}
 umount -R /mnt
 swapoff -a
 
-# Reboot into the new system, don't forget to remove the cd/usb
+echo -e ${BLUE}$drawline
+echo -e "Initiating reboot..."
+echo -e $drawline${NC}
 reboot
 
 ##########################################################################################################################################################
