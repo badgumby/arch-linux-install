@@ -206,14 +206,14 @@ BASEMODULES='ext4'
 read -r -p "Do you need additional MODULES? [y/n]: " response
 if [[ "$response" =~ ^([yY][eE][sS]|[yY])+$ ]]
   then
-    echo -e "Please enter additional MODULES, separated by spaces. Defaults will still be configured:${NC}"
+    echo -e "Please enter MODULES, separated by spaces. None will be configured by default:${NC}"
     read MYMODULES
-    sed -i '/^MODULES=/c\MODULES=('"${BASEMODULES}"' '"${MYMODULES}"')' /home/smarta/Desktop/mkinitcpio.conf
+    sed -i '/^MODULES=/c\MODULES=('"${MYMODULES}"')' /etc/mkinitcpio.conf
     echo -e "${BLUE}The following MODULES have been added: ${RED}${MODULES} ${MYMODULES}${BLUE}"
     read -p "ENTER to continue..."
   else
     echo -e "Using default MODULES"
-    sed -i '/^MODULES=/c\MODULES=('"${BASEMODULES}"')' /home/smarta/Desktop/mkinitcpio.conf
+    sed -i '/^MODULES=/c\MODULES=('"${BASEMODULES}"')' /etc/mkinitcpio.conf
     echo -e "${BLUE}The following MODULES have been added: ${RED}${BASEMODULES}${BLUE}"
     read -p "ENTER to continue..."
 fi
@@ -229,14 +229,14 @@ BASEHOOKS='base udev autodetect modconf block keyboard encrypt lvm2 filesystems 
 read -r -p "Do you need other HOOKS? [y/n]: " response
 if [[ "$response" =~ ^([yY][eE][sS]|[yY])+$ ]]
   then
-    echo -e "Please enter additional HOOKS, separated by spaces. Defaults will still be configured:${NC}"
+    echo -e "Please enter HOOKS, separated by spaces. None will be configured by default:${NC}"
     read MYHOOKS
-    sed -i '/^HOOKS=/c\HOOKS=('"${BASEHOOKS}"' '"${MYHOOKS}"')' /home/smarta/Desktop/mkinitcpio.conf
+    sed -i '/^HOOKS=/c\HOOKS=('"${MYHOOKS}"')' /etc/mkinitcpio.conf
     echo -e "${BLUE}The following HOOKS have been added: ${RED}${BASEHOOKS} ${MYHOOKS}${BLUE}"
     read -p "ENTER to continue..."
   else
     echo -e "Using default HOOKS"
-    sed -i '/^HOOKS=/c\HOOKS=('"${BASEHOOKS}"')' /home/smarta/Desktop/mkinitcpio.conf
+    sed -i '/^HOOKS=/c\HOOKS=('"${BASEHOOKS}"')' /etc/mkinitcpio.conf
     echo -e "${BLUE}The following HOOKS have been added: ${RED}${BASEHOOKS}${BLUE}"
     read -p "ENTER to continue..."
 fi
