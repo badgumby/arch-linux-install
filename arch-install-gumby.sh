@@ -7,7 +7,7 @@
 # 4. Setup network connections
 #    For WiFi only system, use wifi-menu
 # 5. Execute this script:
-#    bash <(curl --tlsv1.2 --insecure --request GET "https://raw.githubusercontent.com/badgumby/arch-linux-install/master/arch-install-gumby.sh")
+#    bash <(curl -s --tlsv1.2 --insecure --request GET "https://raw.githubusercontent.com/badgumby/arch-linux-install/master/arch-install-gumby.sh")
 
 #Line separator variable
 drawline=`printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' -`
@@ -60,7 +60,7 @@ echo -e ${BLUE}$drawline
 echo -e "${RED}WARNING: BAD Gumby's Arch installer is destructive."
 echo -e "${RED}The first step will format your drive! Be sure to backup your data before running, if necessary."
 echo -e "${RED}If you ran this by mistake, please quit now!"
-echo -e "${RED}Press CTRL+C to quit. Press ENTER to continue.${BLUE}"
+echo -e "${RED}${BOLD}Press CTRL+C to quit. Press ENTER to continue.${NB}${BLUE}"
 echo -e $drawline${NC}
 read WARNING
 
