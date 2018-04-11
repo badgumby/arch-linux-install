@@ -75,7 +75,7 @@ echo -e $drawline${NC}
 read storagedevice
 
 echo -e ${BLUE}$drawline
-echo -e "${RED}WARNING:${BLUE} You are about to format the device ${RED}${storagedevice}${BLUE}. Press CTRL+C to quit. Press ENTER to continue."
+echo -e "${RED}WARNING: You are about to format the device ${BLUE}${storagedevice}${RED}. Press CTRL+C to quit. Press ENTER to continue."
 echo -e "${RED}This is your last chance to exit before you wipe your drive!${BLUE}"
 echo -e $drawline${NC}
 read WARNING2
