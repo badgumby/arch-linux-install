@@ -40,14 +40,14 @@ function efi_install {
   echo -e ${BLUE}$drawline
   echo -e "Installing packages for EFI system"
   echo -e $drawline${NC}
-  pacstrap /mnt base base-devel grub-efi-x86_64 efibootmgr zsh vim wget git dialog wpa_supplicant xf86-video-intel xorg-server xorg-apps gdm mate mate-extra bluez-utils
+  pacstrap /mnt base base-devel grub-efi-x86_64 efibootmgr zsh vim wget git dialog wpa_supplicant
 }
 
 function bios_install {
   echo -e ${BLUE}$drawline
   echo -e "Installing packages for BIOS"
   echo -e $drawline${NC}
-  pacstrap /mnt base base-devel grub-bios zsh vim wget git dialog wpa_supplicant xf86-video-intel xorg-server xorg-apps gdm mate mate-extra bluez-utils
+  pacstrap /mnt base base-devel grub-bios zsh vim wget git dialog wpa_supplicant
 }
 
 ##############################################################################################################
@@ -227,7 +227,7 @@ passwd $MYUSERNAME
 ##### MODULES in mkinitcpio
 ##############################################################################################################
 echo -e ${BLUE}$drawline
-echo -e "Configure mkinitcpio with ${RED}MODULES${BLUE} needed for the initrd image"
+echo -e "${BOLD}Configure mkinitcpio with ${RED}MODULES${BLUE} needed for the initrd image${NB}"
 echo -e "Default: (ext4)"
 BASEMODULES='ext4'
 read -r -p "Would you like to customize your MODULES? [y/n]: " response
@@ -250,7 +250,7 @@ echo -e $drawline${NC}
 ##### BINARIES in mkinitcpio
 ##############################################################################################################
 echo -e ${BLUE}$drawline
-echo -e "Configure mkinitcpio with ${RED}BINARIES${BLUE} needed for the initrd image"
+echo -e "${BOLD}Configure mkinitcpio with ${RED}BINARIES${BLUE} needed for the initrd image${NB}"
 echo -e "Default: (*none*)"
 read -r -p "Would you like to customize your BINARIES? [y/n]: " response
 if [[ "$response" =~ ^([yY][eE][sS]|[yY])+$ ]]
@@ -270,7 +270,7 @@ echo -e $drawline${NC}
 ##### FILES in mkinitcpio
 ##############################################################################################################
 echo -e ${BLUE}$drawline
-echo -e "Configure mkinitcpio with ${RED}FILES${BLUE} needed for the initrd image"
+echo -e "${BOLD}Configure mkinitcpio with ${RED}FILES${BLUE} needed for the initrd image${NB}"
 echo -e "Default: (*none*)"
 read -r -p "Would you like to customize your FILES? [y/n]: " response
 if [[ "$response" =~ ^([yY][eE][sS]|[yY])+$ ]]
@@ -290,7 +290,7 @@ echo -e $drawline${NC}
 ##### HOOKS in mkinitcpio
 ##############################################################################################################
 echo -e ${BLUE}$drawline
-echo -e "Configure mkinitcpio with ${RED}HOOKS${BLUE} needed for the initrd image"
+echo -e "${BOLD}Configure mkinitcpio with ${RED}HOOKS${BLUE} needed for the initrd image${NB}"
 echo -e "Default: (base udev autodetect modconf block keyboard encrypt lvm2 filesystems fsck)"
 BASEHOOKS='base udev autodetect modconf block keyboard encrypt lvm2 filesystems fsck'
 read -r -p "Would you like to customize your HOOKS? [y/n]: " response
@@ -348,7 +348,7 @@ pacman-key --populate archlinux
 ##############################################################################################################
 
 echo -e ${BLUE}$drawline
-echo -e "Install aura (Arch User Repository package manager)"
+echo -e "Installing aura (Arch User Repository package manager)"
 echo -e $drawline${NC}
 # Pull down the aura PKGBUILD.
 mkdir /root/aura-bin
@@ -360,19 +360,111 @@ makepkg -si
 ##### Install common packages from Official Repo
 ##############################################################################################################
 
-COMMONPKGS="intel-ucode mate-media system-config-printer network-manager-applet dconf-editor remmina tilda filezilla poedit jdk8-openjdk jre8-openjdk scrot keepass atom ncmpcpp mopidy steam gimp inkscape neofetch conky p7zip ntfs-3g samba"
+BASEINSTALL="xf86-video-intel xorg-server xorg-apps gdm mate mate-extra bluez-utils intel-ucode mate-media system-config-printer network-manager-applet dconf-editor remmina tilda filezilla poedit jdk8-openjdk jre8-openjdk scrot keepass atom ncmpcpp mopidy steam gimp inkscape neofetch conky p7zip ntfs-3g samba"
 
 echo -e ${BLUE}$drawline
-echo -e "Install common packages from Official Repo"
+echo -e "${BOLD}BAD Gumby's base packages from the Official Arch Repo${NB}"
+echo -e "Default: (xf86-video-intel xorg-server xorg-apps gdm mate mate-extra bluez-utils intel-ucode mate-media system-config-printer network-manager-applet dconf-editor remmina tilda filezilla poedit jdk8-openjdk jre8-openjdk scrot keepass atom ncmpcpp mopidy steam gimp inkscape neofetch conky p7zip ntfs-3g samba)"
+echo -e ""
+read -r -p "Would you like to customize your PACKAGES? [y/n]: " response
+if [[ "$response" =~ ^([yY][eE][sS]|[yY])+$ ]]
+  then
+    echo -e ""
+    echo -e "Please enter PACKAGES, separated by spaces. None of the default packages will be installed:${NC}"
+    read MYPACKAGES
+    pacman -S ${MYPACKAGES}
+    read -p "ENTER to continue..."
+  else
+    echo -e ""
+    echo -e "Using BAD Gumby's base packages..."
+    pacman -S ${BASEINSTALL}
+    systemctl enable gdm
+    systemctl enable bluetooth
+    systemctl enable NetworkManager
+    read -p "ENTER to continue..."
+fi
 echo -e $drawline${NC}
-pacman -S ${COMMONPKGS}
+
+##############################################################################################################
+##### Switching user for AUR package installations
+##############################################################################################################
 
 echo -e ${BLUE}$drawline
-echo -e "Enabling gdm, bluetooth, and NetworkManager..."
+echo -e "Switching to created user, ${RED}${MYUSERNAME}${BLUE}, for AUR package installs"
 echo -e $drawline${NC}
-systemctl enable gdm
-systemctl enable bluetooth
-systemctl enable NetworkManager
+su $MYUSERNAME
+
+##############################################################################################################
+##### System76 drivers
+##############################################################################################################
+
+76INSTALL="system76-driver system76-dkms-git system76-wallpapers"
+
+echo -e ${BLUE}$drawline
+echo -e "${BOLD}Packages for System76 computers${NB}"
+echo -e "Default: (system76-driver system76-dkms-git system76-wallpapers)"
+echo -e ""
+read -r -p "Is this a System76 computer? [y/n]: " response
+if [[ "$response" =~ ^([yY][eE][sS]|[yY])+$ ]]
+  then
+    echo -e ""
+    echo -e "Installing System76 drivers${NC}"
+    sudo aura -Ax ${76INSTALL}
+    read -p "ENTER to continue..."
+  else
+    echo -e ""
+    echo -e "Not a System76 computer. Skipping..."
+fi
+echo -e $drawline${NC}
+
+##############################################################################################################
+##### Install packages for AUR
+##############################################################################################################
+
+AURINSTALL="mate-tweak oh-my-zsh-git correcthorse neovim-gtk-git aic94xx-firmware wd719x-firmware remmina-plugin-rdesktop visual-studio-code-bin wps-office google-chrome mopidy-gmusic keybase-bin signal-desktop-bin zoom multibootusb skype-electron"
+
+echo -e ${BLUE}$drawline
+echo -e "${BOLD}BAD Gumby's packages from the Arch User Repository${NB}"
+echo -e "Default: (mate-tweak oh-my-zsh-git correcthorse neovim-gtk-git aic94xx-firmware wd719x-firmware remmina-plugin-rdesktop visual-studio-code-bin wps-office google-chrome mopidy-gmusic keybase-bin signal-desktop-bin zoom multibootusb skype-electron)"
+echo -e ""
+read -r -p "Would you like to customize your AUR PACKAGES? [y/n]: " response
+if [[ "$response" =~ ^([yY][eE][sS]|[yY])+$ ]]
+  then
+    echo -e ""
+    echo -e "Please enter AUR PACKAGES, separated by spaces. None of the default AUR packages will be installed:${NC}"
+    read MYAUR
+    sudo aura -Ax ${MYAUR}
+    read -p "ENTER to continue..."
+  else
+    echo -e ""
+    echo -e "Using BAD Gumby's AUR packages..."
+    sudo aura -Ax ${AURINSTALL}
+    read -p "ENTER to continue..."
+fi
+echo -e $drawline${NC}
+
+##############################################################################################################
+##### BAD Gumby's favorite themes
+##############################################################################################################
+
+THEMEINSTALL="ant-nebula-gtk-theme candy-gtk-themes paper-icon-theme ttf-material-icons ttf-ms-fonts ttf-wps-fonts typecatcher"
+
+echo -e ${BLUE}$drawline
+echo -e "${BOLD}BAD Gumby's favorite themes${NB}"
+echo -e "Default: (ant-nebula-gtk-theme candy-gtk-themes paper-icon-theme ttf-material-icons ttf-ms-fonts ttf-wps-fonts typecatcher)"
+echo -e ""
+read -r -p "Would you like to install BAD Gumby's favorite themes? [y/n]: " response
+if [[ "$response" =~ ^([yY][eE][sS]|[yY])+$ ]]
+  then
+    echo -e ""
+    echo -e "Installing BAD Gumby's favorite themes${NC}"
+    sudo aura -Ax ${THEMEINSTALL}
+    read -p "ENTER to continue..."
+  else
+    echo -e ""
+    echo -e "Not installing themes. Skipping..."
+fi
+echo -e $drawline${NC}
 
 ##############################################################################################################
 ##### Finished with initial setup, time to reboot
@@ -396,20 +488,10 @@ swapoff -a
 
 echo -e ${BLUE}$drawline
 echo -e "Initiating reboot..."
+echo -e "Please remember to remove installation media."
 echo -e $drawline${NC}
 reboot
 
 ##########################################################################################################################################################
 ##########################################################################################################################################################
-##########################################################################################################################################################
-
-# If on System76 machine, install this first
-sudo aura -Ax system76-driver system76-dkms-git system76-wallpapers
-
-# Install from AUR
-sudo aura -Ax mate-tweak oh-my-zsh-git correcthorse neovim-gtk-git aic94xx-firmware wd719x-firmware remmina-plugin-rdesktop visual-studio-code-bin wps-office google-chrome mopidy-gmusic keybase-bin signal-desktop-bin zoom multibootusb skype-electron
-
-# Install themes/fonts
-sudo aura -Ax ant-nebula-gtk-theme candy-gtk-themes paper-icon-theme ttf-material-icons ttf-ms-fonts ttf-wps-fonts typecatcher
-
 ##########################################################################################################################################################
