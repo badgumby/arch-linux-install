@@ -18,6 +18,7 @@ BLUE='\033[0;34m'
 BOLD='\e[1m'
 NB='\e[21m' #No Bold
 NC='\033[0m' # No Color
+clear
 
 # http://http://patorjk.com/software/taag/
 # Fonts: 3D-Ascii + Chunky
