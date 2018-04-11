@@ -56,10 +56,10 @@ function bios_install {
 ##### Creating partitions
 ##############################################################################################################
 echo -e ${BLUE}$drawline
-echo -e "${BOLD}${RED}WARNING:${BLUE} BAD Gumby's Arch installer is destructive."
-echo -e "The first step will format your drive! Be sure to take backup your data before running, if necessary."
-echo -e "If you ran this by mistake, please quit now!"
-echo -e "Press CTRL+C to quit. Press ENTER to continue.${NB}"
+echo -e "${BOLD}${RED}WARNING: BAD Gumby's Arch installer is destructive.${NB}"
+echo -e "${BOLD}The first step will format your drive! Be sure to backup your data before running, if necessary.${NB}"
+echo -e "${BOLD}If you ran this by mistake, please quit now!${NB}"
+echo -e "${BOLD}Press CTRL+C to quit. Press ENTER to continue.${NB}${BLUE}"
 echo -e $drawline${NC}
 read WARNING
 
@@ -74,8 +74,8 @@ echo -e $drawline${NC}
 read storagedevice
 
 echo -e ${BLUE}$drawline
-echo -e "${BOLD}${RED}WARNING:${BLUE} You are about to format your drive. Press CTRL+C to quit. Press ENTER to continue."
-echo -e "${RED}This is your last chance to exit before you wipe your drive!${BLUE}${NB}"
+echo -e "${BOLD}${RED}WARNING:${BLUE} You are about to format the device ${RED}${storagedevice}${BLUE}. Press CTRL+C to quit. Press ENTER to continue.${NB}"
+echo -e "${BOLD}${RED}This is your last chance to exit before you wipe your drive!${BLUE}${NB}"
 echo -e $drawline${NC}
 read WARNING2
 
