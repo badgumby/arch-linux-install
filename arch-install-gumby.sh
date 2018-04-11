@@ -57,9 +57,9 @@ function bios_install {
 ##############################################################################################################
 echo -e ${BLUE}$drawline
 echo -e "${RED}WARNING: BAD Gumby's Arch installer is destructive."
-echo -e "The first step will format your drive! Be sure to backup your data before running, if necessary."
-echo -e "If you ran this by mistake, please quit now!"
-echo -e "Press CTRL+C to quit. Press ENTER to continue.${BLUE}"
+echo -e "${RED}The first step will format your drive! Be sure to backup your data before running, if necessary."
+echo -e "${RED}If you ran this by mistake, please quit now!"
+echo -e "${RED}Press CTRL+C to quit. Press ENTER to continue.${BLUE}"
 echo -e $drawline${NC}
 read WARNING
 
