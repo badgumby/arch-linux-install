@@ -24,8 +24,8 @@ NC='\033[0m' # No Color
 echo -e ${BLUE}${BOLD}
 echo -e '________  ________  ________          ________  ___  ___  _____ ______   ________      ___    ___ ________      '
 echo -e '|\   __  \|\   __  \|\   ___ \        |\   ____\|\  \|\  \|\   _ \  _   \|\   __  \    |\  \  /  /|\   ____\    '
-echo -e '\ \   __  \ \   __  \ \  \ \\ \       \ \  \  __\ \  \\\  \ \  \\|__| \  \ \   __  \   \ \    / / \ \_____  \   '
-echo -e ' \ \  \|\  \ \  \ \  \ \  \_\\ \       \ \  \|\  \ \  \\\  \ \  \    \ \  \ \  \|\  \   \/  /  /   \|____|\  \  '
+echo -e '\ \   __  \ \   __  \ \  \ \\  \       \ \  \  __\ \  \\\  \ \  \\|__| \  \ \   __  \   \ \    / / \ \_____  \   '
+echo -e ' \ \  \|\  \ \  \ \  \ \  \_\\  \       \ \  \|\  \ \  \\\  \ \  \    \ \  \ \  \|\  \   \/  /  /   \|____|\  \  '
 echo -e '  \ \_______\ \__\ \__\ \_______\       \ \_______\ \_______\ \__\    \ \__\ \_______\__/  / /       ____\_\  \ '
 echo -e '   \|_______|\|__|\|__|\|_______|        \|_______|\|_______|\|__|     \|__|\|_______|\___/ /       |\_________\'
 echo -e '                                                                                     \|___|/        \|_________|'
@@ -56,8 +56,10 @@ function bios_install {
 ##### Creating partitions
 ##############################################################################################################
 echo -e ${BLUE}$drawline
-echo -e "Creating partitions"
-echo -e "${RED}WARNING:${BLUE} You are about to format your drive. Press CTRL+C to quit. Press ENTER to continue."
+echo -e "${BOLD}${RED}WARNING:${BLUE} BAD Gumby's Arch installer is destructive."
+echo -e "The first step will format your drive! Be sure to take backup your data before running, if necessary."
+echo -e "If you ran this by mistake, please quit now!"
+echo -e "Press CTRL+C to quit. Press ENTER to continue.${NB}"
 echo -e $drawline${NC}
 read WARNING
 
@@ -70,6 +72,13 @@ echo -e ${BLUE}$drawline
 echo -e "What device should we partition? (ex. /dev/sda)"
 echo -e $drawline${NC}
 read storagedevice
+
+echo -e ${BLUE}$drawline
+echo -e "${BOLD}${RED}WARNING:${BLUE} You are about to format your drive. Press CTRL+C to quit. Press ENTER to continue."
+echo -e "${RED}This is your last chance to exit before you wipe your drive!${BLUE}${NB}"
+echo -e $drawline${NC}
+read WARNING2
+
 sgdisk -Z $storagedevice
 sgdisk -n 0:0:+200M -t 0:ef00 -c 0:"efi_boot" $storagedevice
 sgdisk -n 0:0:+500M -t 0:8300 -c 0:"linux_boot" $storagedevice
