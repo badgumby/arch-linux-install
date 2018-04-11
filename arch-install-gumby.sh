@@ -21,7 +21,7 @@ NC='\033[0m' # No Color
 
 # http://http://patorjk.com/software/taag/
 # Fonts: 3D-Ascii + Chunky
-echo -e ${BLUE}${BOLD}
+echo -e ${BLUE}
 echo -e '________  ________  ________          ________  ___  ___  _____ ______   ________      ___    ___ ________      '
 echo -e '|\   __  \|\   __  \|\   ___ \        |\   ____\|\  \|\  \|\   _ \  _   \|\   __  \    |\  \  /  /|\   ____\    '
 echo -e '\ \   __  \ \   __  \ \  \ \\  \       \ \  \  __\ \  \\\  \ \  \\|__| \  \ \   __  \   \ \    / / \ \_____  \   '
@@ -33,7 +33,7 @@ echo -e '                      _______             __                __         
 echo -e '                     |   _   |.----.----.|  |--.    .-----.|  |_.---.-.|  |  |.-----.----.                      '
 echo -e '                     |       ||   _|  __||     |----|__ --||   _|  _  ||  |  ||  -__|   _|                      '
 echo -e '                     |___|___||__| |____||__|__|----|_____||____|___._||__|__||_____|__|                        '
-echo -e ${NC}${NB}
+echo -e ${NC}
 
 ##############################################################################################################
 ##### Functions for system selection
@@ -56,10 +56,10 @@ function bios_install {
 ##### Creating partitions
 ##############################################################################################################
 echo -e ${BLUE}$drawline
-echo -e "${BOLD}${RED}WARNING: BAD Gumby's Arch installer is destructive.${NB}"
-echo -e "${BOLD}The first step will format your drive! Be sure to backup your data before running, if necessary.${NB}"
-echo -e "${BOLD}If you ran this by mistake, please quit now!${NB}"
-echo -e "${BOLD}Press CTRL+C to quit. Press ENTER to continue.${NB}${BLUE}"
+echo -e "${RED}WARNING: BAD Gumby's Arch installer is destructive."
+echo -e "The first step will format your drive! Be sure to backup your data before running, if necessary."
+echo -e "If you ran this by mistake, please quit now!"
+echo -e "Press CTRL+C to quit. Press ENTER to continue.${BLUE}"
 echo -e $drawline${NC}
 read WARNING
 
@@ -74,8 +74,8 @@ echo -e $drawline${NC}
 read storagedevice
 
 echo -e ${BLUE}$drawline
-echo -e "${BOLD}${RED}WARNING:${BLUE} You are about to format the device ${RED}${storagedevice}${BLUE}. Press CTRL+C to quit. Press ENTER to continue.${NB}"
-echo -e "${BOLD}${RED}This is your last chance to exit before you wipe your drive!${BLUE}${NB}"
+echo -e "${RED}WARNING:${BLUE} You are about to format the device ${RED}${storagedevice}${BLUE}. Press CTRL+C to quit. Press ENTER to continue."
+echo -e "${RED}This is your last chance to exit before you wipe your drive!${BLUE}"
 echo -e $drawline${NC}
 read WARNING2
 
@@ -155,7 +155,7 @@ mount ${storagedevice}1 /mnt/boot/efi
 ##############################################################################################################
 options=("EFI System" "BIOS")
 echo ""
-echo -e "${BLUE}${BOLD}Choose your system type: ${NB}${NC}"
+echo -e "${BLUE}Choose your system type: ${NC}"
 select opt in "${options[@]}"; do
 case $REPLY in
   1) efi_install; break ;;
@@ -238,7 +238,7 @@ passwd $MYUSERNAME
 ##### MODULES in mkinitcpio
 ##############################################################################################################
 echo -e ${BLUE}$drawline
-echo -e "${BOLD}Configure mkinitcpio with ${RED}MODULES${BLUE} needed for the initrd image${NB}"
+echo -e "Configure mkinitcpio with ${RED}MODULES${BLUE} needed for the initrd image"
 echo -e "Default: (ext4)"
 BASEMODULES='ext4'
 read -r -p "Would you like to customize your MODULES? [y/n]: " response
@@ -261,7 +261,7 @@ echo -e $drawline${NC}
 ##### BINARIES in mkinitcpio
 ##############################################################################################################
 echo -e ${BLUE}$drawline
-echo -e "${BOLD}Configure mkinitcpio with ${RED}BINARIES${BLUE} needed for the initrd image${NB}"
+echo -e "Configure mkinitcpio with ${RED}BINARIES${BLUE} needed for the initrd image"
 echo -e "Default: (*none*)"
 read -r -p "Would you like to customize your BINARIES? [y/n]: " response
 if [[ "$response" =~ ^([yY][eE][sS]|[yY])+$ ]]
@@ -281,7 +281,7 @@ echo -e $drawline${NC}
 ##### FILES in mkinitcpio
 ##############################################################################################################
 echo -e ${BLUE}$drawline
-echo -e "${BOLD}Configure mkinitcpio with ${RED}FILES${BLUE} needed for the initrd image${NB}"
+echo -e "Configure mkinitcpio with ${RED}FILES${BLUE} needed for the initrd image"
 echo -e "Default: (*none*)"
 read -r -p "Would you like to customize your FILES? [y/n]: " response
 if [[ "$response" =~ ^([yY][eE][sS]|[yY])+$ ]]
@@ -301,7 +301,7 @@ echo -e $drawline${NC}
 ##### HOOKS in mkinitcpio
 ##############################################################################################################
 echo -e ${BLUE}$drawline
-echo -e "${BOLD}Configure mkinitcpio with ${RED}HOOKS${BLUE} needed for the initrd image${NB}"
+echo -e "Configure mkinitcpio with ${RED}HOOKS${BLUE} needed for the initrd image"
 echo -e "Default: (base udev autodetect modconf block keyboard encrypt lvm2 filesystems fsck)"
 BASEHOOKS='base udev autodetect modconf block keyboard encrypt lvm2 filesystems fsck'
 read -r -p "Would you like to customize your HOOKS? [y/n]: " response
@@ -374,7 +374,7 @@ makepkg -si
 BASEINSTALL="xf86-video-intel xorg-server xorg-apps gdm mate mate-extra bluez-utils intel-ucode mate-media system-config-printer network-manager-applet dconf-editor remmina tilda filezilla poedit jdk8-openjdk jre8-openjdk scrot keepass atom ncmpcpp mopidy steam gimp inkscape neofetch conky p7zip ntfs-3g samba"
 
 echo -e ${BLUE}$drawline
-echo -e "${BOLD}BAD Gumby's base packages from the Official Arch Repo${NB}"
+echo -e "BAD Gumby's base packages from the Official Arch Repo"
 echo -e "Default: (xf86-video-intel xorg-server xorg-apps gdm mate mate-extra bluez-utils intel-ucode mate-media system-config-printer network-manager-applet dconf-editor remmina tilda filezilla poedit jdk8-openjdk jre8-openjdk scrot keepass atom ncmpcpp mopidy steam gimp inkscape neofetch conky p7zip ntfs-3g samba)"
 echo -e ""
 read -r -p "Would you like to customize your PACKAGES? [y/n]: " response
@@ -412,7 +412,7 @@ su $MYUSERNAME
 76INSTALL="system76-driver system76-dkms-git system76-wallpapers"
 
 echo -e ${BLUE}$drawline
-echo -e "${BOLD}Packages for System76 computers${NB}"
+echo -e "Packages for System76 computers"
 echo -e "Default: (system76-driver system76-dkms-git system76-wallpapers)"
 echo -e ""
 read -r -p "Is this a System76 computer? [y/n]: " response
@@ -435,7 +435,7 @@ echo -e $drawline${NC}
 AURINSTALL="mate-tweak oh-my-zsh-git correcthorse neovim-gtk-git aic94xx-firmware wd719x-firmware remmina-plugin-rdesktop visual-studio-code-bin wps-office google-chrome mopidy-gmusic keybase-bin signal-desktop-bin zoom multibootusb skype-electron"
 
 echo -e ${BLUE}$drawline
-echo -e "${BOLD}BAD Gumby's packages from the Arch User Repository${NB}"
+echo -e "BAD Gumby's packages from the Arch User Repository"
 echo -e "Default: (mate-tweak oh-my-zsh-git correcthorse neovim-gtk-git aic94xx-firmware wd719x-firmware remmina-plugin-rdesktop visual-studio-code-bin wps-office google-chrome mopidy-gmusic keybase-bin signal-desktop-bin zoom multibootusb skype-electron)"
 echo -e ""
 read -r -p "Would you like to customize your AUR PACKAGES? [y/n]: " response
@@ -461,7 +461,7 @@ echo -e $drawline${NC}
 THEMEINSTALL="ant-nebula-gtk-theme candy-gtk-themes paper-icon-theme ttf-material-icons ttf-ms-fonts ttf-wps-fonts typecatcher"
 
 echo -e ${BLUE}$drawline
-echo -e "${BOLD}BAD Gumby's favorite themes${NB}"
+echo -e "BAD Gumby's favorite themes"
 echo -e "Default: (ant-nebula-gtk-theme candy-gtk-themes paper-icon-theme ttf-material-icons ttf-ms-fonts ttf-wps-fonts typecatcher)"
 echo -e ""
 read -r -p "Would you like to install BAD Gumby's favorite themes? [y/n]: " response
