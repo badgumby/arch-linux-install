@@ -123,7 +123,7 @@ if [[ "$response" =~ ^([yY][eE][sS]|[yY])+$ ]]
     sed -i '/^MODULES=/c\MODULES=('"${MYMODULES}"')' /etc/mkinitcpio.conf
     echo -e "${BLUE}The following MODULES have been added: ${RED}${MODULES} ${MYMODULES}${BLUE}"
   else
-    echo -e "Using default MODULES"
+    echo -e "${NC}Using default MODULES"
     sed -i '/^MODULES=/c\MODULES=('"${BASEMODULES}"')' /etc/mkinitcpio.conf
     echo -e "${BLUE}The following MODULES have been added: ${RED}${BASEMODULES}${BLUE}"
 fi
@@ -144,7 +144,7 @@ if [[ "$response" =~ ^([yY][eE][sS]|[yY])+$ ]]
     sed -i '/^BINARIES=/c\BINARIES=('"${MYBINARIES}"')' /etc/mkinitcpio.conf
     echo -e "${BLUE}The following BINARIES have been added: ${RED}${MYBINARIES}${BLUE}"
   else
-    echo -e "${BLUE}The there are no default BINARIES to configure."
+    echo -e "${NC}The there are no default BINARIES to configure.${BLUE}"
 fi
 echo -e $drawline${NC}
 
@@ -163,7 +163,7 @@ if [[ "$response" =~ ^([yY][eE][sS]|[yY])+$ ]]
     sed -i '/^FILES=/c\FILES=('"${MYFILES}"')' /etc/mkinitcpio.conf
     echo -e "${BLUE}The following FILES have been added: ${RED}${MYFILES}${BLUE}"
   else
-    echo -e "${BLUE}The there are no default FILES to configure."
+    echo -e "${NC}The there are no default FILES to configure.${BLUE}"
 fi
 echo -e $drawline${NC}
 
@@ -183,7 +183,7 @@ if [[ "$response" =~ ^([yY][eE][sS]|[yY])+$ ]]
     sed -i '/^HOOKS=/c\HOOKS=('"${MYHOOKS}"')' /etc/mkinitcpio.conf
     echo -e "${BLUE}The following HOOKS have been added: ${RED}${BASEHOOKS} ${MYHOOKS}${BLUE}"
   else
-    echo -e "Using default HOOKS"
+    echo -e "${NC}Using default HOOKS"
     sed -i '/^HOOKS=/c\HOOKS=('"${BASEHOOKS}"')' /etc/mkinitcpio.conf
     echo -e "${BLUE}The following HOOKS have been added: ${RED}${BASEHOOKS}${BLUE}"
 fi
@@ -239,7 +239,7 @@ cat /etc/pacman.d/mirrorlist
 ##############################################################################################################
 
 function base-install-packages {
-  BASEINSTALL="xf86-video-intel xorg-server xorg-apps gdm mate mate-extra bluez-utils intel-ucode mate-media system-config-printer network-manager-applet dconf-editor remmina tilda filezilla poedit jdk8-openjdk jre8-openjdk scrot keepass atom ncmpcpp mopidy steam gimp inkscape neofetch conky p7zip ntfs-3g samba"
+  BASEINSTALL="xf86-video-intel xorg-server gdm mate bluez-utils intel-ucode system-config-printer network-manager-applet dconf-editor remmina tilda filezilla poedit jdk8-openjdk jre8-openjdk scrot keepass atom ncmpcpp mopidy steam gimp inkscape neofetch conky p7zip ntfs-3g samba"
 
   echo -e ${BLUE}$drawline
   echo -e "BAD Gumby's base packages from the Official Arch Repo"
@@ -257,6 +257,9 @@ function base-install-packages {
       echo -e ""
       echo -e "Using BAD Gumby's base packages..."
       pacman --noconfirm -Syy ${BASEINSTALL}
+      pacman --noconfirm -S mate-extra
+      pacman --noconfirm -S xorg-apps
+      pacman --noconfirm -S mate-extra
       systemctl enable gdm
       systemctl enable bluetooth
       systemctl enable NetworkManager
