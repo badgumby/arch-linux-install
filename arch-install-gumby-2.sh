@@ -2,7 +2,7 @@
 
 # 1. Run part 1 first.
 # 2. Execute this script:
-#    bash <(curl -s --tlsv1.2 --insecure --request GET "https://raw.githubusercontent.com/badgumby/arch-linux-install/master/arch-install-gumby2.sh")
+#    bash <(curl -s --tlsv1.2 --insecure --request GET "https://raw.githubusercontent.com/badgumby/arch-linux-install/master/arch-install-gumby-2.sh")
 
 #Line separator variable
 drawline=`printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' -`
@@ -62,7 +62,7 @@ read WARNING
 ##############################################################################################################
 
 echo -e ${BLUE}$drawline
-echo -e "Setup system clock with local timezone (ex. America/Chicago): "
+echo -e "Please enter system clock with local timezone (ex. America/Chicago): "
 echo -e $drawline${NC}
 read MYTIMEZONE
 rm /etc/localtime
@@ -221,18 +221,7 @@ echo -e $drawline${NC}
 sed -i '/GRUB_CMDLINE_LINUX=/c\GRUB_CMDLINE_LINUX="cryptdevice='${storagedevice}'3:luks:allow-discards"'  /etc/default/grub
 grub-mkconfig -o /boot/grub/grub.cfg
 
-##############################################################################################################
-##### Install AUR Helper (Aura)
-##############################################################################################################
 
-echo -e ${BLUE}$drawline
-echo -e "Installing aura (Arch User Repository package manager)"
-echo -e $drawline${NC}
-# Pull down the aura PKGBUILD.
-mkdir /root/aura-bin
-cd /root/aura-bin
-wget --no-check-certificate https://aur.archlinux.org/cgit/aur.git/plain/PKGBUILD\?h\=aura-bin --output-document=./PKGBUILD
-makepkg -si
 
 ##############################################################################################################
 ##### Update /etc/pacman.d/mirrorlist using Reflector
@@ -266,12 +255,12 @@ function base-install-packages {
       echo -e ""
       echo -e "Please enter PACKAGES, separated by spaces. None of the default packages will be installed:${NC}"
       read MYPACKAGES
-      pacman -S ${MYPACKAGES}
+      pacman -Syy ${MYPACKAGES}
       read -p "ENTER to continue..."
     else
       echo -e ""
       echo -e "Using BAD Gumby's base packages..."
-      pacman -S ${BASEINSTALL}
+      pacman -Syy ${BASEINSTALL}
       systemctl enable gdm
       systemctl enable bluetooth
       systemctl enable NetworkManager
@@ -299,6 +288,19 @@ echo -e ${BLUE}$drawline
 echo -e "Switching to created user, ${RED}${MYUSERNAME}${BLUE}, for AUR package installs"
 echo -e $drawline${NC}
 su $MYUSERNAME
+
+##############################################################################################################
+##### Install AUR Helper (Aura)
+##############################################################################################################
+
+echo -e ${BLUE}$drawline
+echo -e "Installing aura (Arch User Repository package manager)"
+echo -e $drawline${NC}
+# Pull down the aura PKGBUILD.
+mkdir /home/${MYUSERNAME}/aura-bin
+cd /home/${MYUSERNAME}/aura-bin
+wget --no-check-certificate https://aur.archlinux.org/cgit/aur.git/plain/PKGBUILD\?h\=aura-bin --output-document=./PKGBUILD
+makepkg -si
 
 ##############################################################################################################
 ##### System76 drivers
