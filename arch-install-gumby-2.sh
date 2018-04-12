@@ -122,12 +122,10 @@ if [[ "$response" =~ ^([yY][eE][sS]|[yY])+$ ]]
     read MYMODULES
     sed -i '/^MODULES=/c\MODULES=('"${MYMODULES}"')' /etc/mkinitcpio.conf
     echo -e "${BLUE}The following MODULES have been added: ${RED}${MODULES} ${MYMODULES}${BLUE}"
-    read -p "ENTER to continue..."
   else
     echo -e "Using default MODULES"
     sed -i '/^MODULES=/c\MODULES=('"${BASEMODULES}"')' /etc/mkinitcpio.conf
     echo -e "${BLUE}The following MODULES have been added: ${RED}${BASEMODULES}${BLUE}"
-    read -p "ENTER to continue..."
 fi
 echo -e $drawline${NC}
 
@@ -145,10 +143,8 @@ if [[ "$response" =~ ^([yY][eE][sS]|[yY])+$ ]]
     read MYBINARIES
     sed -i '/^BINARIES=/c\BINARIES=('"${MYBINARIES}"')' /etc/mkinitcpio.conf
     echo -e "${BLUE}The following BINARIES have been added: ${RED}${MYBINARIES}${BLUE}"
-    read -p "ENTER to continue..."
   else
     echo -e "${BLUE}The there are no default BINARIES to configure."
-    read -p "ENTER to continue..."
 fi
 echo -e $drawline${NC}
 
@@ -166,10 +162,8 @@ if [[ "$response" =~ ^([yY][eE][sS]|[yY])+$ ]]
     read MYFILES
     sed -i '/^FILES=/c\FILES=('"${MYFILES}"')' /etc/mkinitcpio.conf
     echo -e "${BLUE}The following FILES have been added: ${RED}${MYFILES}${BLUE}"
-    read -p "ENTER to continue..."
   else
     echo -e "${BLUE}The there are no default FILES to configure."
-    read -p "ENTER to continue..."
 fi
 echo -e $drawline${NC}
 
@@ -188,12 +182,10 @@ if [[ "$response" =~ ^([yY][eE][sS]|[yY])+$ ]]
     read MYHOOKS
     sed -i '/^HOOKS=/c\HOOKS=('"${MYHOOKS}"')' /etc/mkinitcpio.conf
     echo -e "${BLUE}The following HOOKS have been added: ${RED}${BASEHOOKS} ${MYHOOKS}${BLUE}"
-    read -p "ENTER to continue..."
   else
     echo -e "Using default HOOKS"
     sed -i '/^HOOKS=/c\HOOKS=('"${BASEHOOKS}"')' /etc/mkinitcpio.conf
     echo -e "${BLUE}The following HOOKS have been added: ${RED}${BASEHOOKS}${BLUE}"
-    read -p "ENTER to continue..."
 fi
 echo -e $drawline${NC}
 
@@ -211,6 +203,12 @@ mkinitcpio -p linux
 ##############################################################################################################
 
 echo -e ${BLUE}$drawline
+echo -e "Is the swap partition mounted?${NC}"
+sudo fdisk -l
+echo -e ${BLUE}$drawline${NC}
+read HOLDUP
+
+echo -e ${BLUE}$drawline
 echo -e "Setting up GRUB..."
 echo -e $drawline${NC}
 grub-install
@@ -218,10 +216,8 @@ grub-install
 echo -e ${BLUE}$drawline
 echo -e "Modifying GRUB file to select encrypted partition..."
 echo -e $drawline${NC}
-sed -i '/GRUB_CMDLINE_LINUX=/c\GRUB_CMDLINE_LINUX="cryptdevice='${storagedevice}'3:luks:allow-discards"'  /etc/default/grub
+sed -i '/GRUB_CMDLINE_LINUX=/c\GRUB_CMDLINE_LINUX="cryptdevice='${storagedevice}'3:luks:allow-discards"' /etc/default/grub
 grub-mkconfig -o /boot/grub/grub.cfg
-
-
 
 ##############################################################################################################
 ##### Update /etc/pacman.d/mirrorlist using Reflector
