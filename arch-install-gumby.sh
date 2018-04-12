@@ -188,6 +188,11 @@ echo -e "Entering the new system..."
 echo -e $drawline${NC}
 curl -o /mnt/root/arch-install-gumby-2.sh -s --tlsv1.2 --insecure --request GET "https://raw.githubusercontent.com/badgumby/arch-linux-install/master/arch-install-gumby.sh"
 chmod +x /mnt/root/arch-install-gumby-2.sh
+
+echo -e ${BLUE}$drawline
+echo -e "Press ENTER to continue"
+echo -e $drawline${NC}
+
 arch-chroot /mnt /bin/bash /root/arch-install-gumby-2.sh
 
 ##############################################################################################################
