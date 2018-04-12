@@ -89,19 +89,19 @@ echo LC_ALL=en_US.UTF-8 >> /etc/locale.conf
 ##############################################################################################################
 
 echo -e ${BLUE}$drawline
-echo -e "Please enter a password for ${RED}'root'${BLUE}:"
+echo -e "Please enter a ${RED}password${BLUE} for ${RED}'root'${BLUE}:"
 echo -e $drawline${NC}
 passwd
 
 sed -i '/%wheel ALL=(ALL) ALL/c\%wheel ALL=(ALL) ALL'  /etc/sudoers
 
 echo -e ${BLUE}$drawline
-echo -e "Please enter your username (user will be in ${RED}wheel${BLUE} group):"
+echo -e "Please enter your ${RED}username${BLUE} (user will be in ${RED}wheel${BLUE} group):"
 echo -e $drawline${NC}
 read MYUSERNAME
 
 echo -e ${BLUE}$drawline
-echo -e "Please enter your default shell (options: ${RED}/bin/bash${BLUE} or ${RED}/bin/zsh)${BLUE}:"
+echo -e "Please enter your default ${RED}shell${BLUE} (options: ${RED}/bin/bash${BLUE} or ${RED}/bin/zsh)${BLUE}:"
 echo -e $drawline${NC}
 read MYSHELL
 useradd -m -g users -G wheel -s $MYSHELL $MYUSERNAME
@@ -203,12 +203,6 @@ mkinitcpio -p linux
 ##############################################################################################################
 
 echo -e ${BLUE}$drawline
-echo -e "Is the swap partition mounted?${NC}"
-sudo fdisk -l
-echo -e ${BLUE}$drawline${NC}
-read HOLDUP
-
-echo -e ${BLUE}$drawline
 echo -e "Setting up GRUB..."
 echo -e $drawline${NC}
 grub-install
@@ -216,7 +210,9 @@ grub-install
 echo -e ${BLUE}$drawline
 echo -e "Modifying GRUB file to select encrypted partition..."
 echo -e $drawline${NC}
-sed -i '/GRUB_CMDLINE_LINUX=/c\GRUB_CMDLINE_LINUX="cryptdevice='${storagedevice}'3:luks:allow-discards"' /etc/default/grub
+echo -e "${BLUE}Enter your storage device (ex. /dev/sda):${NC}"
+read storagedevice2
+sed -i '/GRUB_CMDLINE_LINUX=/c\GRUB_CMDLINE_LINUX="cryptdevice='${storagedevice2}'3:luks:allow-discards"' /etc/default/grub
 cat /etc/default/grub | grep GRUB_CMDLINE_LINUX=
 echo 'Verify above line shows: GRUB_CMDLINE_LINUX="cryptdevice=/dev/sdX3:luks:allow-discards"'
 read HOLDUPHEY
