@@ -251,12 +251,12 @@ function base-install-packages {
       echo -e ""
       echo -e "Please enter PACKAGES, separated by spaces. None of the default packages will be installed:${NC}"
       read MYPACKAGES
-      pacman -Syy ${MYPACKAGES}
+      pacman --noconfirm -Syy ${MYPACKAGES}
       read -p "ENTER to continue..."
     else
       echo -e ""
       echo -e "Using BAD Gumby's base packages..."
-      pacman -Syy ${BASEINSTALL}
+      pacman --noconfirm -Syy ${BASEINSTALL}
       systemctl enable gdm
       systemctl enable bluetooth
       systemctl enable NetworkManager
