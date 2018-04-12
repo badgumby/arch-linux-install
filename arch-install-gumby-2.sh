@@ -217,6 +217,9 @@ echo -e ${BLUE}$drawline
 echo -e "Modifying GRUB file to select encrypted partition..."
 echo -e $drawline${NC}
 sed -i '/GRUB_CMDLINE_LINUX=/c\GRUB_CMDLINE_LINUX="cryptdevice='${storagedevice}'3:luks:allow-discards"' /etc/default/grub
+cat /etc/default/grub | grep GRUB_CMDLINE_LINUX=
+echo 'Verify above line shows: GRUB_CMDLINE_LINUX="cryptdevice=/dev/sdX3:luks:allow-discards"'
+read HOLDUPHEY
 grub-mkconfig -o /boot/grub/grub.cfg
 
 ##############################################################################################################
@@ -249,17 +252,21 @@ function base-install-packages {
   if [[ "$response" =~ ^([yY][eE][sS]|[yY])+$ ]]
     then
       echo -e ""
-      echo -e "Please enter PACKAGES, separated by spaces. None of the default packages will be installed:${NC}"
+      echo -e "${RED}Please enter PACKAGES, separated by spaces. None of the default packages will be installed:${NC}"
       read MYPACKAGES
-      pacman --noconfirm -Syy ${MYPACKAGES}
+      pacman --noconfirm -S ${MYPACKAGES}
       read -p "ENTER to continue..."
     else
       echo -e ""
-      echo -e "Using BAD Gumby's base packages..."
-      pacman --noconfirm -Syy ${BASEINSTALL}
+      echo -e "${RED}Using BAD Gumby's base packages...${NC}"
+      pacman --noconfirm -S ${BASEINSTALL}
+      read jibba
       pacman --noconfirm -S mate-extra
+      read jabba
       pacman --noconfirm -S xorg-apps
+      read joo
       pacman --noconfirm -S mate-extra
+      read joe
       systemctl enable gdm
       systemctl enable bluetooth
       systemctl enable NetworkManager
@@ -267,17 +274,10 @@ function base-install-packages {
   fi
   echo -e $drawline${NC}
 }
+# Initialize pacman keyring
+pacman-key-init
 # Execute install function
 base-install-packages
-
-# Ask if pacman had issues with key
-read -r -p "Did pacman have signature errors when attempting to install packages? [y/n]: " response
-if [[ "$response" =~ ^([yY][eE][sS]|[yY])+$ ]]
-  then
-    pacman-key-init
-  else
-    echo -e "No issues. Skipping..."
-fi
 
 ##############################################################################################################
 ##### Switching user for AUR package installations
