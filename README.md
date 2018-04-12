@@ -1,4 +1,4 @@
-#BAD Gumby's base install of Arch
+# BAD Gumby's base install of Arch
 
 ## Files
 #### configuration.md
