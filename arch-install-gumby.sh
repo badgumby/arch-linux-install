@@ -186,7 +186,7 @@ echo 'tmpfs	/tmp	tmpfs	defaults,noatime,mode=1777	0	0' >> /mnt/etc/fstab
 echo -e ${BLUE}$drawline
 echo -e "Entering the new system..."
 echo -e $drawline${NC}
-curl -o /mnt/root/arch-install-gumby-2.sh -s --tlsv1.2 --insecure --request GET "https://raw.githubusercontent.com/badgumby/arch-linux-install/master/arch-install-gumby.sh"
+curl -o /mnt/root/arch-install-gumby-2.sh -s --tlsv1.2 --insecure --request GET "https://raw.githubusercontent.com/badgumby/arch-linux-install/master/arch-install-gumby-2.sh"
 chmod +x /mnt/root/arch-install-gumby-2.sh
 
 echo -e ${BLUE}$drawline
