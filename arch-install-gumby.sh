@@ -5,6 +5,7 @@
 #    dd if=archlinux.img of=/dev/sdX bs=16M && sync
 # 3. Boot from the usb. If the usb fails to boot, make sure that secure boot is disabled in the BIOS configuration.
 # 4. Setup network connections
+#    systemctl enable dhcpcd@eth0.service
 #    For WiFi only system, use wifi-menu
 # 5. Execute this script:
 #    bash <(curl -s --tlsv1.2 --insecure --request GET "https://raw.githubusercontent.com/badgumby/arch-linux-install/master/arch-install-gumby.sh")
@@ -39,23 +40,34 @@ echo -e ${NC}
 ##############################################################################################################
 ##### Functions for system selection
 ##############################################################################################################
+
 function efi_install {
   echo -e ${BLUE}$drawline
   echo -e "Installing packages for EFI system"
   echo -e $drawline${NC}
-  pacstrap /mnt base base-devel grub-efi-x86_64 efibootmgr zsh vim wget git dialog wpa_supplicant
+  pacstrap /mnt base base-devel grub-efi-x86_64 efibootmgr zsh vim wget git dialog wpa_supplicant reflector
 }
 
 function bios_install {
   echo -e ${BLUE}$drawline
   echo -e "Installing packages for BIOS"
   echo -e $drawline${NC}
-  pacstrap /mnt base base-devel grub-bios zsh vim wget git dialog wpa_supplicant
+  pacstrap /mnt base base-devel grub-bios zsh vim wget git dialog wpa_supplicant reflector
+}
+
+function pacman-key-init {
+  echo -e ${BLUE}$drawline
+  echo -e "Initializing pacman-key..."
+  echo -e $drawline${NC}
+  pacman-key --init
+  pacman-key --populate archlinux
+  base-install-packages
 }
 
 ##############################################################################################################
 ##### Creating partitions
 ##############################################################################################################
+
 echo -e ${BLUE}$drawline
 echo -e "${RED}WARNING: BAD Gumby's Arch installer is destructive."
 echo -e "${RED}The first step will format your drive! Be sure to backup your data before running, if necessary."
@@ -96,25 +108,10 @@ echo -e $drawline${NC}
 partprobe $storagedevice
 fdisk -l $storagedevice
 
-#############################################################################
-# OLD - DO NOT USE
-#############################################################################
-#cgdisk /dev/sdX
-# For EFI, use this
-# 1 100MB EFI partition  # Hex code ef00
-# 2 500MB Boot partition # Hex code 8300
-# 3 100% size partiton   # Hex code 8300 (to be encrypted)
-
-# For BIOS, use this
-# 1 100MB BIOS partition # Hex code ef02
-# 2 500MB Boot partition # Hex code 8300
-# 3 100% size partiton   # Hex code 8300 (to be encrypted)
-#############################################################################
-
-
 ##############################################################################################################
 ##### Creating file systems / encrypting partitions
 ##############################################################################################################
+
 echo -e ${BLUE}$drawline
 echo -e "Creating file systems on the EFI/BIOS and boot partitions..."
 echo -e $drawline${NC}
@@ -154,6 +151,7 @@ mount ${storagedevice}1 /mnt/boot/efi
 ##############################################################################################################
 ##### Install base Arch packages with pacstrap / select EFI or BIOS
 ##############################################################################################################
+
 options=("EFI System" "BIOS")
 echo ""
 echo -e "${BLUE}Choose your system type: ${NC}"
@@ -168,6 +166,7 @@ done
 ##############################################################################################################
 ##### Build /etc/fstab
 ##############################################################################################################
+
 echo -e ${BLUE}$drawline
 echo "Writing current fstab to file /mnt/etc/fstab"
 echo -e $drawline${NC}
@@ -182,6 +181,7 @@ echo 'tmpfs	/tmp	tmpfs	defaults,noatime,mode=1777	0	0' >> /mnt/etc/fstab
 ##############################################################################################################
 ##### Enter arch-chroot
 ##############################################################################################################
+
 echo -e ${BLUE}$drawline
 echo -e "Entering the new system..."
 echo -e $drawline${NC}
@@ -190,6 +190,7 @@ arch-chroot /mnt /bin/bash
 ##############################################################################################################
 ##### Configure timezone / hostname / locale
 ##############################################################################################################
+
 echo -e ${BLUE}$drawline
 echo -e "Setup system clock with local timezone (ex. America/Chicago): "
 echo -e $drawline${NC}
@@ -216,6 +217,7 @@ echo LC_ALL=en_US.UTF-8 >> /etc/locale.conf
 ##############################################################################################################
 ##### Configure root user / allow wheel in sudoers file / add new user
 ##############################################################################################################
+
 echo -e ${BLUE}$drawline
 echo -e "Please enter a password for ${RED}'root'${BLUE}:"
 echo -e $drawline${NC}
@@ -238,6 +240,7 @@ passwd $MYUSERNAME
 ##############################################################################################################
 ##### MODULES in mkinitcpio
 ##############################################################################################################
+
 echo -e ${BLUE}$drawline
 echo -e "Configure mkinitcpio with ${RED}MODULES${BLUE} needed for the initrd image"
 echo -e "Default: (ext4)"
@@ -261,6 +264,7 @@ echo -e $drawline${NC}
 ##############################################################################################################
 ##### BINARIES in mkinitcpio
 ##############################################################################################################
+
 echo -e ${BLUE}$drawline
 echo -e "Configure mkinitcpio with ${RED}BINARIES${BLUE} needed for the initrd image"
 echo -e "Default: (*none*)"
@@ -281,6 +285,7 @@ echo -e $drawline${NC}
 ##############################################################################################################
 ##### FILES in mkinitcpio
 ##############################################################################################################
+
 echo -e ${BLUE}$drawline
 echo -e "Configure mkinitcpio with ${RED}FILES${BLUE} needed for the initrd image"
 echo -e "Default: (*none*)"
@@ -301,6 +306,7 @@ echo -e $drawline${NC}
 ##############################################################################################################
 ##### HOOKS in mkinitcpio
 ##############################################################################################################
+
 echo -e ${BLUE}$drawline
 echo -e "Configure mkinitcpio with ${RED}HOOKS${BLUE} needed for the initrd image"
 echo -e "Default: (base udev autodetect modconf block keyboard encrypt lvm2 filesystems fsck)"
@@ -346,16 +352,6 @@ sed -i '/GRUB_CMDLINE_LINUX=/c\GRUB_CMDLINE_LINUX="cryptdevice='${storagedevice}
 grub-mkconfig -o /boot/grub/grub.cfg
 
 ##############################################################################################################
-##### Initialize pacman-key
-##############################################################################################################
-
-echo -e ${BLUE}$drawline
-echo -e "Initializing pacman-key..."
-echo -e $drawline${NC}
-pacman-key --init
-pacman-key --populate archlinux
-
-##############################################################################################################
 ##### Install AUR Helper (Aura)
 ##############################################################################################################
 
@@ -369,33 +365,61 @@ wget --no-check-certificate https://aur.archlinux.org/cgit/aur.git/plain/PKGBUIL
 makepkg -si
 
 ##############################################################################################################
+##### Update /etc/pacman.d/mirrorlist using Reflector
+##############################################################################################################
+
+echo -e ${BLUE}$drawline
+echo -e "Updating /etc/pacman.d/mirrorlist using Reflector"
+echo -e "Selecting HTTPS mirrors, synchronized within the last 12 hours, located in country, and sorted by download speed."
+echo -e "Full list of countries can be found at ${RED}https://archlinux.org/mirrors/status/${BLUE}"
+echo -e "Please enter your preferred country (for US, enter: United States)"
+echo -e $drawline${NC}
+read MYCOUNTRY
+
+reflector --country "${MYCOUNTRY}" --age 12 --protocol https --sort rate --save /etc/pacman.d/mirrorlist
+cat /etc/pacman.d/mirrorlist
+
+##############################################################################################################
 ##### Install common packages from Official Repo
 ##############################################################################################################
 
-BASEINSTALL="xf86-video-intel xorg-server xorg-apps gdm mate mate-extra bluez-utils intel-ucode mate-media system-config-printer network-manager-applet dconf-editor remmina tilda filezilla poedit jdk8-openjdk jre8-openjdk scrot keepass atom ncmpcpp mopidy steam gimp inkscape neofetch conky p7zip ntfs-3g samba"
+function base-install-packages {
+  BASEINSTALL="xf86-video-intel xorg-server xorg-apps gdm mate mate-extra bluez-utils intel-ucode mate-media system-config-printer network-manager-applet dconf-editor remmina tilda filezilla poedit jdk8-openjdk jre8-openjdk scrot keepass atom ncmpcpp mopidy steam gimp inkscape neofetch conky p7zip ntfs-3g samba"
 
-echo -e ${BLUE}$drawline
-echo -e "BAD Gumby's base packages from the Official Arch Repo"
-echo -e "Default: (xf86-video-intel xorg-server xorg-apps gdm mate mate-extra bluez-utils intel-ucode mate-media system-config-printer network-manager-applet dconf-editor remmina tilda filezilla poedit jdk8-openjdk jre8-openjdk scrot keepass atom ncmpcpp mopidy steam gimp inkscape neofetch conky p7zip ntfs-3g samba)"
-echo -e ""
-read -r -p "Would you like to customize your PACKAGES? [y/n]: " response
+  echo -e ${BLUE}$drawline
+  echo -e "BAD Gumby's base packages from the Official Arch Repo"
+  echo -e "Default: (xf86-video-intel xorg-server xorg-apps gdm mate mate-extra bluez-utils intel-ucode mate-media system-config-printer network-manager-applet dconf-editor remmina tilda filezilla poedit jdk8-openjdk jre8-openjdk scrot keepass atom ncmpcpp mopidy steam gimp inkscape neofetch conky p7zip ntfs-3g samba)"
+  echo -e ""
+  read -r -p "Would you like to customize your PACKAGES? [y/n]: " response
+  if [[ "$response" =~ ^([yY][eE][sS]|[yY])+$ ]]
+    then
+      echo -e ""
+      echo -e "Please enter PACKAGES, separated by spaces. None of the default packages will be installed:${NC}"
+      read MYPACKAGES
+      pacman -S ${MYPACKAGES}
+      read -p "ENTER to continue..."
+    else
+      echo -e ""
+      echo -e "Using BAD Gumby's base packages..."
+      pacman -S ${BASEINSTALL}
+      systemctl enable gdm
+      systemctl enable bluetooth
+      systemctl enable NetworkManager
+      read -p "ENTER to continue..."
+  fi
+  echo -e $drawline${NC}
+}
+# Execute install function
+base-install-packages
+
+# Ask if pacman had issues with key
+read -r -p "Did pacman have signature errors when attempting to install packages? [y/n]: " response
 if [[ "$response" =~ ^([yY][eE][sS]|[yY])+$ ]]
   then
-    echo -e ""
-    echo -e "Please enter PACKAGES, separated by spaces. None of the default packages will be installed:${NC}"
-    read MYPACKAGES
-    pacman -S ${MYPACKAGES}
-    read -p "ENTER to continue..."
+    pacman-key-init
   else
-    echo -e ""
-    echo -e "Using BAD Gumby's base packages..."
-    pacman -S ${BASEINSTALL}
-    systemctl enable gdm
-    systemctl enable bluetooth
-    systemctl enable NetworkManager
-    read -p "ENTER to continue..."
+    echo -e "No issues. Skipping..."
 fi
-echo -e $drawline${NC}
 
 ##############################################################################################################
 ##### Switching user for AUR package installations
@@ -433,11 +457,11 @@ echo -e $drawline${NC}
 ##### Install packages for AUR
 ##############################################################################################################
 
-AURINSTALL="mate-tweak oh-my-zsh-git correcthorse neovim-gtk-git aic94xx-firmware wd719x-firmware remmina-plugin-rdesktop visual-studio-code-bin wps-office google-chrome mopidy-gmusic keybase-bin signal-desktop-bin zoom multibootusb skype-electron"
+AURINSTALL="mate-tweak oh-my-zsh-git correcthorse neovim-gtk-git remmina-plugin-rdesktop visual-studio-code-bin wps-office google-chrome mopidy-gmusic keybase-bin signal-desktop-bin zoom multibootusb skype-electron"
 
 echo -e ${BLUE}$drawline
 echo -e "BAD Gumby's packages from the Arch User Repository"
-echo -e "Default: (mate-tweak oh-my-zsh-git correcthorse neovim-gtk-git aic94xx-firmware wd719x-firmware remmina-plugin-rdesktop visual-studio-code-bin wps-office google-chrome mopidy-gmusic keybase-bin signal-desktop-bin zoom multibootusb skype-electron)"
+echo -e "Default: (mate-tweak oh-my-zsh-git correcthorse neovim-gtk-git remmina-plugin-rdesktop visual-studio-code-bin wps-office google-chrome mopidy-gmusic keybase-bin signal-desktop-bin zoom multibootusb skype-electron)"
 echo -e ""
 read -r -p "Would you like to customize your AUR PACKAGES? [y/n]: " response
 if [[ "$response" =~ ^([yY][eE][sS]|[yY])+$ ]]
