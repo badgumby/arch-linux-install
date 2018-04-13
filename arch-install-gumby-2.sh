@@ -196,7 +196,7 @@ grub-install
 
 echo -e ${TEXTCOLOR}$drawline
 echo -e "Modifying GRUB file to select encrypted partition..."
-echo -e $drawline${NC}
+echo -e $drawline${RED}
 sed -i '/GRUB_CMDLINE_LINUX=/c\GRUB_CMDLINE_LINUX="cryptdevice='${storagedevice2}'3:luks:allow-discards"' /etc/default/grub
 echo -e ${CHOICE}
 echo 'Verify line below shows: GRUB_CMDLINE_LINUX="cryptdevice=/dev/sdX3:luks:allow-discards". Press ENTER to continue...'
@@ -212,8 +212,10 @@ grub-mkconfig -o /boot/grub/grub.cfg
 echo -e ${TEXTCOLOR}$drawline
 echo -e "Enabling Arch multilib repo..."
 echo -e $drawline${NC}
-eval "sed -i '94i\Include = /etc/pacman.d/mirrorlist' /etc/pacman.conf"
-eval "sed -i '94i\[multilib]' /etc/pacman.conf"
+linenumber=$(grep -nr \\#\\[multilib\\] /etc/pacman.conf | gawk '{print $1}' FS=":")
+sed -i "${linenumber}s:.*:[multilib]:" /etc/pacman.conf
+linenumber=$((linenumber+1))
+sed -i "${linenumber}s:.*:Include = /etc/pacman.d/mirrorlist:" /etc/pacman.conf
 
 ##############################################################################################################
 ##### Update /etc/pacman.d/mirrorlist using Reflector
