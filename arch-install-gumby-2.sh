@@ -1,9 +1,5 @@
 #!/bin/bash
 
-# 1. Run part 1 first.
-# 2. Execute this script:
-#    bash <(curl -s --tlsv1.2 --insecure --request GET "https://raw.githubusercontent.com/badgumby/arch-linux-install/master/arch-install-gumby-2.sh")
-
 #Line separator variable
 drawline=`printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' -`
 # Colors
@@ -17,20 +13,7 @@ clear
 
 # http://http://patorjk.com/software/taag/
 # Fonts: ANSI Shadow (optional: 3D-Ascii + Chunky)
-echo -e ${BLUE}
-echo '      ██████╗  █████╗ ██████╗      ██████╗ ██╗   ██╗███╗   ███╗██████╗ ██╗   ██╗███████╗       '
-echo '      ██╔══██╗██╔══██╗██╔══██╗    ██╔════╝ ██║   ██║████╗ ████║██╔══██╗╚██╗ ██╔╝██╔════╝       '
-echo '      ██████╔╝███████║██║  ██║    ██║  ███╗██║   ██║██╔████╔██║██████╔╝ ╚████╔╝ ███████╗       '
-echo '      ██╔══██╗██╔══██║██║  ██║    ██║   ██║██║   ██║██║╚██╔╝██║██╔══██╗  ╚██╔╝  ╚════██║       '
-echo '      ██████╔╝██║  ██║██████╔╝    ╚██████╔╝╚██████╔╝██║ ╚═╝ ██║██████╔╝   ██║   ███████║       '
-echo '      ╚═════╝ ╚═╝  ╚═╝╚═════╝      ╚═════╝  ╚═════╝ ╚═╝     ╚═╝╚═════╝    ╚═╝   ╚══════╝       '
-echo ' █████╗ ██████╗  ██████╗██╗  ██╗      ███████╗████████╗ █████╗ ██╗     ██╗     ███████╗██████╗ '
-echo '██╔══██╗██╔══██╗██╔════╝██║  ██║      ██╔════╝╚══██╔══╝██╔══██╗██║     ██║     ██╔════╝██╔══██╗'
-echo '███████║██████╔╝██║     ███████║█████╗███████╗   ██║   ███████║██║     ██║     █████╗  ██████╔╝'
-echo '██╔══██║██╔══██╗██║     ██╔══██║╚════╝╚════██║   ██║   ██╔══██║██║     ██║     ██╔══╝  ██╔══██╗'
-echo '██║  ██║██║  ██║╚██████╗██║  ██║      ███████║   ██║   ██║  ██║███████╗███████╗███████╗██║  ██║'
-echo '╚═╝  ╚═╝╚═╝  ╚═╝ ╚═════╝╚═╝  ╚═╝      ╚══════╝   ╚═╝   ╚═╝  ╚═╝╚══════╝╚══════╝╚══════╝╚═╝  ╚═╝'
-echo -e ${NC}
+echo -e "${RED}Loaded script 2...${NC}"
 
 ##############################################################################################################
 ##### Functions for system selection
@@ -43,18 +26,6 @@ function pacman-key-init {
   pacman-key --init
   pacman-key --populate archlinux
 }
-
-##############################################################################################################
-##### Initial Message
-##############################################################################################################
-
-echo -e ${BLUE}$drawline
-echo -e "${RED}WARNING: This is BAD Gumby's Arch installer - Part 2."
-echo -e "${RED}If you haven't already, please run Part 1 first."
-echo -e "${RED}If you ran this by mistake, please quit now!"
-echo -e "${RED}${BOLD}Press CTRL+C to quit. Press ENTER to continue.${NB}${BLUE}"
-echo -e $drawline${NC}
-read WARNING
 
 ##############################################################################################################
 ##### Configure timezone / hostname / locale
@@ -114,9 +85,11 @@ passwd $MYUSERNAME
 
 echo -e ${BLUE}$drawline
 echo -e "Configure mkinitcpio with ${RED}MODULES${BLUE} needed for the initrd image"
-echo -e "Default: (ext4)"
+echo -e "${GREEN}Default:${BLUE} (${RED}ext4${BLUE})"
 BASEMODULES='ext4'
+echo -e "${RED}"
 read -r -p "Would you like to customize your MODULES? [y/n]: " response
+echo -e ${NC}
 if [[ "$response" =~ ^([yY][eE][sS]|[yY])+$ ]]
   then
     echo -e "Please enter MODULES, separated by spaces. None will be configured by default:${NC}"
@@ -136,8 +109,10 @@ echo -e $drawline${NC}
 
 echo -e ${BLUE}$drawline
 echo -e "Configure mkinitcpio with ${RED}BINARIES${BLUE} needed for the initrd image"
-echo -e "Default: (*none*)"
+echo -e "${GREEN}Default:${BLUE} (${RED}*none*${BLUE})"
+echo -e "${RED}"
 read -r -p "Would you like to customize your BINARIES? [y/n]: " response
+echo -e ${NC}
 if [[ "$response" =~ ^([yY][eE][sS]|[yY])+$ ]]
   then
     echo -e "Please enter BINARIES, separated by spaces. None will be configured by default:${NC}"
@@ -155,8 +130,10 @@ echo -e $drawline${NC}
 
 echo -e ${BLUE}$drawline
 echo -e "Configure mkinitcpio with ${RED}FILES${BLUE} needed for the initrd image"
-echo -e "Default: (*none*)"
+echo -e "${GREEN}Default:${BLUE} (${RED}*none*${BLUE})"
+echo -e "${RED}"
 read -r -p "Would you like to customize your FILES? [y/n]: " response
+echo -e ${NC}
 if [[ "$response" =~ ^([yY][eE][sS]|[yY])+$ ]]
   then
     echo -e "Please enter FILES, separated by spaces. None will be configured by default:${NC}"
@@ -174,9 +151,10 @@ echo -e $drawline${NC}
 
 echo -e ${BLUE}$drawline
 echo -e "Configure mkinitcpio with ${RED}HOOKS${BLUE} needed for the initrd image"
-echo -e "Default: (base udev autodetect modconf block keyboard encrypt lvm2 filesystems fsck)"
+echo -e "${GREEN}Default:${BLUE} (${RED}base udev autodetect modconf block keyboard encrypt lvm2 filesystems fsck${BLUE})"
 BASEHOOKS='base udev autodetect modconf block keyboard encrypt lvm2 filesystems fsck'
 read -r -p "Would you like to customize your HOOKS? [y/n]: " response
+echo -e ${NC}
 if [[ "$response" =~ ^([yY][eE][sS]|[yY])+$ ]]
   then
     echo -e "Please enter HOOKS, separated by spaces. None will be configured by default:${NC}"
@@ -244,7 +222,7 @@ function base-install-packages {
 
   echo -e ${BLUE}$drawline
   echo -e "BAD Gumby's base packages from the Official Arch Repo"
-  echo -e "Default: (xf86-video-intel xorg-server xorg-apps gdm mate mate-extra bluez-utils intel-ucode mate-media system-config-printer network-manager-applet dconf-editor remmina tilda filezilla poedit jdk8-openjdk jre8-openjdk scrot keepass atom ncmpcpp mopidy steam gimp inkscape neofetch conky p7zip ntfs-3g samba)"
+  echo -e "${GREEN}Default:${BLUE} (${RED}xf86-video-intel xorg-server xorg-apps gdm mate mate-extra bluez-utils intel-ucode mate-media system-config-printer network-manager-applet dconf-editor remmina tilda filezilla poedit jdk8-openjdk jre8-openjdk scrot keepass atom ncmpcpp mopidy steam gimp inkscape neofetch conky p7zip ntfs-3g samba${BLUE})"
   echo -e "${RED}"
   read -r -p "Would you like to customize your PACKAGES? [y/n]: " response
   echo -e ${NC}
@@ -255,14 +233,16 @@ function base-install-packages {
       read -a MYPACKAGES
       for i in "${MYPACKAGES[@]}"
       do
-         pacman --noconfirm -S $i
+        echo -e "${RED}Installing $i...${NC}"
+        pacman --noconfirm -S $i
       done
     else
       echo -e ""
       echo -e "${RED}Using BAD Gumby's base packages...${NC}"
       for i in "${BASEINSTALL[@]}"
       do
-         pacman --noconfirm -S $i
+        echo -e "${RED}Installing $i...${NC}"
+        pacman --noconfirm -S $i
       done
   fi
   echo -e ${BLUE}$drawline${NC}
@@ -289,13 +269,16 @@ if [[ "$response" =~ ^([yY][eE][sS]|[yY])+$ ]]
     read -a MYSERVICES
     for i in "${MYSERVICES[@]}"
     do
-       systemctl enable $i
+      echo -e "${RED}Enabling $i...${NC}"
+      systemctl enable $i
     done
   else
     echo -e ""
     echo -e "${RED}No services will be enabled.${NC}"
 fi
 echo -e ${BLUE}$drawline${NC}
+echo "Pausing to display results. Press ENTER to continue..."
+read HEYWAITNOW
 
 ##############################################################################################################
 ##### Switching user for AUR package installations
@@ -313,7 +296,8 @@ su -p $MYUSERNAME /home/${MYUSERNAME}/arch-install-gumby-3.sh
 ##### Finished with second script, back to 1
 ##############################################################################################################
 
-echo -e ${BLUE}$drawline
+echo -e ${RED}$drawline
+echo -e "Installation is complete."
 echo -e "Are you ready to reboot? Press ENTER to continue, CTRL+C to stay in chroot."
 echo -e "If you stay in chroot, be sure to type 'exit' when you are done working to reboot."
 echo -e $drawline${NC}

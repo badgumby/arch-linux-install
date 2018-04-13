@@ -1,9 +1,5 @@
 #!/bin/bash
 
-# 1. Run part 1 first.
-# 2. Execute this script:
-#    bash <(curl -s --tlsv1.2 --insecure --request GET "https://raw.githubusercontent.com/badgumby/arch-linux-install/master/arch-install-gumby-2.sh")
-
 #Line separator variable
 drawline=`printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' -`
 # Colors
@@ -17,20 +13,7 @@ clear
 
 # http://http://patorjk.com/software/taag/
 # Fonts: ANSI Shadow (optional: 3D-Ascii + Chunky)
-echo -e ${BLUE}
-echo '      ██████╗  █████╗ ██████╗      ██████╗ ██╗   ██╗███╗   ███╗██████╗ ██╗   ██╗███████╗       '
-echo '      ██╔══██╗██╔══██╗██╔══██╗    ██╔════╝ ██║   ██║████╗ ████║██╔══██╗╚██╗ ██╔╝██╔════╝       '
-echo '      ██████╔╝███████║██║  ██║    ██║  ███╗██║   ██║██╔████╔██║██████╔╝ ╚████╔╝ ███████╗       '
-echo '      ██╔══██╗██╔══██║██║  ██║    ██║   ██║██║   ██║██║╚██╔╝██║██╔══██╗  ╚██╔╝  ╚════██║       '
-echo '      ██████╔╝██║  ██║██████╔╝    ╚██████╔╝╚██████╔╝██║ ╚═╝ ██║██████╔╝   ██║   ███████║       '
-echo '      ╚═════╝ ╚═╝  ╚═╝╚═════╝      ╚═════╝  ╚═════╝ ╚═╝     ╚═╝╚═════╝    ╚═╝   ╚══════╝       '
-echo ' █████╗ ██████╗  ██████╗██╗  ██╗      ███████╗████████╗ █████╗ ██╗     ██╗     ███████╗██████╗ '
-echo '██╔══██╗██╔══██╗██╔════╝██║  ██║      ██╔════╝╚══██╔══╝██╔══██╗██║     ██║     ██╔════╝██╔══██╗'
-echo '███████║██████╔╝██║     ███████║█████╗███████╗   ██║   ███████║██║     ██║     █████╗  ██████╔╝'
-echo '██╔══██║██╔══██╗██║     ██╔══██║╚════╝╚════██║   ██║   ██╔══██║██║     ██║     ██╔══╝  ██╔══██╗'
-echo '██║  ██║██║  ██║╚██████╗██║  ██║      ███████║   ██║   ██║  ██║███████╗███████╗███████╗██║  ██║'
-echo '╚═╝  ╚═╝╚═╝  ╚═╝ ╚═════╝╚═╝  ╚═╝      ╚══════╝   ╚═╝   ╚═╝  ╚═╝╚══════╝╚══════╝╚══════╝╚═╝  ╚═╝'
-echo -e ${NC}
+echo -e "${RED}Loaded script 3...${NC}"
 
 ##############################################################################################################
 ##### Install AUR Helper (Aura)
@@ -49,34 +32,36 @@ makepkg -si
 ##### System76 drivers
 ##############################################################################################################
 
-76INSTALL="system76-driver system76-dkms-git system76-wallpapers"
+76INSTALL=(system76-driver system76-dkms-git system76-wallpapers)
 
 echo -e ${BLUE}$drawline
 echo -e "Packages for System76 computers"
-echo -e "Default: (system76-driver system76-dkms-git system76-wallpapers)"
-echo -e ""
+echo -e "${GREEN}Default:${BLUE} (${RED}system76-driver system76-dkms-git system76-wallpapers${BLUE})"
+echo -e "${RED}"
 read -r -p "Is this a System76 computer? [y/n]: " response
+echo -e ${NC}
 if [[ "$response" =~ ^([yY][eE][sS]|[yY])+$ ]]
   then
-    echo -e ""
-    echo -e "Installing System76 drivers${NC}"
-    sudo aura -Ax ${76INSTALL}
-    read -p "ENTER to continue..."
+    for i in "${76INSTALL[@]}"
+    do
+      echo -e "${RED}Installing $i...${NC}"
+      sudo aura -Ax $i
+    done
   else
     echo -e ""
-    echo -e "Not a System76 computer. Skipping..."
+    echo -e "${RED}Not a System76 computer. Skipping...${NC}"
 fi
-echo -e $drawline${NC}
+echo -e ${BLUE}$drawline${NC}
 
 ##############################################################################################################
 ##### Install packages for AUR
 ##############################################################################################################
 
-AURINSTALL="mate-tweak oh-my-zsh-git correcthorse neovim-gtk-git remmina-plugin-rdesktop visual-studio-code-bin wps-office google-chrome mopidy-gmusic keybase-bin signal-desktop-bin zoom multibootusb skype-electron"
+AURINSTALL=(mate-tweak oh-my-zsh-git correcthorse neovim-gtk-git remmina-plugin-rdesktop visual-studio-code-bin wps-office google-chrome mopidy-gmusic keybase-bin signal-desktop-bin zoom multibootusb skype-electron)
 
 echo -e ${BLUE}$drawline
 echo -e "BAD Gumby's packages from the Arch User Repository"
-echo -e "Default: (mate-tweak oh-my-zsh-git correcthorse neovim-gtk-git remmina-plugin-rdesktop visual-studio-code-bin wps-office google-chrome mopidy-gmusic keybase-bin signal-desktop-bin zoom multibootusb skype-electron)"
+echo -e "${GREEN}Default:${BLUE} (${RED}mate-tweak oh-my-zsh-git correcthorse neovim-gtk-git remmina-plugin-rdesktop visual-studio-code-bin wps-office google-chrome mopidy-gmusic keybase-bin signal-desktop-bin zoom multibootusb skype-electron${BLUE})"
 echo -e "${RED}"
 read -r -p "Would you like to customize your AUR PACKAGES? [y/n]: " response
 echo -e ${NC}
@@ -84,12 +69,20 @@ if [[ "$response" =~ ^([yY][eE][sS]|[yY])+$ ]]
   then
     echo -e ""
     echo -e "${RED}Please enter AUR PACKAGES, separated by spaces. None of the default AUR packages will be installed:${NC}"
-    read MYAUR
-    sudo aura -Ax ${MYAUR}
+    read -a MYAUR
+    for i in "${MYAUR[@]}"
+    do
+      echo -e "${RED}Installing $i...${NC}"
+      sudo aura -Ax $i
+    done
   else
     echo -e ""
     echo -e "${RED}Using BAD Gumby's AUR packages...${NC}"
-    sudo aura -Ax ${AURINSTALL}
+    for i in "${AURINSTALL[@]}"
+    do
+      echo -e "${RED}Installing $i...${NC}"
+      sudo aura -Ax $i
+    done
 fi
 echo -e ${BLUE}$drawline${NC}
 
@@ -97,20 +90,21 @@ echo -e ${BLUE}$drawline${NC}
 ##### BAD Gumby's favorite themes
 ##############################################################################################################
 
-THEMEINSTALL="ant-nebula-gtk-theme candy-gtk-themes paper-icon-theme ttf-material-icons ttf-ms-fonts ttf-wps-fonts typecatcher"
+THEMEINSTALL=(ant-nebula-gtk-theme candy-gtk-themes paper-icon-theme ttf-material-icons ttf-ms-fonts ttf-wps-fonts typecatcher)
 
 echo -e ${BLUE}$drawline
 echo -e "BAD Gumby's favorite themes"
-echo -e "Default: (ant-nebula-gtk-theme candy-gtk-themes paper-icon-theme ttf-material-icons ttf-ms-fonts ttf-wps-fonts typecatcher)"
+echo -e "${GREEN}Default:${BLUE} (${RED}ant-nebula-gtk-theme candy-gtk-themes paper-icon-theme ttf-material-icons ttf-ms-fonts ttf-wps-fonts typecatcher${BLUE})"
 echo -e "${RED}"
 read -r -p "Would you like to install BAD Gumby's favorite themes? [y/n]: " response
 echo -e ${NC}
 if [[ "$response" =~ ^([yY][eE][sS]|[yY])+$ ]]
   then
-    echo -e ""
-    echo -e "${RED}Installing BAD Gumby's favorite themes${NC}"
-    sudo aura -Ax ${THEMEINSTALL}
-    read -p "ENTER to continue..."
+    for i in "${THEMEINSTALL[@]}"
+    do
+      echo -e "${RED}Installing $i...${NC}"
+      sudo aura -Ax $i
+    done
   else
     echo -e ""
     echo -e "${RED}Not installing themes. Skipping...${NC}"
