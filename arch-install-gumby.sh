@@ -95,9 +95,9 @@ echo -e "What device should we partition? (ex. /dev/sda)"
 echo -e $drawline${NC}
 read storagedevice
 
-echo -e ${TEXTCOLOR}$drawline
-echo -e "${WARN1}WARNING: You are about to format the device ${TEXTCOLOR}${storagedevice}${WARN1}. Press CTRL+C to quit. Press ENTER to continue."
-echo -e "${WARN1}This is your last chance to exit before you wipe your drive!${TEXTCOLOR}"
+echo -e ${WARN1}$drawline
+echo -e "WARNING: You are about to format the device ${OTHER}${storagedevice}${WARN1}. Press CTRL+C to quit. Press ENTER to continue."
+echo -e "This is your last chance to exit before you wipe your drive!"
 echo -e $drawline${NC}
 read WARNING2
 
@@ -199,10 +199,6 @@ curl -o /mnt/root/arch-install-gumby-2.sh -s --tlsv1.2 --insecure --request GET 
 chmod +x /mnt/root/arch-install-gumby-2.sh
 # Exporting storagedevice variable
 echo $storagedevice > /mnt/root/storagedevice.txt
-
-echo -e ${CHOICE}$drawline
-echo -e "Press ENTER to continue"
-echo -e $drawline${NC}
 
 arch-chroot /mnt /bin/bash /root/arch-install-gumby-2.sh
 

@@ -63,21 +63,21 @@ echo LC_ALL=en_US.UTF-8 >> /etc/locale.conf
 ##############################################################################################################
 
 echo -e ${CHOICE}$drawline
-echo -e "Please enter a ${OTHER}password${TEXTCOLOR} for ${OTHER}'root'${TEXTCOLOR}:"
+echo -e "Please enter a ${OTHER}password${CHOICE} for ${OTHER}'root'${CHOICE}:"
 echo -e $drawline${NC}
 passwd
 
 sed -i '/%wheel ALL=(ALL) ALL/c\%wheel ALL=(ALL) ALL'  /etc/sudoers
 
 echo -e ${CHOICE}$drawline
-echo -e "Please enter your ${OTHER}username${TEXTCOLOR} (user will be in ${OTHER}wheel${TEXTCOLOR} group):"
+echo -e "Please enter your ${OTHER}username${CHOICE} (user will be in ${OTHER}wheel${CHOICE} group):"
 echo -e $drawline${NC}
 read MYUSERNAME
 # Exporting for call in next script
 export MYUSERNAME
 
 echo -e ${CHOICE}$drawline
-echo -e "Please enter your default ${OTHER}shell${TEXTCOLOR} (options: ${OTHER}/bin/bash${TEXTCOLOR} or ${OTHER}/bin/zsh)${TEXTCOLOR}:"
+echo -e "Please enter your default ${OTHER}shell${CHOICE} (options: ${OTHER}/bin/bash${CHOICE} or ${OTHER}/bin/zsh)${CHOICE}:"
 echo -e $drawline${NC}
 read MYSHELL
 useradd -m -g users -G wheel -s $MYSHELL $MYUSERNAME
@@ -113,7 +113,7 @@ echo -e $drawline${NC}
 
 echo -e ${TEXTCOLOR}$drawline
 echo -e "Configure mkinitcpio with ${OTHER}BINARIES${TEXTCOLOR} needed for the initrd image"
-echo -e "${DEF1}Default:${TEXTCOLOR} (${WARN1}*none*${TEXTCOLOR})"
+echo -e "${DEF1}Default:${TEXTCOLOR} (${OTHER}*none*${TEXTCOLOR})"
 echo -e "${CHOICE}"
 read -r -p "Would you like to customize your BINARIES? [y/n]: " response
 echo -e ${NC}
@@ -204,6 +204,16 @@ echo -e ${NC}
 cat /etc/default/grub | grep GRUB_CMDLINE_LINUX=
 read HOLDUPHEY
 grub-mkconfig -o /boot/grub/grub.cfg
+
+##############################################################################################################
+##### Enable Arch Multilib
+##############################################################################################################
+
+echo -e ${TEXTCOLOR}$drawline
+echo -e "Enabling Arch multilib repo..."
+echo -e $drawline${NC}
+eval "sed -i '94i\Include = /etc/pacman.d/mirrorlist' /etc/pacman.conf"
+eval "sed -i '94i\[multilib]' /etc/pacman.conf"
 
 ##############################################################################################################
 ##### Update /etc/pacman.d/mirrorlist using Reflector

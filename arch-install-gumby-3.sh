@@ -61,11 +61,11 @@ echo -e ${TEXTCOLOR}$drawline${NC}
 ##### Install packages for AUR
 ##############################################################################################################
 
-AURINSTALL=(mate-tweak oh-my-zsh-git correcthorse neovim-gtk-git remmina-plugin-rdesktop visual-studio-code-bin wps-office google-chrome mopidy-gmusic keybase-bin signal-desktop-bin zoom multibootusb skype-electron)
+AURINSTALL=(mate-tweak oh-my-zsh-git correcthorse neovim-gtk-git remmina-plugin-rdesktop visual-studio-code-bin wps-office google-chrome mopidy-gmusic keybase-bin signal-desktop-bin multibootusb skype-electron)
 
 echo -e ${TEXTCOLOR}$drawline
 echo -e "BAD Gumby's packages from the Arch User Repository"
-echo -e "${DEF1}Default:${TEXTCOLOR} (${OTHER}mate-tweak oh-my-zsh-git correcthorse neovim-gtk-git remmina-plugin-rdesktop visual-studio-code-bin wps-office google-chrome mopidy-gmusic keybase-bin signal-desktop-bin zoom multibootusb skype-electron${TEXTCOLOR})"
+echo -e "${DEF1}Default:${TEXTCOLOR} (${OTHER}mate-tweak oh-my-zsh-git correcthorse neovim-gtk-git remmina-plugin-rdesktop visual-studio-code-bin wps-office google-chrome mopidy-gmusic keybase-bin signal-desktop-bin multibootusb skype-electron${TEXTCOLOR})"
 echo -e "${CHOICE}"
 read -r -p "Would you like to customize your AUR PACKAGES? [y/n]: " response
 echo -e ${NC}
@@ -94,11 +94,11 @@ echo -e ${TEXTCOLOR}$drawline${NC}
 ##### BAD Gumby's favorite themes
 ##############################################################################################################
 
-THEMEINSTALL=(ant-nebula-gtk-theme candy-gtk-themes paper-icon-theme ttf-material-icons ttf-ms-fonts ttf-wps-fonts typecatcher)
+THEMEINSTALL=(ant-nebula-gtk-theme candy-gtk-theme paper-icon-theme ttf-material-icons ttf-ms-fonts ttf-wps-fonts)
 
 echo -e ${TEXTCOLOR}$drawline
 echo -e "BAD Gumby's favorite themes"
-echo -e "${DEF1}Default:${TEXTCOLOR} (${OTHER}ant-nebula-gtk-theme candy-gtk-themes paper-icon-theme ttf-material-icons ttf-ms-fonts ttf-wps-fonts typecatcher${TEXTCOLOR})"
+echo -e "${DEF1}Default:${TEXTCOLOR} (${OTHER}ant-nebula-gtk-theme candy-gtk-theme paper-icon-theme ttf-material-icons ttf-ms-fonts ttf-wps-fonts${TEXTCOLOR})"
 echo -e "${CHOICE}"
 read -r -p "Would you like to install BAD Gumby's favorite themes? [y/n]: " response
 echo -e ${NC}
