@@ -11,8 +11,6 @@ NB='\e[21m' #No Bold
 NC='\033[0m' # No Color
 clear
 
-# http://http://patorjk.com/software/taag/
-# Fonts: ANSI Shadow (optional: 3D-Ascii + Chunky)
 echo -e "${RED}Loaded script 2...${NC}"
 
 ##############################################################################################################
