@@ -16,6 +16,13 @@ drawline=`printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' -`
 RED='\033[0;31m'
 GREEN='\033[0;32m'
 BLUE='\033[0;34m'
+WARN1='\033[0;31m' # Red
+DEF1='\033[0;32m' # Green
+BROWN='\033[0;33m' # Brown/Orange
+TEXTCOLOR='\033[0;34m' # Blue
+OTHER='\033[1;35m' # Purple
+CHOICE='\033[1;33m' # Yellow
+
 BOLD='\e[1m'
 NB='\e[21m' #No Bold
 NC='\033[0m' # No Color
@@ -23,7 +30,7 @@ clear
 
 # http://http://patorjk.com/software/taag/
 # Fonts: ANSI Shadow (optional: 3D-Ascii + Chunky)
-echo -e ${BLUE}
+echo -e ${TEXTCOLOR}
 echo '      ██████╗  █████╗ ██████╗      ██████╗ ██╗   ██╗███╗   ███╗██████╗ ██╗   ██╗███████╗       '
 echo '      ██╔══██╗██╔══██╗██╔══██╗    ██╔════╝ ██║   ██║████╗ ████║██╔══██╗╚██╗ ██╔╝██╔════╝       '
 echo '      ██████╔╝███████║██║  ██║    ██║  ███╗██║   ██║██╔████╔██║██████╔╝ ╚████╔╝ ███████╗       '
@@ -44,21 +51,21 @@ echo -e ${NC}
 ##############################################################################################################
 
 function efi_install {
-  echo -e ${BLUE}$drawline
+  echo -e ${TEXTCOLOR}$drawline
   echo -e "Installing packages for EFI system"
   echo -e $drawline${NC}
   pacstrap /mnt base base-devel grub-efi-x86_64 efibootmgr zsh vim wget git dialog wpa_supplicant reflector
 }
 
 function bios_install {
-  echo -e ${BLUE}$drawline
+  echo -e ${TEXTCOLOR}$drawline
   echo -e "Installing packages for BIOS"
   echo -e $drawline${NC}
   pacstrap /mnt base base-devel grub-bios zsh vim wget git dialog wpa_supplicant reflector
 }
 
 function pacman-key-init {
-  echo -e ${BLUE}$drawline
+  echo -e ${TEXTCOLOR}$drawline
   echo -e "Initializing pacman-key..."
   echo -e $drawline${NC}
   pacman-key --init
@@ -70,27 +77,27 @@ function pacman-key-init {
 ##### Creating partitions
 ##############################################################################################################
 
-echo -e ${BLUE}$drawline
-echo -e "${RED}WARNING: BAD Gumby's Arch installer is destructive."
-echo -e "${RED}The first step will format your drive! Be sure to backup your data before running, if necessary."
-echo -e "${RED}If you ran this by mistake, please quit now!"
-echo -e "${RED}${BOLD}Press CTRL+C to quit. Press ENTER to continue.${NB}${BLUE}"
+echo -e ${TEXTCOLOR}$drawline
+echo -e "${WARN1}WARNING: BAD Gumby's Arch installer is destructive."
+echo -e "${WARN1}The first step will format your drive! Be sure to backup your data before running, if necessary."
+echo -e "${WARN1}If you ran this by mistake, please quit now!"
+echo -e "${WARN1}${BOLD}Press CTRL+C to quit. Press ENTER to continue.${NB}${TEXTCOLOR}"
 echo -e $drawline${NC}
 read WARNING
 
-echo -e ${BLUE}$drawline
+echo -e ${TEXTCOLOR}$drawline
 echo -e "List of storage devices"
 echo -e $drawline${NC}
 fdisk -l
 
-echo -e ${BLUE}$drawline
+echo -e ${CHOICE}$drawline
 echo -e "What device should we partition? (ex. /dev/sda)"
 echo -e $drawline${NC}
 read storagedevice
 
-echo -e ${BLUE}$drawline
-echo -e "${RED}WARNING: You are about to format the device ${BLUE}${storagedevice}${RED}. Press CTRL+C to quit. Press ENTER to continue."
-echo -e "${RED}This is your last chance to exit before you wipe your drive!${BLUE}"
+echo -e ${TEXTCOLOR}$drawline
+echo -e "${WARN1}WARNING: You are about to format the device ${TEXTCOLOR}${storagedevice}${WARN1}. Press CTRL+C to quit. Press ENTER to continue."
+echo -e "${WARN1}This is your last chance to exit before you wipe your drive!${TEXTCOLOR}"
 echo -e $drawline${NC}
 read WARNING2
 
@@ -99,12 +106,12 @@ sgdisk -n 0:0:+200M -t 0:ef00 -c 0:"efi_boot" $storagedevice
 sgdisk -n 0:0:+500M -t 0:8300 -c 0:"linux_boot" $storagedevice
 sgdisk -n 0:0:0 -t 0:8300 -c 0:"data" $storagedevice
 
-echo -e ${BLUE}$drawline
+echo -e ${TEXTCOLOR}$drawline
 echo -e "Printing written partitions..."
 echo -e $drawline${NC}
 sgdisk -p $storagedevice
 
-echo -e ${BLUE}$drawline
+echo -e ${TEXTCOLOR}$drawline
 echo -e "Informing OS of changes..."
 echo -e $drawline${NC}
 partprobe $storagedevice
@@ -114,19 +121,19 @@ fdisk -l $storagedevice
 ##### Creating file systems / encrypting partitions
 ##############################################################################################################
 
-echo -e ${BLUE}$drawline
+echo -e ${TEXTCOLOR}$drawline
 echo -e "Creating file systems on the EFI/BIOS and boot partitions..."
 echo -e $drawline${NC}
 mkfs.vfat -F32 ${storagedevice}1
 mkfs.ext2 ${storagedevice}2
 
-echo -e ${BLUE}$drawline
+echo -e ${TEXTCOLOR}$drawline
 echo -e "Setting up the encryption of the system..."
 echo -e $drawline${NC}
 cryptsetup -c aes-xts-plain64 -y --use-random luksFormat ${storagedevice}3
 cryptsetup luksOpen ${storagedevice}3 luks
 
-echo -e ${BLUE}$drawline
+echo -e ${TEXTCOLOR}$drawline
 echo -e "Creating encrypted partitions..."
 echo -e $drawline${NC}
 pvcreate /dev/mapper/luks
@@ -134,13 +141,13 @@ vgcreate vg0 /dev/mapper/luks
 lvcreate --size 8G vg0 --name swap
 lvcreate -l +100%FREE vg0 --name root
 
-echo -e ${BLUE}$drawline
+echo -e ${TEXTCOLOR}$drawline
 echo -e "Creating filesystems on encrypted partitions..."
 echo -e $drawline${NC}
 mkfs.ext4 /dev/mapper/vg0-root
 mkswap /dev/mapper/vg0-swap
 
-echo -e ${BLUE}$drawline
+echo -e ${TEXTCOLOR}$drawline
 echo -e "Mounting the new system..."
 echo -e $drawline${NC}
 mount /dev/mapper/vg0-root /mnt
@@ -156,12 +163,12 @@ mount ${storagedevice}1 /mnt/boot/efi
 
 options=("EFI System" "BIOS")
 echo ""
-echo -e "${BLUE}Choose your system type: ${NC}"
+echo -e "${CHOICE}Choose your system type: ${NC}"
 select opt in "${options[@]}"; do
 case $REPLY in
   1) efi_install; break ;;
   2) bios_install; break ;;
-  *) clear; echo -e "${RED}Invalid option selected. Please try again.${NC}"; break ;;
+  *) clear; echo -e "${WARN1}Invalid option selected. Please try again.${NC}"; break ;;
   esac
 done
 
@@ -169,12 +176,12 @@ done
 ##### Build /etc/fstab
 ##############################################################################################################
 
-echo -e ${BLUE}$drawline
+echo -e ${TEXTCOLOR}$drawline
 echo "Writing current fstab to file /mnt/etc/fstab"
 echo -e $drawline${NC}
 genfstab -pU /mnt >> /mnt/etc/fstab
 
-echo -e ${BLUE}$drawline
+echo -e ${TEXTCOLOR}$drawline
 echo -e "Making /tmp a ramdisk (adding tmpfs to /mnt/etc/fstab)"
 echo -e $drawline${NC}
 echo 'tmpfs	/tmp	tmpfs	defaults,noatime,mode=1777	0	0' >> /mnt/etc/fstab
@@ -184,7 +191,7 @@ echo 'tmpfs	/tmp	tmpfs	defaults,noatime,mode=1777	0	0' >> /mnt/etc/fstab
 ##### Enter arch-chroot
 ##############################################################################################################
 
-echo -e ${BLUE}$drawline
+echo -e ${TEXTCOLOR}$drawline
 echo -e "Entering the new system..."
 echo -e $drawline${NC}
 # Downloading next script
@@ -193,7 +200,7 @@ chmod +x /mnt/root/arch-install-gumby-2.sh
 # Exporting storagedevice variable
 echo $storagedevice > /mnt/root/storagedevice.txt
 
-echo -e ${BLUE}$drawline
+echo -e ${CHOICE}$drawline
 echo -e "Press ENTER to continue"
 echo -e $drawline${NC}
 
@@ -209,13 +216,13 @@ arch-chroot /mnt /bin/bash /root/arch-install-gumby-2.sh
 ##############################################################################################################
 ##############################################################################################################
 
-echo -e ${BLUE}$drawline
+echo -e ${TEXTCOLOR}$drawline
 echo -e "Unmounting all partitions..."
 echo -e $drawline${NC}
 umount -R /mnt
 swapoff -a
 
-echo -e ${BLUE}$drawline
+echo -e ${TEXTCOLOR}$drawline
 echo -e "Initiating reboot..."
 echo -e "Please remember to remove installation media."
 echo -e $drawline${NC}

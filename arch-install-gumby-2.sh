@@ -6,19 +6,25 @@ drawline=`printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' -`
 RED='\033[0;31m'
 GREEN='\033[0;32m'
 BLUE='\033[0;34m'
+WARN1='\033[0;31m' # Red
+DEF1='\033[0;32m' # Green
+BROWN='\033[0;33m' # Brown/Orange
+TEXTCOLOR='\033[0;34m' # Blue
+OTHER='\033[1;35m' # Purple
+CHOICE='\033[1;33m' # Yellow
+
 BOLD='\e[1m'
 NB='\e[21m' #No Bold
 NC='\033[0m' # No Color
-clear
 
-echo -e "${RED}Loaded script 2...${NC}"
+echo -e "${WARN1}Loaded script 2...${NC}"
 
 ##############################################################################################################
 ##### Functions for system selection
 ##############################################################################################################
 
 function pacman-key-init {
-  echo -e ${BLUE}$drawline
+  echo -e ${TEXTCOLOR}$drawline
   echo -e "Initializing pacman-key..."
   echo -e $drawline${NC}
   pacman-key --init
@@ -29,7 +35,7 @@ function pacman-key-init {
 ##### Configure timezone / hostname / locale
 ##############################################################################################################
 
-echo -e ${BLUE}$drawline
+echo -e ${CHOICE}$drawline
 echo -e "Please enter system clock with local timezone (ex. America/Chicago): "
 echo -e $drawline${NC}
 read MYTIMEZONE
@@ -37,13 +43,13 @@ rm /etc/localtime
 ln -s /usr/share/zoneinfo/$MYTIMEZONE /etc/localtime
 hwclock --systohc --utc
 
-echo -e ${BLUE}$drawline
+echo -e ${CHOICE}$drawline
 echo -e "Enter a computer hostname:"
 echo -e $drawline${NC}
 read MYHOSTNAME
 echo $MYHOSTNAME > /etc/hostname
 
-echo -e ${BLUE}$drawline
+echo -e ${CHOICE}$drawline
 echo -e "Enabling en_US.UTF-8 locale"
 echo -e $drawline${NC}
 sed -i 's:#en_US.UTF-8 UTF-8:en_US.UTF-8 UTF-8:g' /etc/locale.gen
@@ -56,22 +62,22 @@ echo LC_ALL=en_US.UTF-8 >> /etc/locale.conf
 ##### Configure root user / allow wheel in sudoers file / add new user
 ##############################################################################################################
 
-echo -e ${BLUE}$drawline
-echo -e "Please enter a ${RED}password${BLUE} for ${RED}'root'${BLUE}:"
+echo -e ${CHOICE}$drawline
+echo -e "Please enter a ${PURPLE}password${TEXTCOLOR} for ${PURPLE}'root'${TEXTCOLOR}:"
 echo -e $drawline${NC}
 passwd
 
 sed -i '/%wheel ALL=(ALL) ALL/c\%wheel ALL=(ALL) ALL'  /etc/sudoers
 
-echo -e ${BLUE}$drawline
-echo -e "Please enter your ${RED}username${BLUE} (user will be in ${RED}wheel${BLUE} group):"
+echo -e ${CHOICE}$drawline
+echo -e "Please enter your ${PURPLE}username${TEXTCOLOR} (user will be in ${PURPLE}wheel${TEXTCOLOR} group):"
 echo -e $drawline${NC}
 read MYUSERNAME
 # Exporting for call in next script
 export MYUSERNAME
 
-echo -e ${BLUE}$drawline
-echo -e "Please enter your default ${RED}shell${BLUE} (options: ${RED}/bin/bash${BLUE} or ${RED}/bin/zsh)${BLUE}:"
+echo -e ${CHOICE}$drawline
+echo -e "Please enter your default ${PURPLE}shell${TEXTCOLOR} (options: ${PURPLE}/bin/bash${TEXTCOLOR} or ${PURPLE}/bin/zsh)${TEXTCOLOR}:"
 echo -e $drawline${NC}
 read MYSHELL
 useradd -m -g users -G wheel -s $MYSHELL $MYUSERNAME
@@ -81,23 +87,23 @@ passwd $MYUSERNAME
 ##### MODULES in mkinitcpio
 ##############################################################################################################
 
-echo -e ${BLUE}$drawline
-echo -e "Configure mkinitcpio with ${RED}MODULES${BLUE} needed for the initrd image"
-echo -e "${GREEN}Default:${BLUE} (${RED}ext4${BLUE})"
+echo -e ${TEXTCOLOR}$drawline
+echo -e "Configure mkinitcpio with ${PURPLE}MODULES${TEXTCOLOR} needed for the initrd image"
+echo -e "${DEF1}Default:${TEXTCOLOR} (${PURPLE}ext4${TEXTCOLOR})"
 BASEMODULES='ext4'
-echo -e "${RED}"
+echo -e "${CHOICE}"
 read -r -p "Would you like to customize your MODULES? [y/n]: " response
 echo -e ${NC}
 if [[ "$response" =~ ^([yY][eE][sS]|[yY])+$ ]]
   then
-    echo -e "Please enter MODULES, separated by spaces. None will be configured by default:${NC}"
+    echo -e "${CHOICE}Please enter MODULES, separated by spaces. None will be configured by default:${NC}"
     read MYMODULES
     sed -i '/^MODULES=/c\MODULES=('"${MYMODULES}"')' /etc/mkinitcpio.conf
-    echo -e "${BLUE}The following MODULES have been added: ${RED}${MODULES} ${MYMODULES}${BLUE}"
+    echo -e "${TEXTCOLOR}The following MODULES have been added: ${PURPLE}${MODULES} ${MYMODULES}${TEXTCOLOR}"
   else
-    echo -e "${NC}Using default MODULES"
+    echo -e "${CHOICE}Using default MODULES"
     sed -i '/^MODULES=/c\MODULES=('"${BASEMODULES}"')' /etc/mkinitcpio.conf
-    echo -e "${BLUE}The following MODULES have been added: ${RED}${BASEMODULES}${BLUE}"
+    echo -e "${TEXTCOLOR}The following MODULES have been added: ${PURPLE}${BASEMODULES}${TEXTCOLOR}"
 fi
 echo -e $drawline${NC}
 
@@ -105,20 +111,20 @@ echo -e $drawline${NC}
 ##### BINARIES in mkinitcpio
 ##############################################################################################################
 
-echo -e ${BLUE}$drawline
-echo -e "Configure mkinitcpio with ${RED}BINARIES${BLUE} needed for the initrd image"
-echo -e "${GREEN}Default:${BLUE} (${RED}*none*${BLUE})"
-echo -e "${RED}"
+echo -e ${TEXTCOLOR}$drawline
+echo -e "Configure mkinitcpio with ${PURPLE}BINARIES${TEXTCOLOR} needed for the initrd image"
+echo -e "${DEF1}Default:${TEXTCOLOR} (${WARN1}*none*${TEXTCOLOR})"
+echo -e "${CHOICE}"
 read -r -p "Would you like to customize your BINARIES? [y/n]: " response
 echo -e ${NC}
 if [[ "$response" =~ ^([yY][eE][sS]|[yY])+$ ]]
   then
-    echo -e "Please enter BINARIES, separated by spaces. None will be configured by default:${NC}"
+    echo -e "${CHOICE}Please enter BINARIES, separated by spaces. None will be configured by default:${NC}"
     read MYBINARIES
     sed -i '/^BINARIES=/c\BINARIES=('"${MYBINARIES}"')' /etc/mkinitcpio.conf
-    echo -e "${BLUE}The following BINARIES have been added: ${RED}${MYBINARIES}${BLUE}"
+    echo -e "${TEXTCOLOR}The following BINARIES have been added: ${PURPLE}${MYBINARIES}${TEXTCOLOR}"
   else
-    echo -e "${NC}The there are no default BINARIES to configure.${BLUE}"
+    echo -e "${CHOICE}The there are no default BINARIES to configure.${TEXTCOLOR}"
 fi
 echo -e $drawline${NC}
 
@@ -126,20 +132,20 @@ echo -e $drawline${NC}
 ##### FILES in mkinitcpio
 ##############################################################################################################
 
-echo -e ${BLUE}$drawline
-echo -e "Configure mkinitcpio with ${RED}FILES${BLUE} needed for the initrd image"
-echo -e "${GREEN}Default:${BLUE} (${RED}*none*${BLUE})"
-echo -e "${RED}"
+echo -e ${TEXTCOLOR}$drawline
+echo -e "Configure mkinitcpio with ${PURPLE}FILES${TEXTCOLOR} needed for the initrd image"
+echo -e "${DEF1}Default:${TEXTCOLOR} (${PURPLE}*none*${TEXTCOLOR})"
+echo -e "${CHOICE}"
 read -r -p "Would you like to customize your FILES? [y/n]: " response
 echo -e ${NC}
 if [[ "$response" =~ ^([yY][eE][sS]|[yY])+$ ]]
   then
-    echo -e "Please enter FILES, separated by spaces. None will be configured by default:${NC}"
+    echo -e "${CHOICE}Please enter FILES, separated by spaces. None will be configured by default:${NC}"
     read MYFILES
     sed -i '/^FILES=/c\FILES=('"${MYFILES}"')' /etc/mkinitcpio.conf
-    echo -e "${BLUE}The following FILES have been added: ${RED}${MYFILES}${BLUE}"
+    echo -e "${TEXTCOLOR}The following FILES have been added: ${PURPLE}${MYFILES}${TEXTCOLOR}"
   else
-    echo -e "${NC}The there are no default FILES to configure.${BLUE}"
+    echo -e "${CHOICE}The there are no default FILES to configure.${TEXTCOLOR}"
 fi
 echo -e $drawline${NC}
 
@@ -147,22 +153,23 @@ echo -e $drawline${NC}
 ##### HOOKS in mkinitcpio
 ##############################################################################################################
 
-echo -e ${BLUE}$drawline
-echo -e "Configure mkinitcpio with ${RED}HOOKS${BLUE} needed for the initrd image"
-echo -e "${GREEN}Default:${BLUE} (${RED}base udev autodetect modconf block keyboard encrypt lvm2 filesystems fsck${BLUE})"
+echo -e ${TEXTCOLOR}$drawline
+echo -e "Configure mkinitcpio with ${PURPLE}HOOKS${TEXTCOLOR} needed for the initrd image"
+echo -e "${DEF1}Default:${TEXTCOLOR} (${PURPLE}base udev autodetect modconf block keyboard encrypt lvm2 filesystems fsck${TEXTCOLOR})"
 BASEHOOKS='base udev autodetect modconf block keyboard encrypt lvm2 filesystems fsck'
+echo -e "${CHOICE}"
 read -r -p "Would you like to customize your HOOKS? [y/n]: " response
 echo -e ${NC}
 if [[ "$response" =~ ^([yY][eE][sS]|[yY])+$ ]]
   then
-    echo -e "Please enter HOOKS, separated by spaces. None will be configured by default:${NC}"
+    echo -e "${CHOICE}Please enter HOOKS, separated by spaces. None will be configured by default:${NC}"
     read MYHOOKS
     sed -i '/^HOOKS=/c\HOOKS=('"${MYHOOKS}"')' /etc/mkinitcpio.conf
-    echo -e "${BLUE}The following HOOKS have been added: ${RED}${BASEHOOKS} ${MYHOOKS}${BLUE}"
+    echo -e "${TEXTCOLOR}The following HOOKS have been added: ${PURPLE}${BASEHOOKS} ${MYHOOKS}${TEXTCOLOR}"
   else
-    echo -e "${NC}Using default HOOKS"
+    echo -e "${CHOICE}Using default HOOKS"
     sed -i '/^HOOKS=/c\HOOKS=('"${BASEHOOKS}"')' /etc/mkinitcpio.conf
-    echo -e "${BLUE}The following HOOKS have been added: ${RED}${BASEHOOKS}${BLUE}"
+    echo -e "${TEXTCOLOR}The following HOOKS have been added: ${PURPLE}${BASEHOOKS}${TEXTCOLOR}"
 fi
 echo -e $drawline${NC}
 
@@ -170,7 +177,7 @@ echo -e $drawline${NC}
 ##### Regenerate initrd
 ##############################################################################################################
 
-echo -e ${BLUE}$drawline
+echo -e ${TEXTCOLOR}$drawline
 echo -e "Regenerating the initrd image..."
 echo -e $drawline${NC}
 mkinitcpio -p linux
@@ -182,16 +189,18 @@ mkinitcpio -p linux
 # Get storagedevice from first script
 storagedevice2=$(head -n 1 /root/storagedevice.txt)
 
-echo -e ${BLUE}$drawline
+echo -e ${TEXTCOLOR}$drawline
 echo -e "Setting up GRUB..."
 echo -e $drawline${NC}
 grub-install
 
-echo -e ${BLUE}$drawline
+echo -e ${TEXTCOLOR}$drawline
 echo -e "Modifying GRUB file to select encrypted partition..."
 echo -e $drawline${NC}
 sed -i '/GRUB_CMDLINE_LINUX=/c\GRUB_CMDLINE_LINUX="cryptdevice='${storagedevice2}'3:luks:allow-discards"' /etc/default/grub
-echo 'Verify line below shows: GRUB_CMDLINE_LINUX="cryptdevice=/dev/sdX3:luks:allow-discards"'
+echo -e ${CHOICE}
+echo 'Verify line below shows: GRUB_CMDLINE_LINUX="cryptdevice=/dev/sdX3:luks:allow-discards". Press ENTER to continue...'
+echo -e ${NC}
 cat /etc/default/grub | grep GRUB_CMDLINE_LINUX=
 read HOLDUPHEY
 grub-mkconfig -o /boot/grub/grub.cfg
@@ -200,11 +209,11 @@ grub-mkconfig -o /boot/grub/grub.cfg
 ##### Update /etc/pacman.d/mirrorlist using Reflector
 ##############################################################################################################
 
-echo -e ${BLUE}$drawline
+echo -e ${TEXTCOLOR}$drawline
 echo -e "Updating /etc/pacman.d/mirrorlist using Reflector"
 echo -e "Selecting HTTPS mirrors, synchronized within the last 12 hours, located in country, and sorted by download speed."
-echo -e "Full list of countries can be found at ${RED}https://archlinux.org/mirrors/status/${BLUE}"
-echo -e "Please enter your preferred country (for US, enter: United States)"
+echo -e "Full list of countries can be found at ${PURPLE}https://archlinux.org/mirrors/status/${TEXTCOLOR}"
+echo -e "${CHOICE}Please enter your preferred country (for US, enter: United States)${TEXTCOLOR}"
 echo -e $drawline${NC}
 read MYCOUNTRY
 
@@ -218,32 +227,32 @@ cat /etc/pacman.d/mirrorlist
 function base-install-packages {
   BASEINSTALL=(xf86-video-intel xorg-server gdm mate mate-extra xorg-appsbluez-utils intel-ucode system-config-printer network-manager-applet dconf-editor remmina tilda filezilla poedit jdk8-openjdk jre8-openjdk scrot keepass atom ncmpcpp mopidy steam gimp inkscape neofetch conky p7zip ntfs-3g samba)
 
-  echo -e ${BLUE}$drawline
+  echo -e ${TEXTCOLOR}$drawline
   echo -e "BAD Gumby's base packages from the Official Arch Repo"
-  echo -e "${GREEN}Default:${BLUE} (${RED}xf86-video-intel xorg-server xorg-apps gdm mate mate-extra bluez-utils intel-ucode mate-media system-config-printer network-manager-applet dconf-editor remmina tilda filezilla poedit jdk8-openjdk jre8-openjdk scrot keepass atom ncmpcpp mopidy steam gimp inkscape neofetch conky p7zip ntfs-3g samba${BLUE})"
-  echo -e "${RED}"
+  echo -e "${DEF1}Default:${TEXTCOLOR} (${PURPLE}xf86-video-intel xorg-server xorg-apps gdm mate mate-extra bluez-utils intel-ucode mate-media system-config-printer network-manager-applet dconf-editor remmina tilda filezilla poedit jdk8-openjdk jre8-openjdk scrot keepass atom ncmpcpp mopidy steam gimp inkscape neofetch conky p7zip ntfs-3g samba${TEXTCOLOR})"
+  echo -e "${CHOICE}"
   read -r -p "Would you like to customize your PACKAGES? [y/n]: " response
   echo -e ${NC}
   if [[ "$response" =~ ^([yY][eE][sS]|[yY])+$ ]]
     then
       echo -e ""
-      echo -e "${RED}Please enter PACKAGES, separated by spaces. None of the default packages will be installed:${NC}"
+      echo -e "${CHOICE}Please enter PACKAGES, separated by spaces. None of the default packages will be installed:${NC}"
       read -a MYPACKAGES
       for i in "${MYPACKAGES[@]}"
       do
-        echo -e "${RED}Installing $i...${NC}"
+        echo -e "${PURPLE}Installing $i...${NC}"
         pacman --noconfirm -S $i
       done
     else
       echo -e ""
-      echo -e "${RED}Using BAD Gumby's base packages...${NC}"
+      echo -e "${TEXTCOLOR}Using BAD Gumby's base packages...${NC}"
       for i in "${BASEINSTALL[@]}"
       do
-        echo -e "${RED}Installing $i...${NC}"
+        echo -e "${PURPLE}Installing $i...${NC}"
         pacman --noconfirm -S $i
       done
   fi
-  echo -e ${BLUE}$drawline${NC}
+  echo -e ${TEXTCOLOR}$drawline${NC}
 }
 # Initialize pacman keyring
 pacman-key-init
@@ -254,28 +263,28 @@ base-install-packages
 ##### Start services
 ##############################################################################################################
 
-echo -e ${BLUE}$drawline
+echo -e ${TEXTCOLOR}$drawline
 echo -e "Enabling system services: 'systemctl enable service'"
-echo -e "${RED}"
+echo -e "${CHOICE}"
 read -r -p "Would you like to set any services to start at boot? [y/n]: " response
 echo -e ${NC}
 if [[ "$response" =~ ^([yY][eE][sS]|[yY])+$ ]]
   then
     echo -e ""
-    echo -e "${RED}Please enter services, separated by spaces.${NC}"
-    echo -e "${BLUE}Suggested: NetworkManager, bluetooth, gdm${NC}"
+    echo -e "${CHOICE}Please enter services, separated by spaces.${NC}"
+    echo -e "${TEXTCOLOR}Suggested: NetworkManager, bluetooth, gdm${NC}"
     read -a MYSERVICES
     for i in "${MYSERVICES[@]}"
     do
-      echo -e "${RED}Enabling $i...${NC}"
+      echo -e "${PURPLE}Enabling $i...${NC}"
       systemctl enable $i
     done
   else
     echo -e ""
-    echo -e "${RED}No services will be enabled.${NC}"
+    echo -e "${PURPLE}No services will be enabled.${NC}"
 fi
-echo -e ${BLUE}$drawline${NC}
-echo "Pausing to display results. Press ENTER to continue..."
+echo -e ${TEXTCOLOR}$drawline${NC}
+echo -e "${CHOICE}Pausing to display results. Press ENTER to continue...${NC}"
 read HEYWAITNOW
 
 ##############################################################################################################
@@ -285,8 +294,8 @@ read HEYWAITNOW
 curl -o /home/${MYUSERNAME}/arch-install-gumby-3.sh -s --tlsv1.2 --insecure --request GET "https://raw.githubusercontent.com/badgumby/arch-linux-install/master/arch-install-gumby-3.sh"
 chmod +x /home/${MYUSERNAME}/arch-install-gumby-3.sh
 
-echo -e ${BLUE}$drawline
-echo -e "Switching to created user, ${RED}${MYUSERNAME}${BLUE}, for AUR package installs"
+echo -e ${TEXTCOLOR}$drawline
+echo -e "Switching to created user, ${PURPLE}${MYUSERNAME}${TEXTCOLOR}, for AUR package installs"
 echo -e $drawline${NC}
 su -p $MYUSERNAME /home/${MYUSERNAME}/arch-install-gumby-3.sh
 
@@ -294,14 +303,14 @@ su -p $MYUSERNAME /home/${MYUSERNAME}/arch-install-gumby-3.sh
 ##### Finished with second script, back to 1
 ##############################################################################################################
 
-echo -e ${RED}$drawline
+echo -e ${WARN1}$drawline
 echo -e "Installation is complete."
-echo -e "Are you ready to reboot? Press ENTER to continue, CTRL+C to stay in chroot."
+echo -e "${CHOICE}Are you ready to reboot? Press ENTER to continue, CTRL+C to stay in chroot.${BLUE}"
 echo -e "If you stay in chroot, be sure to type 'exit' when you are done working to reboot."
-echo -e $drawline${NC}
+echo -e ${WARN1}$drawline${NC}
 read MYREBOOT
 
-echo -e ${BLUE}$drawline
+echo -e ${TEXTCOLOR}$drawline
 echo -e "Exiting chroot..."
 echo -e $drawline${NC}
 # Exit su
