@@ -212,7 +212,8 @@ grub-mkconfig -o /boot/grub/grub.cfg
 echo -e ${TEXTCOLOR}$drawline
 echo -e "Enabling Arch multilib repo..."
 echo -e $drawline${NC}
-linenumber=$(grep -nr \\#\\[multilib\\] /etc/pacman.conf | gawk '{print $1}' FS=":")
+
+linenumber=$(grep -nr "\\#\\[multilib\\]" /etc/pacman.conf | gawk '{print $1}' FS=":")
 sed -i "${linenumber}s:.*:[multilib]:" /etc/pacman.conf
 linenumber=$((linenumber+1))
 sed -i "${linenumber}s:.*:Include = /etc/pacman.d/mirrorlist:" /etc/pacman.conf
