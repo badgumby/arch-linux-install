@@ -203,6 +203,9 @@ mkinitcpio -p linux
 ##### Install/Configure GRUB
 ##############################################################################################################
 
+# Get storagedevice from first script
+storagedevice2=$(head -n 1 /root/storagedevice.txt)
+
 echo -e ${BLUE}$drawline
 echo -e "Setting up GRUB..."
 echo -e $drawline${NC}
@@ -211,11 +214,9 @@ grub-install
 echo -e ${BLUE}$drawline
 echo -e "Modifying GRUB file to select encrypted partition..."
 echo -e $drawline${NC}
-echo -e "${BLUE}Enter your storage device (ex. /dev/sda):${NC}"
-read storagedevice2
 sed -i '/GRUB_CMDLINE_LINUX=/c\GRUB_CMDLINE_LINUX="cryptdevice='${storagedevice2}'3:luks:allow-discards"' /etc/default/grub
+echo 'Verify line below shows: GRUB_CMDLINE_LINUX="cryptdevice=/dev/sdX3:luks:allow-discards"'
 cat /etc/default/grub | grep GRUB_CMDLINE_LINUX=
-echo 'Verify above line shows: GRUB_CMDLINE_LINUX="cryptdevice=/dev/sdX3:luks:allow-discards"'
 read HOLDUPHEY
 grub-mkconfig -o /boot/grub/grub.cfg
 

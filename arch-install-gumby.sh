@@ -187,8 +187,11 @@ echo 'tmpfs	/tmp	tmpfs	defaults,noatime,mode=1777	0	0' >> /mnt/etc/fstab
 echo -e ${BLUE}$drawline
 echo -e "Entering the new system..."
 echo -e $drawline${NC}
+# Downloading next script
 curl -o /mnt/root/arch-install-gumby-2.sh -s --tlsv1.2 --insecure --request GET "https://raw.githubusercontent.com/badgumby/arch-linux-install/master/arch-install-gumby-2.sh"
 chmod +x /mnt/root/arch-install-gumby-2.sh
+# Exporting storagedevice variable
+echo $storagedevice > /mnt/root/storagedevice.txt
 
 echo -e ${BLUE}$drawline
 echo -e "Press ENTER to continue"
