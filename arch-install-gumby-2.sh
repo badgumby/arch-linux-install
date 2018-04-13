@@ -42,7 +42,6 @@ function pacman-key-init {
   echo -e $drawline${NC}
   pacman-key --init
   pacman-key --populate archlinux
-  base-install-packages
 }
 
 ##############################################################################################################
@@ -240,37 +239,32 @@ cat /etc/pacman.d/mirrorlist
 ##############################################################################################################
 
 function base-install-packages {
-  BASEINSTALL="xf86-video-intel xorg-server gdm mate bluez-utils intel-ucode system-config-printer network-manager-applet dconf-editor remmina tilda filezilla poedit jdk8-openjdk jre8-openjdk scrot keepass atom ncmpcpp mopidy steam gimp inkscape neofetch conky p7zip ntfs-3g samba"
+  BASEINSTALL=(xf86-video-intel xorg-server gdm mate mate-extra xorg-appsbluez-utils intel-ucode system-config-printer network-manager-applet dconf-editor remmina tilda filezilla poedit jdk8-openjdk jre8-openjdk scrot keepass atom ncmpcpp mopidy steam gimp inkscape neofetch conky p7zip ntfs-3g samba)
 
   echo -e ${BLUE}$drawline
   echo -e "BAD Gumby's base packages from the Official Arch Repo"
   echo -e "Default: (xf86-video-intel xorg-server xorg-apps gdm mate mate-extra bluez-utils intel-ucode mate-media system-config-printer network-manager-applet dconf-editor remmina tilda filezilla poedit jdk8-openjdk jre8-openjdk scrot keepass atom ncmpcpp mopidy steam gimp inkscape neofetch conky p7zip ntfs-3g samba)"
-  echo -e ""
+  echo -e "${RED}"
   read -r -p "Would you like to customize your PACKAGES? [y/n]: " response
+  echo -e ${NC}
   if [[ "$response" =~ ^([yY][eE][sS]|[yY])+$ ]]
     then
       echo -e ""
       echo -e "${RED}Please enter PACKAGES, separated by spaces. None of the default packages will be installed:${NC}"
-      read MYPACKAGES
-      pacman --noconfirm -S ${MYPACKAGES}
-      read -p "ENTER to continue..."
+      read -a MYPACKAGES
+      for i in "${MYPACKAGES[@]}"
+      do
+         pacman --noconfirm -S $i
+      done
     else
       echo -e ""
       echo -e "${RED}Using BAD Gumby's base packages...${NC}"
-      pacman --noconfirm -S ${BASEINSTALL}
-      read jibba
-      pacman --noconfirm -S mate-extra
-      read jabba
-      pacman --noconfirm -S xorg-apps
-      read joo
-      pacman --noconfirm -S mate-extra
-      read joe
-      systemctl enable gdm
-      systemctl enable bluetooth
-      systemctl enable NetworkManager
-      read -p "ENTER to continue..."
+      for i in "${BASEINSTALL[@]}"
+      do
+         pacman --noconfirm -S $i
+      done
   fi
-  echo -e $drawline${NC}
+  echo -e ${BLUE}$drawline${NC}
 }
 # Initialize pacman keyring
 pacman-key-init
@@ -278,13 +272,59 @@ pacman-key-init
 base-install-packages
 
 ##############################################################################################################
+##### Start services
+##############################################################################################################
+
+echo -e ${BLUE}$drawline
+echo -e "Enabling system services: 'systemctl enable service'"
+echo -e "${RED}"
+read -r -p "Would you like to set any services to start at boot? [y/n]: " response
+echo -e ${NC}
+if [[ "$response" =~ ^([yY][eE][sS]|[yY])+$ ]]
+  then
+    echo -e ""
+    echo -e "${RED}Please enter services, separated by spaces.${NC}"
+    echo -e "${BLUE}Suggested: NetworkManager, bluetooth, gdm${NC}"
+    read -a MYSERVICES
+    for i in "${MYSERVICES[@]}"
+    do
+       systemctl enable $i
+    done
+  else
+    echo -e ""
+    echo -e "${RED}No services will be enabled.${NC}"
+fi
+echo -e ${BLUE}$drawline${NC}
+
+##############################################################################################################
 ##### Switching user for AUR package installations
 ##############################################################################################################
 
-curl -o /mnt/root/arch-install-gumby-3.sh -s --tlsv1.2 --insecure --request GET "https://raw.githubusercontent.com/badgumby/arch-linux-install/master/arch-install-gumby-3.sh"
-chmod +x /mnt/root/arch-install-gumby-3.sh
+curl -o /home/${MYUSERNAME}/arch-install-gumby-3.sh -s --tlsv1.2 --insecure --request GET "https://raw.githubusercontent.com/badgumby/arch-linux-install/master/arch-install-gumby-3.sh"
+chmod +x /home/${MYUSERNAME}/arch-install-gumby-3.sh
 
 echo -e ${BLUE}$drawline
 echo -e "Switching to created user, ${RED}${MYUSERNAME}${BLUE}, for AUR package installs"
 echo -e $drawline${NC}
 su -p $MYUSERNAME /home/${MYUSERNAME}/arch-install-gumby-3.sh
+
+##############################################################################################################
+##### Finished with second script, back to 1
+##############################################################################################################
+
+echo -e ${BLUE}$drawline
+echo -e "Are you ready to reboot? Press ENTER to continue, CTRL+C to stay in chroot."
+echo -e "If you stay in chroot, be sure to type 'exit' when you are done working to reboot."
+echo -e $drawline${NC}
+read MYREBOOT
+
+echo -e ${BLUE}$drawline
+echo -e "Exiting chroot..."
+echo -e $drawline${NC}
+# Exit su
+exit
+# Exit chroot
+exit
+##########################################################################################################################################################
+##########################################################################################################################################################
+##########################################################################################################################################################

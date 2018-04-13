@@ -32,16 +32,6 @@ echo '██║  ██║██║  ██║╚██████╗██║ 
 echo '╚═╝  ╚═╝╚═╝  ╚═╝ ╚═════╝╚═╝  ╚═╝      ╚══════╝   ╚═╝   ╚═╝  ╚═╝╚══════╝╚══════╝╚══════╝╚═╝  ╚═╝'
 echo -e ${NC}
 
-
-##############################################################################################################
-##### Switching user for AUR package installations
-##############################################################################################################
-
-echo -e ${BLUE}$drawline
-echo -e "Switching to created user, ${RED}${MYUSERNAME}${BLUE}, for AUR package installs"
-echo -e $drawline${NC}
-su $MYUSERNAME
-
 ##############################################################################################################
 ##### Install AUR Helper (Aura)
 ##############################################################################################################
@@ -87,22 +77,21 @@ AURINSTALL="mate-tweak oh-my-zsh-git correcthorse neovim-gtk-git remmina-plugin-
 echo -e ${BLUE}$drawline
 echo -e "BAD Gumby's packages from the Arch User Repository"
 echo -e "Default: (mate-tweak oh-my-zsh-git correcthorse neovim-gtk-git remmina-plugin-rdesktop visual-studio-code-bin wps-office google-chrome mopidy-gmusic keybase-bin signal-desktop-bin zoom multibootusb skype-electron)"
-echo -e ""
+echo -e "${RED}"
 read -r -p "Would you like to customize your AUR PACKAGES? [y/n]: " response
+echo -e ${NC}
 if [[ "$response" =~ ^([yY][eE][sS]|[yY])+$ ]]
   then
     echo -e ""
-    echo -e "Please enter AUR PACKAGES, separated by spaces. None of the default AUR packages will be installed:${NC}"
+    echo -e "${RED}Please enter AUR PACKAGES, separated by spaces. None of the default AUR packages will be installed:${NC}"
     read MYAUR
     sudo aura -Ax ${MYAUR}
-    read -p "ENTER to continue..."
   else
     echo -e ""
-    echo -e "Using BAD Gumby's AUR packages..."
+    echo -e "${RED}Using BAD Gumby's AUR packages...${NC}"
     sudo aura -Ax ${AURINSTALL}
-    read -p "ENTER to continue..."
 fi
-echo -e $drawline${NC}
+echo -e ${BLUE}$drawline${NC}
 
 ##############################################################################################################
 ##### BAD Gumby's favorite themes
@@ -113,36 +102,21 @@ THEMEINSTALL="ant-nebula-gtk-theme candy-gtk-themes paper-icon-theme ttf-materia
 echo -e ${BLUE}$drawline
 echo -e "BAD Gumby's favorite themes"
 echo -e "Default: (ant-nebula-gtk-theme candy-gtk-themes paper-icon-theme ttf-material-icons ttf-ms-fonts ttf-wps-fonts typecatcher)"
-echo -e ""
+echo -e "${RED}"
 read -r -p "Would you like to install BAD Gumby's favorite themes? [y/n]: " response
+echo -e ${NC}
 if [[ "$response" =~ ^([yY][eE][sS]|[yY])+$ ]]
   then
     echo -e ""
-    echo -e "Installing BAD Gumby's favorite themes${NC}"
+    echo -e "${RED}Installing BAD Gumby's favorite themes${NC}"
     sudo aura -Ax ${THEMEINSTALL}
     read -p "ENTER to continue..."
   else
     echo -e ""
-    echo -e "Not installing themes. Skipping..."
+    echo -e "${RED}Not installing themes. Skipping...${NC}"
 fi
-echo -e $drawline${NC}
+echo -e ${BLUE}$drawline${NC}
 
 ##############################################################################################################
-##### Finished with third script, time to reboot
+##### Finished with third script
 ##############################################################################################################
-
-echo -e ${BLUE}$drawline
-echo -e "Are you ready to reboot? Press ENTER to continue, CTRL+C to stay in chroot."
-echo -e $drawline${NC}
-read MYREBOOT
-
-echo -e ${BLUE}$drawline
-echo -e "Exiting chroot..."
-echo -e $drawline${NC}
-# Exit su
-exit
-# Exit chroot
-exit
-##########################################################################################################################################################
-##########################################################################################################################################################
-##########################################################################################################################################################
