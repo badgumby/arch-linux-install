@@ -63,21 +63,21 @@ echo LC_ALL=en_US.UTF-8 >> /etc/locale.conf
 ##############################################################################################################
 
 echo -e ${CHOICE}$drawline
-echo -e "Please enter a ${PURPLE}password${TEXTCOLOR} for ${PURPLE}'root'${TEXTCOLOR}:"
+echo -e "Please enter a ${OTHER}password${TEXTCOLOR} for ${OTHER}'root'${TEXTCOLOR}:"
 echo -e $drawline${NC}
 passwd
 
 sed -i '/%wheel ALL=(ALL) ALL/c\%wheel ALL=(ALL) ALL'  /etc/sudoers
 
 echo -e ${CHOICE}$drawline
-echo -e "Please enter your ${PURPLE}username${TEXTCOLOR} (user will be in ${PURPLE}wheel${TEXTCOLOR} group):"
+echo -e "Please enter your ${OTHER}username${TEXTCOLOR} (user will be in ${OTHER}wheel${TEXTCOLOR} group):"
 echo -e $drawline${NC}
 read MYUSERNAME
 # Exporting for call in next script
 export MYUSERNAME
 
 echo -e ${CHOICE}$drawline
-echo -e "Please enter your default ${PURPLE}shell${TEXTCOLOR} (options: ${PURPLE}/bin/bash${TEXTCOLOR} or ${PURPLE}/bin/zsh)${TEXTCOLOR}:"
+echo -e "Please enter your default ${OTHER}shell${TEXTCOLOR} (options: ${OTHER}/bin/bash${TEXTCOLOR} or ${OTHER}/bin/zsh)${TEXTCOLOR}:"
 echo -e $drawline${NC}
 read MYSHELL
 useradd -m -g users -G wheel -s $MYSHELL $MYUSERNAME
@@ -88,8 +88,8 @@ passwd $MYUSERNAME
 ##############################################################################################################
 
 echo -e ${TEXTCOLOR}$drawline
-echo -e "Configure mkinitcpio with ${PURPLE}MODULES${TEXTCOLOR} needed for the initrd image"
-echo -e "${DEF1}Default:${TEXTCOLOR} (${PURPLE}ext4${TEXTCOLOR})"
+echo -e "Configure mkinitcpio with ${OTHER}MODULES${TEXTCOLOR} needed for the initrd image"
+echo -e "${DEF1}Default:${TEXTCOLOR} (${OTHER}ext4${TEXTCOLOR})"
 BASEMODULES='ext4'
 echo -e "${CHOICE}"
 read -r -p "Would you like to customize your MODULES? [y/n]: " response
@@ -99,11 +99,11 @@ if [[ "$response" =~ ^([yY][eE][sS]|[yY])+$ ]]
     echo -e "${CHOICE}Please enter MODULES, separated by spaces. None will be configured by default:${NC}"
     read MYMODULES
     sed -i '/^MODULES=/c\MODULES=('"${MYMODULES}"')' /etc/mkinitcpio.conf
-    echo -e "${TEXTCOLOR}The following MODULES have been added: ${PURPLE}${MODULES} ${MYMODULES}${TEXTCOLOR}"
+    echo -e "${TEXTCOLOR}The following MODULES have been added: ${OTHER}${MODULES} ${MYMODULES}${TEXTCOLOR}"
   else
     echo -e "${CHOICE}Using default MODULES"
     sed -i '/^MODULES=/c\MODULES=('"${BASEMODULES}"')' /etc/mkinitcpio.conf
-    echo -e "${TEXTCOLOR}The following MODULES have been added: ${PURPLE}${BASEMODULES}${TEXTCOLOR}"
+    echo -e "${TEXTCOLOR}The following MODULES have been added: ${OTHER}${BASEMODULES}${TEXTCOLOR}"
 fi
 echo -e $drawline${NC}
 
@@ -112,7 +112,7 @@ echo -e $drawline${NC}
 ##############################################################################################################
 
 echo -e ${TEXTCOLOR}$drawline
-echo -e "Configure mkinitcpio with ${PURPLE}BINARIES${TEXTCOLOR} needed for the initrd image"
+echo -e "Configure mkinitcpio with ${OTHER}BINARIES${TEXTCOLOR} needed for the initrd image"
 echo -e "${DEF1}Default:${TEXTCOLOR} (${WARN1}*none*${TEXTCOLOR})"
 echo -e "${CHOICE}"
 read -r -p "Would you like to customize your BINARIES? [y/n]: " response
@@ -122,7 +122,7 @@ if [[ "$response" =~ ^([yY][eE][sS]|[yY])+$ ]]
     echo -e "${CHOICE}Please enter BINARIES, separated by spaces. None will be configured by default:${NC}"
     read MYBINARIES
     sed -i '/^BINARIES=/c\BINARIES=('"${MYBINARIES}"')' /etc/mkinitcpio.conf
-    echo -e "${TEXTCOLOR}The following BINARIES have been added: ${PURPLE}${MYBINARIES}${TEXTCOLOR}"
+    echo -e "${TEXTCOLOR}The following BINARIES have been added: ${OTHER}${MYBINARIES}${TEXTCOLOR}"
   else
     echo -e "${CHOICE}The there are no default BINARIES to configure.${TEXTCOLOR}"
 fi
@@ -133,8 +133,8 @@ echo -e $drawline${NC}
 ##############################################################################################################
 
 echo -e ${TEXTCOLOR}$drawline
-echo -e "Configure mkinitcpio with ${PURPLE}FILES${TEXTCOLOR} needed for the initrd image"
-echo -e "${DEF1}Default:${TEXTCOLOR} (${PURPLE}*none*${TEXTCOLOR})"
+echo -e "Configure mkinitcpio with ${OTHER}FILES${TEXTCOLOR} needed for the initrd image"
+echo -e "${DEF1}Default:${TEXTCOLOR} (${OTHER}*none*${TEXTCOLOR})"
 echo -e "${CHOICE}"
 read -r -p "Would you like to customize your FILES? [y/n]: " response
 echo -e ${NC}
@@ -143,7 +143,7 @@ if [[ "$response" =~ ^([yY][eE][sS]|[yY])+$ ]]
     echo -e "${CHOICE}Please enter FILES, separated by spaces. None will be configured by default:${NC}"
     read MYFILES
     sed -i '/^FILES=/c\FILES=('"${MYFILES}"')' /etc/mkinitcpio.conf
-    echo -e "${TEXTCOLOR}The following FILES have been added: ${PURPLE}${MYFILES}${TEXTCOLOR}"
+    echo -e "${TEXTCOLOR}The following FILES have been added: ${OTHER}${MYFILES}${TEXTCOLOR}"
   else
     echo -e "${CHOICE}The there are no default FILES to configure.${TEXTCOLOR}"
 fi
@@ -154,8 +154,8 @@ echo -e $drawline${NC}
 ##############################################################################################################
 
 echo -e ${TEXTCOLOR}$drawline
-echo -e "Configure mkinitcpio with ${PURPLE}HOOKS${TEXTCOLOR} needed for the initrd image"
-echo -e "${DEF1}Default:${TEXTCOLOR} (${PURPLE}base udev autodetect modconf block keyboard encrypt lvm2 filesystems fsck${TEXTCOLOR})"
+echo -e "Configure mkinitcpio with ${OTHER}HOOKS${TEXTCOLOR} needed for the initrd image"
+echo -e "${DEF1}Default:${TEXTCOLOR} (${OTHER}base udev autodetect modconf block keyboard encrypt lvm2 filesystems fsck${TEXTCOLOR})"
 BASEHOOKS='base udev autodetect modconf block keyboard encrypt lvm2 filesystems fsck'
 echo -e "${CHOICE}"
 read -r -p "Would you like to customize your HOOKS? [y/n]: " response
@@ -165,11 +165,11 @@ if [[ "$response" =~ ^([yY][eE][sS]|[yY])+$ ]]
     echo -e "${CHOICE}Please enter HOOKS, separated by spaces. None will be configured by default:${NC}"
     read MYHOOKS
     sed -i '/^HOOKS=/c\HOOKS=('"${MYHOOKS}"')' /etc/mkinitcpio.conf
-    echo -e "${TEXTCOLOR}The following HOOKS have been added: ${PURPLE}${BASEHOOKS} ${MYHOOKS}${TEXTCOLOR}"
+    echo -e "${TEXTCOLOR}The following HOOKS have been added: ${OTHER}${BASEHOOKS} ${MYHOOKS}${TEXTCOLOR}"
   else
     echo -e "${CHOICE}Using default HOOKS"
     sed -i '/^HOOKS=/c\HOOKS=('"${BASEHOOKS}"')' /etc/mkinitcpio.conf
-    echo -e "${TEXTCOLOR}The following HOOKS have been added: ${PURPLE}${BASEHOOKS}${TEXTCOLOR}"
+    echo -e "${TEXTCOLOR}The following HOOKS have been added: ${OTHER}${BASEHOOKS}${TEXTCOLOR}"
 fi
 echo -e $drawline${NC}
 
@@ -212,7 +212,7 @@ grub-mkconfig -o /boot/grub/grub.cfg
 echo -e ${TEXTCOLOR}$drawline
 echo -e "Updating /etc/pacman.d/mirrorlist using Reflector"
 echo -e "Selecting HTTPS mirrors, synchronized within the last 12 hours, located in country, and sorted by download speed."
-echo -e "Full list of countries can be found at ${PURPLE}https://archlinux.org/mirrors/status/${TEXTCOLOR}"
+echo -e "Full list of countries can be found at ${OTHER}https://archlinux.org/mirrors/status/${TEXTCOLOR}"
 echo -e "${CHOICE}Please enter your preferred country (for US, enter: United States)${TEXTCOLOR}"
 echo -e $drawline${NC}
 read MYCOUNTRY
@@ -229,7 +229,7 @@ function base-install-packages {
 
   echo -e ${TEXTCOLOR}$drawline
   echo -e "BAD Gumby's base packages from the Official Arch Repo"
-  echo -e "${DEF1}Default:${TEXTCOLOR} (${PURPLE}xf86-video-intel xorg-server xorg-apps gdm mate mate-extra bluez-utils intel-ucode mate-media system-config-printer network-manager-applet dconf-editor remmina tilda filezilla poedit jdk8-openjdk jre8-openjdk scrot keepass atom ncmpcpp mopidy steam gimp inkscape neofetch conky p7zip ntfs-3g samba${TEXTCOLOR})"
+  echo -e "${DEF1}Default:${TEXTCOLOR} (${OTHER}xf86-video-intel xorg-server xorg-apps gdm mate mate-extra bluez-utils intel-ucode mate-media system-config-printer network-manager-applet dconf-editor remmina tilda filezilla poedit jdk8-openjdk jre8-openjdk scrot keepass atom ncmpcpp mopidy steam gimp inkscape neofetch conky p7zip ntfs-3g samba${TEXTCOLOR})"
   echo -e "${CHOICE}"
   read -r -p "Would you like to customize your PACKAGES? [y/n]: " response
   echo -e ${NC}
@@ -240,7 +240,7 @@ function base-install-packages {
       read -a MYPACKAGES
       for i in "${MYPACKAGES[@]}"
       do
-        echo -e "${PURPLE}Installing $i...${NC}"
+        echo -e "${OTHER}Installing $i...${NC}"
         pacman --noconfirm -S $i
       done
     else
@@ -248,7 +248,7 @@ function base-install-packages {
       echo -e "${TEXTCOLOR}Using BAD Gumby's base packages...${NC}"
       for i in "${BASEINSTALL[@]}"
       do
-        echo -e "${PURPLE}Installing $i...${NC}"
+        echo -e "${OTHER}Installing $i...${NC}"
         pacman --noconfirm -S $i
       done
   fi
@@ -276,12 +276,12 @@ if [[ "$response" =~ ^([yY][eE][sS]|[yY])+$ ]]
     read -a MYSERVICES
     for i in "${MYSERVICES[@]}"
     do
-      echo -e "${PURPLE}Enabling $i...${NC}"
+      echo -e "${OTHER}Enabling $i...${NC}"
       systemctl enable $i
     done
   else
     echo -e ""
-    echo -e "${PURPLE}No services will be enabled.${NC}"
+    echo -e "${OTHER}No services will be enabled.${NC}"
 fi
 echo -e ${TEXTCOLOR}$drawline${NC}
 echo -e "${CHOICE}Pausing to display results. Press ENTER to continue...${NC}"
@@ -295,7 +295,7 @@ curl -o /home/${MYUSERNAME}/arch-install-gumby-3.sh -s --tlsv1.2 --insecure --re
 chmod +x /home/${MYUSERNAME}/arch-install-gumby-3.sh
 
 echo -e ${TEXTCOLOR}$drawline
-echo -e "Switching to created user, ${PURPLE}${MYUSERNAME}${TEXTCOLOR}, for AUR package installs"
+echo -e "Switching to created user, ${OTHER}${MYUSERNAME}${TEXTCOLOR}, for AUR package installs"
 echo -e $drawline${NC}
 su -p $MYUSERNAME /home/${MYUSERNAME}/arch-install-gumby-3.sh
 
