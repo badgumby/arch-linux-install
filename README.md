@@ -41,7 +41,7 @@
    > For WiFi only system, use wifi-menu
 
 ## Executing the script
-> bash <(curl -s --tlsv1.2 --insecure --request GET "https://raw.githubusercontent.com/badgumby/arch-linux-install/master/arch-install-gumby.sh")
+> bash <(curl -s --tlsv1.2 --request GET "https://raw.githubusercontent.com/badgumby/arch-linux-install/master/arch-install-gumby.sh")
 
 ## What does this script do? In order:
 1. Prompts for system type (EFI or BIOS)
@@ -84,37 +84,69 @@
 11. Set 'root' password
 12. Create new user, set shell, and add to wheel group
 13. Configure initrd MODULES
-    > Default: ext4
+    + Default:
+    > ext4
+
+    + Custom:
+    > Enter modules separated by spaces
 
 14. Configure initrd BINARIES
-    > Default: none
+    > Default:
+    > none
+
+    + Custom:
+    > Enter binaries separated by spaces
 
 15. Configure initrd FILES
-    > Default: none
+    + Default:
+    > none
+
+    + Custom:
+    > Enter files separated by spaces
 
 16. Configure initrd HOOKS
-    > Default: base udev autodetect modconf block keyboard encrypt lvm2 filesystems fsck
+    + Default:
+    > base udev autodetect modconf block keyboard encrypt lvm2 filesystems fsck
+
+    + Custom:
+    > Enter hooks separated by spaces
 
 17. Generate initrd image
 18. Run initial grub-install, edit grub config for cryptdevice boot, then run grub-mkconfig
 19. Enable Arch [multilib] repo
 20. Run reflector to update mirrors based on sync, location, and sort by download speed
 21. Intialize pacman-key
-22. Install packages from Arch official repo. Options:
+22. Install packages from Arch official repository
 
-    BAD Gumby's default packages:
+    + BAD Gumby's default packages:
     > xf86-video-intel xorg-server gdm mate mate-extra xorg-appsbluez-utils intel-ucode system-config-printer network-manager-applet dconf-editor remmina tilda filezilla poedit jdk8-openjdk jre8-openjdk scrot keepass atom ncmpcpp mopidy steam gimp inkscape neofetch conky p7zip ntfs-3g samba
 
-    Custom:
-    > Enter packages separated by space
+    + Custom:
+    > Enter packages separated by spaces
 
 23. Enable services
-    > Enter services separated by space
+    > Enter services separated by spaces
 
 24. Download third script
-25.
+25. Switch into newly created user
+    > su -p $MYUSERNAME /home/${MYUSERNAME}/arch-install-gumby-3.sh
 
+26. Download and install 'aura' Arch user repository package manager
+27. Prompt to install System76 drivers/modules
+    + Packages
+    > system76-driver system76-dkms-git system76-wallpapers
 
+28. Install packages from Arch user repository
+
+    + BAD Gumby's default packages:
+    > mate-tweak oh-my-zsh-git correcthorse neovim-gtk-git remmina-plugin-rdesktop visual-studio-code-bin wps-office google-chrome mopidy-gmusic keybase-bin signal-desktop-bin multibootusb skype-electron
+
+    + Custom:
+    > Enter packages separated by spaces
+
+29. Prompt to install BAD Gumby's favorite themes/fonts
+    + Packages:
+    > ant-nebula-gtk-theme candy-gtk-theme paper-icon-theme ttf-material-icons ttf-ms-fonts ttf-wps-fonts
 
 
 In progress... Check back later for more details
