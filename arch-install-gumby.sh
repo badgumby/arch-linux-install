@@ -242,6 +242,19 @@ arch-chroot /mnt /bin/bash /root/arch-install-gumby-2.sh
 ##############################################################################################################
 ##############################################################################################################
 
+echo -e ${WARN1}$drawline
+echo -e "Installation is complete."
+echo -e "${CHOICE}Are you ready to reboot? Press ENTER to continue, CTRL+C to stay in chroot.${BLUE}"
+echo -e "If you stay in chroot, be sure to type 'exit' when you are done working to reboot."
+echo -e ${WARN1}$drawline${NC}
+read MYREBOOT
+
+echo -e ${TEXTCOLOR}$drawline
+echo -e "Exiting chroot..."
+echo -e $drawline${NC}
+# Exit chroot
+exit
+
 echo -e ${TEXTCOLOR}$drawline
 echo -e "Unmounting all partitions..."
 echo -e $drawline${NC}

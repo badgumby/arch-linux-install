@@ -72,13 +72,12 @@
 4. Generate /etc/fstab
 5. Make a tmpfs for /tmp (used by installer)
 6. Download second script
-
    > arch-install-gumby-2.sh
 
 7. Chroot into new system
    > arch-chroot /mnt /bin/bash /root/arch-install-gumby-2.sh
 
-8. Set timezone
+8. Set time zone
 9. Set hostname
 10. Enable en_US.UTF-8 locale, and generate locale
 11. Set 'root' password
@@ -91,7 +90,7 @@
     > Enter modules separated by spaces
 
 14. Configure initrd BINARIES
-    > Default:
+    + Default:
     > none
 
     + Custom:
@@ -117,7 +116,6 @@
 20. Run reflector to update mirrors based on sync, location, and sort by download speed
 21. Intialize pacman-key
 22. Install packages from Arch official repository
-
     + BAD Gumby's default packages:
     > xf86-video-intel xorg-server gdm mate mate-extra xorg-appsbluez-utils intel-ucode system-config-printer network-manager-applet dconf-editor remmina tilda filezilla poedit jdk8-openjdk jre8-openjdk scrot keepass atom ncmpcpp mopidy steam gimp inkscape neofetch conky p7zip ntfs-3g samba
 
@@ -128,6 +126,8 @@
     > Enter services separated by spaces
 
 24. Download third script
+    > arch-install-gumby-3.sh
+
 25. Switch into newly created user
     > su -p $MYUSERNAME /home/${MYUSERNAME}/arch-install-gumby-3.sh
 
@@ -137,7 +137,6 @@
     > system76-driver system76-dkms-git system76-wallpapers
 
 28. Install packages from Arch user repository
-
     + BAD Gumby's default packages:
     > mate-tweak oh-my-zsh-git correcthorse neovim-gtk-git remmina-plugin-rdesktop visual-studio-code-bin wps-office google-chrome mopidy-gmusic keybase-bin signal-desktop-bin multibootusb skype-electron
 
@@ -148,5 +147,4 @@
     + Packages:
     > ant-nebula-gtk-theme candy-gtk-theme paper-icon-theme ttf-material-icons ttf-ms-fonts ttf-wps-fonts
 
-
-In progress... Check back later for more details
+30. Prompt to reboot
