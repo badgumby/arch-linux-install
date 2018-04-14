@@ -1,4 +1,5 @@
 #!/bin/bash
+# Begin arch-install-gumby-2.sh
 
 #Line separator variable
 drawline=`printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' -`
