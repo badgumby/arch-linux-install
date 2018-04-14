@@ -47,7 +47,7 @@
 1. Prompts for system type (EFI or BIOS)
 2. Formats and partitions your hard drive
 
-   EFI Formatting
+   + EFI Formatting
    > 200MB EFI Partition (ef00) - Formats to FAT32
 
    > 500MB Linux File System BOOT Partition (8300) - Formats to EXT2
@@ -56,7 +56,7 @@
    > Creates 8GB SWAP on LUKS volume
    > Uses remaining for EXT4 on LUKS volume
 
-   BIOS Formatting
+   + BIOS Formatting
    > 10MB MBR Partition (ef02) - Formats to FAT32
 
    > 250MB Linux File System BOOT Parition (8300) - Formats to EXT2
