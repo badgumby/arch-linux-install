@@ -44,17 +44,26 @@
 > bash <(curl -s --tlsv1.2 --insecure --request GET "https://raw.githubusercontent.com/badgumby/arch-linux-install/master/arch-install-gumby.sh")
 
 ## What does this script do? In order:
-1. Formats and partitions your hard drive
+1. Prompts for system type (EFI or BIOS)
+2. Formats and partitions your hard drive
+
+   EFI Formatting
    > 200MB EFI Partition (ef00) - Formats to FAT32
 
-   > 500MB Linux File File System BOOT Partition (8300) - Formats to EXT2
+   > 500MB Linux File System BOOT Partition (8300) - Formats to EXT2
 
    > Remainder: Linux File System (8300) - Creates logical volume that is LUKS encrypted (aes-xts-plain64)
    > Creates 8GB SWAP on LUKS volume
    > Uses remaining for EXT4 on LUKS volume
 
-2. Prompts for system type (EFI or BIOS)
-   > (This needs to move to first after re-code)
+   BIOS Formatting
+   > 10MB MBR Partition (ef02) - Formats to FAT32
+
+   > 250MB Linux File System BOOT Parition (8300) - Formats to EXT2
+
+   > Remainder: Linux File System (8300) - Creates logical volume that is LUKS encrypted (aes-xts-plain64)
+   > Creates 8GB SWAP on LUKS volume
+   > Uses remaining for EXT4 on LUKS volume
 
 3. Runs pacstrap (base install) based on choice of system. Packages listed below:
    > EFI: base base-devel grub-efi-x86_64 efibootmgr zsh vim wget git dialog wpa_supplicant reflector

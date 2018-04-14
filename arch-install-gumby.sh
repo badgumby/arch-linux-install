@@ -47,25 +47,96 @@ echo '╚═╝  ╚═╝╚═╝  ╚═╝ ╚═════╝╚═╝  �
 echo -e ${NC}
 
 ##############################################################################################################
-##### Functions for system selection
+##### Global functions
 ##############################################################################################################
 
-function efi_install {
+function select_device {
+  echo -e ${TEXTCOLOR}$drawline
+  echo -e "List of storage devices"
+  echo -e $drawline${NC}
+  fdisk -l
+
+  echo -e ${CHOICE}$drawline
+  echo -e "What device should we partition? (ex. /dev/sda)"
+  echo -e $drawline${NC}
+  read storagedevice
+
+  echo -e ${WARN1}$drawline
+  echo -e "WARNING: You are about to format the device ${OTHER}${storagedevice}${WARN1}. Press CTRL+C to quit. Press ENTER to continue."
+  echo -e "This is your last chance to exit before you wipe your drive!"
+  echo -e $drawline${NC}
+  read WARNING2
+}
+
+function inform_os_partitions {
+  echo -e ${TEXTCOLOR}$drawline
+  echo -e "Printing written partitions..."
+  echo -e $drawline${NC}
+  sgdisk -p $storagedevice
+
+  echo -e ${TEXTCOLOR}$drawline
+  echo -e "Informing OS of changes..."
+  echo -e $drawline${NC}
+  partprobe $storagedevice
+  fdisk -l $storagedevice
+}
+
+##############################################################################################################
+##### EFI system functions
+##############################################################################################################
+
+function efi_pacstrap {
   echo -e ${TEXTCOLOR}$drawline
   echo -e "Installing packages for EFI system"
   echo -e $drawline${NC}
   pacstrap /mnt base base-devel grub-efi-x86_64 efibootmgr zsh vim wget git dialog wpa_supplicant reflector
 }
 
-function bios_install {
+function efi_partition {
+  sgdisk -Z $storagedevice
+  sgdisk -n 0:0:+200M -t 0:ef00 -c 0:"efi_boot" $storagedevice
+  sgdisk -n 0:0:+550M -t 0:8300 -c 0:"linux_boot" $storagedevice
+  sgdisk -n 0:0:0 -t 0:8300 -c 0:"data" $storagedevice
+}
+
+##############################################################################################################
+##### BIOS functions
+##############################################################################################################
+
+function bios_pacstrap {
   echo -e ${TEXTCOLOR}$drawline
   echo -e "Installing packages for BIOS"
   echo -e $drawline${NC}
   pacstrap /mnt base base-devel grub-bios zsh vim wget git dialog wpa_supplicant reflector
 }
 
+function bios_partition {
+  sgdisk -Z $storagedevice
+  sgdisk -n 0:0:+10M -t 0:ef02 -c 0:"mbr_boot" $storagedevice
+  sgdisk -n 0:0:+250M -t 0:8300 -c 0:"linux_boot" $storagedevice
+  sgdisk -n 0:0:0 -t 0:8300 -c 0:"data" $storagedevice
+}
+
 ##############################################################################################################
-##### Creating partitions
+##### Functions for installs
+##############################################################################################################
+
+function efi_install {
+  # Put stuff here
+  select_device
+  efi_partition
+  inform_os_partitions
+}
+
+function bios_install {
+  # Put stuff here
+  select_device
+  bios_partition
+  inform_os_partitions
+}
+
+##############################################################################################################
+##### WARNING Message - Start of script
 ##############################################################################################################
 
 echo -e ${TEXTCOLOR}$drawline
@@ -76,37 +147,20 @@ echo -e "${WARN1}${BOLD}Press CTRL+C to quit. Press ENTER to continue.${NB}${TEX
 echo -e $drawline${NC}
 read WARNING
 
-echo -e ${TEXTCOLOR}$drawline
-echo -e "List of storage devices"
-echo -e $drawline${NC}
-fdisk -l
+##############################################################################################################
+##### Select EFI or BIOS system type
+##############################################################################################################
 
-echo -e ${CHOICE}$drawline
-echo -e "What device should we partition? (ex. /dev/sda)"
-echo -e $drawline${NC}
-read storagedevice
-
-echo -e ${WARN1}$drawline
-echo -e "WARNING: You are about to format the device ${OTHER}${storagedevice}${WARN1}. Press CTRL+C to quit. Press ENTER to continue."
-echo -e "This is your last chance to exit before you wipe your drive!"
-echo -e $drawline${NC}
-read WARNING2
-
-sgdisk -Z $storagedevice
-sgdisk -n 0:0:+200M -t 0:ef00 -c 0:"efi_boot" $storagedevice
-sgdisk -n 0:0:+500M -t 0:8300 -c 0:"linux_boot" $storagedevice
-sgdisk -n 0:0:0 -t 0:8300 -c 0:"data" $storagedevice
-
-echo -e ${TEXTCOLOR}$drawline
-echo -e "Printing written partitions..."
-echo -e $drawline${NC}
-sgdisk -p $storagedevice
-
-echo -e ${TEXTCOLOR}$drawline
-echo -e "Informing OS of changes..."
-echo -e $drawline${NC}
-partprobe $storagedevice
-fdisk -l $storagedevice
+options=("EFI System" "BIOS")
+echo ""
+echo -e "${CHOICE}Choose your system type: ${NC}"
+select opt in "${options[@]}"; do
+case $REPLY in
+  1) efi_install; break ;;
+  2) bios_install; break ;;
+  *) clear; echo -e "${WARN1}Invalid option selected. Please try again.${NC}"; break ;;
+  esac
+done
 
 ##############################################################################################################
 ##### Creating file systems / encrypting partitions
@@ -147,21 +201,6 @@ mkdir /mnt/boot
 mount ${storagedevice}2 /mnt/boot
 mkdir /mnt/boot/efi
 mount ${storagedevice}1 /mnt/boot/efi
-
-##############################################################################################################
-##### Install base Arch packages with pacstrap / select EFI or BIOS
-##############################################################################################################
-
-options=("EFI System" "BIOS")
-echo ""
-echo -e "${CHOICE}Choose your system type: ${NC}"
-select opt in "${options[@]}"; do
-case $REPLY in
-  1) efi_install; break ;;
-  2) bios_install; break ;;
-  *) clear; echo -e "${WARN1}Invalid option selected. Please try again.${NC}"; break ;;
-  esac
-done
 
 ##############################################################################################################
 ##### Build /etc/fstab
