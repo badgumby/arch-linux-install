@@ -81,14 +81,6 @@ function inform_os_partitions {
   fdisk -l $storagedevice
 }
 
-function create_fs {
-  echo -e ${TEXTCOLOR}$drawline
-  echo -e "Creating file systems on the EFI/BIOS and boot partitions..."
-  echo -e $drawline${NC}
-  mkfs.vfat -F32 ${storagedevice}1
-  mkfs.ext2 ${storagedevice}2
-}
-
 function encrypt_device {
   echo -e ${TEXTCOLOR}$drawline
   echo -e "Setting up the encryption of the system..."
@@ -129,6 +121,14 @@ function efi_partition {
   sgdisk -n 0:0:0 -t 0:8300 -c 0:"data" $storagedevice
 }
 
+function efi_create_fs {
+  echo -e ${TEXTCOLOR}$drawline
+  echo -e "Creating file systems on the EFI/BIOS and boot partitions..."
+  echo -e $drawline${NC}
+  mkfs.vfat -F32 ${storagedevice}1
+  mkfs.ext2 ${storagedevice}2
+}
+
 function mount_efi {
   echo -e ${TEXTCOLOR}$drawline
   echo -e "Mounting the new system..."
@@ -141,6 +141,8 @@ function mount_efi {
   mount ${storagedevice}1 /mnt/boot/efi
 }
 
+
+
 ##############################################################################################################
 ##### BIOS functions
 ##############################################################################################################
@@ -152,7 +154,18 @@ function bios_pacstrap {
   pacstrap /mnt base base-devel grub-bios zsh vim wget git dialog wpa_supplicant reflector
 }
 
+function bios_create_fs {
+  echo -e ${TEXTCOLOR}$drawline
+  echo -e "Creating file systems on the EFI/BIOS and boot partitions..."
+  echo -e $drawline${NC}
+  mkfs.vfat -F32 ${storagedevice}1
+  mkfs.ext2 ${storagedevice}2
+}
+
 function bios_partition {
+  #sfdisk -w $storagedevice
+  #sfdisk $storagedevice -X dos
+  #sfdisk -N 1 $storagedevice
   sgdisk -Z $storagedevice
   sgdisk -n 0:0:+10M -t 0:ef02 -c 0:"mbr_boot" $storagedevice
   sgdisk -n 0:0:+250M -t 0:8300 -c 0:"linux_boot" $storagedevice
@@ -160,8 +173,16 @@ function bios_partition {
 }
 
 function mount_bios {
-  # Put stuff here
+  echo -e ${TEXTCOLOR}$drawline
+  echo -e "Mounting the new system..."
+  echo -e $drawline${NC}
+  mount /dev/mapper/vg0-root /mnt
+  swapon /dev/mapper/vg0-swap
+  mkdir /mnt/boot
+  mount ${storagedevice}2 /mnt/boot
 }
+
+
 
 ##############################################################################################################
 ##### Functions for installs
@@ -172,7 +193,7 @@ function efi_install {
   select_device
   efi_partition
   inform_os_partitions
-  create_fs
+  efi_create_fs
   encrypt_device
   mount_efi
 }
@@ -182,7 +203,7 @@ function bios_install {
   select_device
   bios_partition
   inform_os_partitions
-  create_fs
+  bios_create_fs
   encrypt_device
   mount_bios
 }
