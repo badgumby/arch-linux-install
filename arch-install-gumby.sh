@@ -64,15 +64,6 @@ function bios_install {
   pacstrap /mnt base base-devel grub-bios zsh vim wget git dialog wpa_supplicant reflector
 }
 
-function pacman-key-init {
-  echo -e ${TEXTCOLOR}$drawline
-  echo -e "Initializing pacman-key..."
-  echo -e $drawline${NC}
-  pacman-key --init
-  pacman-key --populate archlinux
-  base-install-packages
-}
-
 ##############################################################################################################
 ##### Creating partitions
 ##############################################################################################################
@@ -195,7 +186,7 @@ echo -e ${TEXTCOLOR}$drawline
 echo -e "Entering the new system..."
 echo -e $drawline${NC}
 # Downloading next script
-curl -o /mnt/root/arch-install-gumby-2.sh -s --tlsv1.2 --insecure --request GET "https://raw.githubusercontent.com/badgumby/arch-linux-install/master/arch-install-gumby-2.sh"
+curl -o /mnt/root/arch-install-gumby-2.sh -s --tlsv1.2 --request GET "https://raw.githubusercontent.com/badgumby/arch-linux-install/master/arch-install-gumby-2.sh"
 chmod +x /mnt/root/arch-install-gumby-2.sh
 # Exporting storagedevice variable
 echo $storagedevice > /mnt/root/storagedevice.txt

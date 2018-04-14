@@ -42,3 +42,61 @@
 
 ## Executing the script
 > bash <(curl -s --tlsv1.2 --insecure --request GET "https://raw.githubusercontent.com/badgumby/arch-linux-install/master/arch-install-gumby.sh")
+
+## What does this script do? In order:
+1. Formats and partitions your hard drive
+   > 200MB EFI Partition (ef00) - Formats to FAT32
+
+   > 500MB Linux File File System BOOT Partition (8300) - Formats to EXT2
+
+   > Remainder: Linux File System (8300) - Creates logical volume that is LUKS encrypted (aes-xts-plain64)
+   > Creates 8GB SWAP on LUKS volume
+   > Uses remaining for EXT4 on LUKS volume
+
+2. Prompts for system type (EFI or BIOS)
+   (This needs to move to first after re-code)
+
+3. Runs pacstrap (base install) based on choice of system. Packages listed below:
+   EFI: base base-devel grub-efi-x86_64 efibootmgr zsh vim wget git dialog wpa_supplicant reflector
+   BIOS: base base-devel grub-bios zsh vim wget git dialog wpa_supplicant reflector
+
+4. Generate /etc/fstab
+5. Make a tmpfs for /tmp (used by installer)
+6. Download second script
+
+   > (arch-install-gumby-2.sh)
+
+7. Chroot into new system
+   > arch-chroot /mnt /bin/bash /root/arch-install-gumby-2.sh
+
+8. Set timezone
+9. Set hostname
+10. Enable en_US.UTF-8 locale, and generate locale
+11. Set 'root' password
+12. Create new user, set shell, and add to wheel group
+13. Configure initrd MODULES
+   > Default: ext4
+
+14. Configure initrd BINARIES
+   > Default: none
+
+15. Configure initrd FILES
+   > Default: none
+
+16. Configure initrd HOOKS
+   > Default: base udev autodetect modconf block keyboard encrypt lvm2 filesystems fsck
+
+17. Generate initrd image
+18. Run initial grub-install, edit grub config for cryptdevice boot, then run grub-mkconfig
+19. Enable Arch [multilib] repo
+20. Run reflector to update mirrors based on sync, location, and sort by download speed
+21. Install packages from Arch official repo. Options:
+   > BAD Gumby's default packages
+   > xf86-video-intel xorg-server gdm mate mate-extra xorg-appsbluez-utils intel-ucode system-config-printer network-manager-applet dconf-editor remmina tilda filezilla poedit jdk8-openjdk jre8-openjdk scrot keepass atom ncmpcpp mopidy steam gimp inkscape neofetch conky p7zip ntfs-3g samba
+
+   > Custom (enter packages separated by space)
+
+
+
+
+In progress... Check back later for more details
