@@ -8,7 +8,7 @@
 #    systemctl enable dhcpcd@eth0.service
 #    For WiFi only system, use wifi-menu
 # 5. Execute this script:
-#    bash <(curl -s --tlsv1.2 --insecure --request GET "https://raw.githubusercontent.com/badgumby/arch-linux-install/master/arch-install-gumby.sh")
+#    bash <(curl -s --tlsv1.2 --request GET "https://raw.githubusercontent.com/badgumby/arch-linux-install/master/arch-install-gumby.sh")
 
 #Line separator variable
 drawline=`printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' -`
@@ -81,6 +81,36 @@ function inform_os_partitions {
   fdisk -l $storagedevice
 }
 
+function create_fs {
+  echo -e ${TEXTCOLOR}$drawline
+  echo -e "Creating file systems on the EFI/BIOS and boot partitions..."
+  echo -e $drawline${NC}
+  mkfs.vfat -F32 ${storagedevice}1
+  mkfs.ext2 ${storagedevice}2
+}
+
+function encrypt_device {
+  echo -e ${TEXTCOLOR}$drawline
+  echo -e "Setting up the encryption of the system..."
+  echo -e $drawline${NC}
+  cryptsetup -c aes-xts-plain64 -y --use-random luksFormat ${storagedevice}3
+  cryptsetup luksOpen ${storagedevice}3 luks
+
+  echo -e ${TEXTCOLOR}$drawline
+  echo -e "Creating encrypted partitions..."
+  echo -e $drawline${NC}
+  pvcreate /dev/mapper/luks
+  vgcreate vg0 /dev/mapper/luks
+  lvcreate --size 8G vg0 --name swap
+  lvcreate -l +100%FREE vg0 --name root
+
+  echo -e ${TEXTCOLOR}$drawline
+  echo -e "Creating filesystems on encrypted partitions..."
+  echo -e $drawline${NC}
+  mkfs.ext4 /dev/mapper/vg0-root
+  mkswap /dev/mapper/vg0-swap
+}
+
 ##############################################################################################################
 ##### EFI system functions
 ##############################################################################################################
@@ -97,6 +127,18 @@ function efi_partition {
   sgdisk -n 0:0:+200M -t 0:ef00 -c 0:"efi_boot" $storagedevice
   sgdisk -n 0:0:+550M -t 0:8300 -c 0:"linux_boot" $storagedevice
   sgdisk -n 0:0:0 -t 0:8300 -c 0:"data" $storagedevice
+}
+
+function mount_efi {
+  echo -e ${TEXTCOLOR}$drawline
+  echo -e "Mounting the new system..."
+  echo -e $drawline${NC}
+  mount /dev/mapper/vg0-root /mnt
+  swapon /dev/mapper/vg0-swap
+  mkdir /mnt/boot
+  mount ${storagedevice}2 /mnt/boot
+  mkdir /mnt/boot/efi
+  mount ${storagedevice}1 /mnt/boot/efi
 }
 
 ##############################################################################################################
@@ -117,22 +159,32 @@ function bios_partition {
   sgdisk -n 0:0:0 -t 0:8300 -c 0:"data" $storagedevice
 }
 
+function mount_bios {
+  # Put stuff here
+}
+
 ##############################################################################################################
 ##### Functions for installs
 ##############################################################################################################
 
 function efi_install {
-  # Put stuff here
+  # If EFI System is selected
   select_device
   efi_partition
   inform_os_partitions
+  create_fs
+  encrypt_device
+  mount_efi
 }
 
 function bios_install {
-  # Put stuff here
+  # If BIOS is selected
   select_device
   bios_partition
   inform_os_partitions
+  create_fs
+  encrypt_device
+  mount_bios
 }
 
 ##############################################################################################################
@@ -161,46 +213,6 @@ case $REPLY in
   *) clear; echo -e "${WARN1}Invalid option selected. Please try again.${NC}"; break ;;
   esac
 done
-
-##############################################################################################################
-##### Creating file systems / encrypting partitions
-##############################################################################################################
-
-echo -e ${TEXTCOLOR}$drawline
-echo -e "Creating file systems on the EFI/BIOS and boot partitions..."
-echo -e $drawline${NC}
-mkfs.vfat -F32 ${storagedevice}1
-mkfs.ext2 ${storagedevice}2
-
-echo -e ${TEXTCOLOR}$drawline
-echo -e "Setting up the encryption of the system..."
-echo -e $drawline${NC}
-cryptsetup -c aes-xts-plain64 -y --use-random luksFormat ${storagedevice}3
-cryptsetup luksOpen ${storagedevice}3 luks
-
-echo -e ${TEXTCOLOR}$drawline
-echo -e "Creating encrypted partitions..."
-echo -e $drawline${NC}
-pvcreate /dev/mapper/luks
-vgcreate vg0 /dev/mapper/luks
-lvcreate --size 8G vg0 --name swap
-lvcreate -l +100%FREE vg0 --name root
-
-echo -e ${TEXTCOLOR}$drawline
-echo -e "Creating filesystems on encrypted partitions..."
-echo -e $drawline${NC}
-mkfs.ext4 /dev/mapper/vg0-root
-mkswap /dev/mapper/vg0-swap
-
-echo -e ${TEXTCOLOR}$drawline
-echo -e "Mounting the new system..."
-echo -e $drawline${NC}
-mount /dev/mapper/vg0-root /mnt
-swapon /dev/mapper/vg0-swap
-mkdir /mnt/boot
-mount ${storagedevice}2 /mnt/boot
-mkdir /mnt/boot/efi
-mount ${storagedevice}1 /mnt/boot/efi
 
 ##############################################################################################################
 ##### Build /etc/fstab

@@ -304,7 +304,7 @@ read HEYWAITNOW
 ##### Switching user for AUR package installations
 ##############################################################################################################
 
-curl -o /home/${MYUSERNAME}/arch-install-gumby-3.sh -s --tlsv1.2 --insecure --request GET "https://raw.githubusercontent.com/badgumby/arch-linux-install/master/arch-install-gumby-3.sh"
+curl -o /home/${MYUSERNAME}/arch-install-gumby-3.sh -s --tlsv1.2 --request GET "https://raw.githubusercontent.com/badgumby/arch-linux-install/master/arch-install-gumby-3.sh"
 chmod +x /home/${MYUSERNAME}/arch-install-gumby-3.sh
 
 echo -e ${TEXTCOLOR}$drawline
