@@ -90,11 +90,19 @@
 18. Run initial grub-install, edit grub config for cryptdevice boot, then run grub-mkconfig
 19. Enable Arch [multilib] repo
 20. Run reflector to update mirrors based on sync, location, and sort by download speed
-21. Install packages from Arch official repo. Options:
-    > BAD Gumby's default packages
+21. Intialize pacman-key
+22. Install packages from Arch official repo. Options:
+    BAD Gumby's default packages:
     > xf86-video-intel xorg-server gdm mate mate-extra xorg-appsbluez-utils intel-ucode system-config-printer network-manager-applet dconf-editor remmina tilda filezilla poedit jdk8-openjdk jre8-openjdk scrot keepass atom ncmpcpp mopidy steam gimp inkscape neofetch conky p7zip ntfs-3g samba
 
-    > Custom (enter packages separated by space)
+    Custom:
+    > Enter packages separated by space
+
+23. Enable services
+    > Enter services separated by space
+
+24. Download third script
+25.
 
 
 
