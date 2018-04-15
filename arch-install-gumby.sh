@@ -230,6 +230,10 @@ read WARNING
 ##### Select EFI or BIOS system type
 ##############################################################################################################
 
+echo -e "${TEXTCOLOR}"
+[ -d /sys/firmware/efi ] && echo -e "Detected system: ${OTHER}EFI${NC}" || echo -e "Detected system: ${OTHER}BIOS${NC}"
+echo -e "${NC}"
+
 options=("EFI System" "BIOS")
 echo ""
 echo -e "${CHOICE}Choose your system type: ${NC}"
