@@ -10,10 +10,14 @@ BLUE='\033[0;34m'
 WARN1='\033[0;31m' # Red
 DEF1='\033[0;32m' # Green
 BROWN='\033[0;33m' # Brown/Orange
-#TEXTCOLOR='\033[0;34m' # Blue
-TEXTCOLOR='\033[0;36m' # Blue
-OTHER='\033[1;35m' # Purple
+BLUE='\033[0;34m' # Blue
+TEXTCOLOR='\033[0;36m' # Cyan
+#OTHER='\033[1;35m' # Purple
+OTHER='\033[1;36m' # Light Cyan
+#OTHER='\033[1;34m' # Light Blue
 CHOICE='\033[1;33m' # Yellow
+LIGHTCYAN='\033[1;36m' # Light Cyan
+LIGHTGREEN='\033[1;32m' # Light Green
 
 BOLD='\e[1m'
 NB='\e[21m' #No Bold

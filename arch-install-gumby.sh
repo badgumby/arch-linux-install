@@ -22,7 +22,8 @@ BROWN='\033[0;33m' # Brown/Orange
 BLUE='\033[0;34m' # Blue
 TEXTCOLOR='\033[0;36m' # Cyan
 #OTHER='\033[1;35m' # Purple
-OTHER='\033[1;34m' # Light Blue
+OTHER='\033[1;36m' # Light Cyan
+#OTHER='\033[1;34m' # Light Blue
 CHOICE='\033[1;33m' # Yellow
 LIGHTCYAN='\033[1;36m' # Light Cyan
 LIGHTGREEN='\033[1;32m' # Light Green
@@ -50,7 +51,7 @@ echo '╚═╝  ╚═╝╚═╝  ╚═╝ ╚═════╝╚═╝  �
 
 echo -e ${NC}
 
-echo -e "${BROWN}Brown/Orange ${BLUE}Blue ${OTHER}LightBlue ${TEXTCOLOR}Cyan ${LIGHTCYAN}LightCyan ${DEF1}Green ${LIGHTGREEN}LightGreen"
+#echo -e "${BROWN}Brown/Orange ${BLUE}Blue ${OTHER}LightBlue ${TEXTCOLOR}Cyan ${LIGHTCYAN}LightCyan ${DEF1}Green ${LIGHTGREEN}LightGreen"
 
 ##############################################################################################################
 ##### Global functions
