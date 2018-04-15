@@ -19,7 +19,8 @@ BLUE='\033[0;34m'
 WARN1='\033[0;31m' # Red
 DEF1='\033[0;32m' # Green
 BROWN='\033[0;33m' # Brown/Orange
-TEXTCOLOR='\033[0;34m' # Blue
+#TEXTCOLOR='\033[0;34m' # Blue
+TEXTCOLOR='\033[0;36m' # Cyan
 OTHER='\033[1;35m' # Purple
 CHOICE='\033[1;33m' # Yellow
 
