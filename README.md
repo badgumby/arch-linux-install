@@ -47,7 +47,7 @@
 1. Prompts for system type (EFI or BIOS)
    > Note: BIOS setup is still a work-in-progress. **DO NOT USE BIOS OPTION**.
 
-2. Formats and partitions your hard drive
+2. Format and partitions your hard drive
 
    + EFI Formatting
    > 200MB EFI Partition (ef00) - Formats to FAT32
@@ -67,7 +67,7 @@
    > Creates 8GB SWAP on LUKS volume
    > Uses remaining for EXT4 on LUKS volume
 
-3. Runs `pacstrap` (base install) based on choice of system. Packages listed below:
+3. Run `pacstrap` (base install) based on choice of system. Packages listed below:
    + EFI:
    > base base-devel grub-efi-x86_64 efibootmgr zsh vim wget git dialog wpa_supplicant reflector
 
