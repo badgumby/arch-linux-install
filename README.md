@@ -27,6 +27,10 @@
 #### "icons" folder
    > Contains icons I commonly use
 
+#### README.md
+   > Uh... you're looking at it
+
+
 ## Preparing to run the script
 1. Download the archiso image from https://www.archlinux.org/
 2. Copy to a usb-drive. If on linux use the below command:
