@@ -45,7 +45,7 @@
    > For WiFi only system, use wifi-menu
 
 ## Executing the script
-   > `bash <(curl -s --tlsv1.2 --request GET "https://raw.githubusercontent.com/badgumby/arch-linux-install/master/arch-install-gumby.sh")`
+`bash <(curl -s --tlsv1.2 --request GET "https://raw.githubusercontent.com/badgumby/arch-linux-install/master/arch-install-gumby.sh")`
 
 ## What does this script do? In order:
 1. Prompts for system type (EFI or BIOS)
