@@ -67,7 +67,7 @@
    > Creates 8GB SWAP on LUKS volume
    > Uses remaining for EXT4 on LUKS volume
 
-3. Runs pacstrap (base install) based on choice of system. Packages listed below:
+3. Runs `pacstrap` (base install) based on choice of system. Packages listed below:
    + EFI:
    > base base-devel grub-efi-x86_64 efibootmgr zsh vim wget git dialog wpa_supplicant reflector
 
@@ -84,9 +84,9 @@
 
 8. Set time zone
 9. Set hostname
-10. Enable en_US.UTF-8 locale, and generate locale
+10. Enable `en_US.UTF-8 locale`, and generate locale
 11. Set `root` password
-12. Create new user, set shell, and add to wheel group
+12. Create new user, set shell, and add to `wheel` group
 13. Configure initrd MODULES
     + Default:
     > ext4
@@ -116,10 +116,10 @@
     > Enter hooks separated by spaces
 
 17. Generate initrd image
-18. Run initial grub-install, edit grub config for cryptdevice boot, then run grub-mkconfig
-19. Enable Arch [multilib] repo
-20. Run reflector to update mirrors based on sync, location, and sort by download speed
-21. Intialize pacman-key
+18. Run initial `grub-install`, edit grub config for cryptdevice boot, then run `grub-mkconfig`
+19. Enable Arch `[multilib]` repo
+20. Run `reflector` to update mirrors based on sync, location, and sort by download speed
+21. Intialize `pacman-key`
 22. Install packages from Arch official repository
     + BAD Gumby's default packages:
     > xf86-video-intel xorg-server gdm mate mate-extra xorg-appsbluez-utils intel-ucode system-config-printer network-manager-applet dconf-editor remmina tilda filezilla poedit jdk8-openjdk jre8-openjdk scrot keepass atom ncmpcpp mopidy steam gimp inkscape neofetch conky p7zip ntfs-3g samba
@@ -136,7 +136,7 @@
 25. Switch into newly created user
     > su -p $MYUSERNAME /home/${MYUSERNAME}/arch-install-gumby-3.sh
 
-26. Download and install 'aura' Arch user repository package manager
+26. Download and install `aura` Arch user repository package manager
 27. Prompt to install System76 drivers/modules
     + Packages
     > system76-driver system76-dkms-git system76-wallpapers
