@@ -21,8 +21,11 @@ DEF1='\033[0;32m' # Green
 BROWN='\033[0;33m' # Brown/Orange
 #TEXTCOLOR='\033[0;34m' # Blue
 TEXTCOLOR='\033[0;36m' # Cyan
-OTHER='\033[1;35m' # Purple
+#OTHER='\033[1;35m' # Purple
+OTHER='\033[1;34m' # Light Blue
 CHOICE='\033[1;33m' # Yellow
+LIGHTCYAN='\033[1;36m' # Light Cyan
+LIGHTGREEN='\033[1;32m' # Light Green
 
 BOLD='\e[1m'
 NB='\e[21m' #No Bold
@@ -46,6 +49,8 @@ echo '██║  ██║██║  ██║╚██████╗██║ 
 echo '╚═╝  ╚═╝╚═╝  ╚═╝ ╚═════╝╚═╝  ╚═╝      ╚══════╝   ╚═╝   ╚═╝  ╚═╝╚══════╝╚══════╝╚══════╝╚═╝  ╚═╝'
 
 echo -e ${NC}
+
+echo -e "${OTHER}Testing ${LIGHTCYAN}Default ${LIGHTGREEN}Colors"
 
 ##############################################################################################################
 ##### Global functions
@@ -213,11 +218,11 @@ function bios_install {
 ##### WARNING Message - Start of script
 ##############################################################################################################
 
-echo -e ${TEXTCOLOR}$drawline
+echo -e ${WARN1}$drawline
 echo -e "${WARN1}WARNING: BAD Gumby's Arch installer is destructive."
 echo -e "${WARN1}The first step will format your drive! Be sure to backup your data before running, if necessary."
 echo -e "${WARN1}If you ran this by mistake, please quit now!"
-echo -e "${WARN1}${BOLD}Press CTRL+C to quit. Press ENTER to continue.${NB}${TEXTCOLOR}"
+echo -e "${WARN1}${BOLD}Press CTRL+C to quit. Press ENTER to continue.${NB}${WARN1}"
 echo -e $drawline${NC}
 read WARNING
 
