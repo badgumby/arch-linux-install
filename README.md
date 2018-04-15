@@ -68,8 +68,11 @@
    > Uses remaining for EXT4 on LUKS volume
 
 3. Runs pacstrap (base install) based on choice of system. Packages listed below:
-   > EFI: base base-devel grub-efi-x86_64 efibootmgr zsh vim wget git dialog wpa_supplicant reflector
-   > BIOS: base base-devel grub-bios zsh vim wget git dialog wpa_supplicant reflector
+   + EFI:
+   > base base-devel grub-efi-x86_64 efibootmgr zsh vim wget git dialog wpa_supplicant reflector
+   
+   + BIOS:
+   > base base-devel grub-bios zsh vim wget git dialog wpa_supplicant reflector
 
 4. Generate /etc/fstab
 5. Make a tmpfs for /tmp (used by installer)
