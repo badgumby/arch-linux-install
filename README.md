@@ -18,14 +18,14 @@
 #### This script was created by BAD Gumby for his own install. The very first step is wiping your storage device. If you use it, be sure to backup your data before starting the script. BAD Gumby takes no responsibility for lost data or damage to your device.
 
 ## Files
+#### arch-install-gumby(-2/3).sh
+   > What you came to see
+
 #### configuration.md
-> Contains the common configuration changes that I make on a fresh install
+   > Contains the common configuration changes that I make on a fresh install
 
 #### "icons" folder
-> Contains icons I commonly use
-
-#### arch-install-gumby.sh
-> One script to rule them all
+   > Contains icons I commonly use
 
 ## Preparing to run the script
 1. Download the archiso image from https://www.archlinux.org/
@@ -41,7 +41,7 @@
    > For WiFi only system, use wifi-menu
 
 ## Executing the script
-> bash <(curl -s --tlsv1.2 --request GET "https://raw.githubusercontent.com/badgumby/arch-linux-install/master/arch-install-gumby.sh")
+   > `bash <(curl -s --tlsv1.2 --request GET "https://raw.githubusercontent.com/badgumby/arch-linux-install/master/arch-install-gumby.sh")`
 
 ## What does this script do? In order:
 1. Prompts for system type (EFI or BIOS)
