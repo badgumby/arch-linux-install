@@ -70,7 +70,7 @@
 3. Runs pacstrap (base install) based on choice of system. Packages listed below:
    + EFI:
    > base base-devel grub-efi-x86_64 efibootmgr zsh vim wget git dialog wpa_supplicant reflector
-   
+
    + BIOS:
    > base base-devel grub-bios zsh vim wget git dialog wpa_supplicant reflector
 
@@ -85,7 +85,7 @@
 8. Set time zone
 9. Set hostname
 10. Enable en_US.UTF-8 locale, and generate locale
-11. Set 'root' password
+11. Set `root` password
 12. Create new user, set shell, and add to wheel group
 13. Configure initrd MODULES
     + Default:
