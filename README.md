@@ -45,7 +45,7 @@
 
 ## What does this script do? In order:
 1. Prompts for system type (EFI or BIOS)
-   > Note: BIOS setup is still a work-in-progress. DO NOT USE this option.
+   > Note: BIOS setup is still a work-in-progress. **DO NOT USE BIOS OPTION**.
 
 2. Formats and partitions your hard drive
 
