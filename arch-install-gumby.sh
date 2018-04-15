@@ -19,7 +19,7 @@ BLUE='\033[0;34m'
 WARN1='\033[0;31m' # Red
 DEF1='\033[0;32m' # Green
 BROWN='\033[0;33m' # Brown/Orange
-#TEXTCOLOR='\033[0;34m' # Blue
+BLUE='\033[0;34m' # Blue
 TEXTCOLOR='\033[0;36m' # Cyan
 #OTHER='\033[1;35m' # Purple
 OTHER='\033[1;34m' # Light Blue
@@ -50,7 +50,7 @@ echo '╚═╝  ╚═╝╚═╝  ╚═╝ ╚═════╝╚═╝  �
 
 echo -e ${NC}
 
-echo -e "${OTHER}Testing ${LIGHTCYAN}Default ${LIGHTGREEN}Colors"
+echo -e "${BROWN}Brown/Orange ${BLUE}Blue ${OTHER}LightBlue ${TEXTCOLOR}Cyan ${LIGHTCYAN}LightCyan ${DEF1}Green ${LIGHTGREEN}LightGreen"
 
 ##############################################################################################################
 ##### Global functions
