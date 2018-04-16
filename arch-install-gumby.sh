@@ -141,13 +141,27 @@ function efi_mount {
   echo -e "Mounting the new system..."
   echo -e $drawline${NC}
   mount /dev/mapper/vg0-root /mnt
+  if [ $? -eq 0 ]; then
+    echo "Mounted /dev/mapper/vg0-root /mnt"
+  else
+    echo "Failed to mount /dev/mapper/vg0-root /mnt"
+  fi
   swapon /dev/mapper/vg0-swap
   mkdir /mnt/boot
   mount ${storagedevice}2 /mnt/boot
+  if [ $? -eq 0 ]; then
+    echo "Mounted ${storagedevice}2 /mnt/boot"
+  else
+    echo "Failed to mount ${storagedevice}2 /mnt/boot"
+  fi
   mkdir /mnt/boot/efi
   mount ${storagedevice}1 /mnt/boot/efi
+  if [ $? -eq 0 ]; then
+    echo "Mounted ${storagedevice}1 /mnt/boot/efi"
+  else
+    echo "Failed to mount ${storagedevice}1 /mnt/boot/efi"
+  fi
 }
-
 
 
 ##############################################################################################################
@@ -184,6 +198,11 @@ function bios_mount {
   echo -e "Mounting the new system..."
   echo -e $drawline${NC}
   mount /dev/mapper/vg0-root /mnt
+  if [ $? -eq 0 ]; then
+    echo "Mounted /dev/mapper/vg0-root /mnt"
+  else
+    echo "Failed to mount /dev/mapper/vg0-root /mnt"
+  fi
   swapon /dev/mapper/vg0-swap
   mkdir /mnt/boot
   mount ${storagedevice}2 /mnt/boot
