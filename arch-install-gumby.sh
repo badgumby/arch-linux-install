@@ -206,6 +206,11 @@ function bios_mount {
   swapon /dev/mapper/vg0-swap
   mkdir /mnt/boot
   mount ${storagedevice}2 /mnt/boot
+  if [ $? -eq 0 ]; then
+    echo "Mounted ${storagedevice}2 /mnt/boot"
+  else
+    echo "Failed to mount ${storagedevice}2 /mnt/boot"
+  fi
 }
 
 
@@ -222,6 +227,7 @@ function efi_install {
   efi_create_fs
   encrypt_device
   efi_mount
+  efi_pacstrap
 }
 
 function bios_install {
@@ -232,6 +238,7 @@ function bios_install {
   bios_create_fs
   encrypt_device
   bios_mount
+  bios_pacstrap
 }
 
 ##############################################################################################################
