@@ -54,13 +54,13 @@
 2. Format and partitions your hard drive
 
    + EFI Formatting
-   > 200MB EFI Partition (ef00) - Formats to FAT32
-
-   > 500MB Linux File System BOOT Partition (8300) - Formats to EXT2
-
-   > Remainder: Linux File System (8300) - Creates logical volume that is LUKS encrypted (aes-xts-plain64)
-   > Creates 8GB SWAP on LUKS volume
-   > Uses remaining for EXT4 on LUKS volume
+   ```
+   200MB EFI Partition (ef00) - Formats to FAT32
+   500MB Linux File System BOOT Partition (8300) - Formats to EXT2
+   Remainder: Linux File System (8300) - Creates logical volume that is LUKS encrypted (aes-xts-plain64)
+   Creates 8GB SWAP on LUKS volume
+   Uses remaining for EXT4 on LUKS volume
+   ```
 
    + BIOS Formatting
    > 10MB MBR Partition (ef02) - Formats to FAT32
@@ -154,6 +154,6 @@
 
 29. Prompt to install BAD Gumby's favorite themes/fonts
     + Packages:
-    > ant-nebula-gtk-theme candy-gtk-theme paper-icon-theme ttf-material-icons ttf-ms-fonts ttf-wps-fonts
+    > arc-gtk-theme arc-solid-gtk-theme materia-theme-git candy-gtk-theme paper-icon-theme ttf-material-icons ttf-ms-fonts ttf-wps-fonts
 
 30. Prompt to reboot

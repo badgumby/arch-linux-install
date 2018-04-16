@@ -100,17 +100,23 @@ echo -e ${TEXTCOLOR}$drawline${NC}
 ##### BAD Gumby's favorite themes/fonts
 ##############################################################################################################
 
-THEMEINSTALL=(ant-nebula-gtk-theme candy-gtk-theme paper-icon-theme ttf-material-icons ttf-ms-fonts ttf-wps-fonts)
+THEMEINSTALL1=(arc-gtk-theme arc-solid-gtk-theme)
+THEMEINSTALL2=(materia-theme-git candy-gtk-theme paper-icon-theme ttf-material-icons ttf-ms-fonts ttf-wps-fonts)
 
 echo -e ${TEXTCOLOR}$drawline
-echo -e "BAD Gumby's favorite themes"
-echo -e "${DEF1}Default:${TEXTCOLOR} (${OTHER}ant-nebula-gtk-theme candy-gtk-theme paper-icon-theme ttf-material-icons ttf-ms-fonts ttf-wps-fonts${TEXTCOLOR})"
+echo -e "BAD Gumby's favorite themes/fonts"
+echo -e "${DEF1}Default:${TEXTCOLOR} (${OTHER}arc-gtk-theme arc-solid-gtk-theme materia-theme-git candy-gtk-theme paper-icon-theme ttf-material-icons ttf-ms-fonts ttf-wps-fonts${TEXTCOLOR})"
 echo -e "${CHOICE}"
 read -r -p "Would you like to install BAD Gumby's favorite themes? [y/n]: " response
 echo -e ${NC}
 if [[ "$response" =~ ^([yY][eE][sS]|[yY])+$ ]]
   then
-    for i in "${THEMEINSTALL[@]}"
+    for i in "${THEMEINSTALL1[@]}"
+    do
+      echo -e "${OTHER}Installing $i...${NC}"
+      sudo aura -Ax $i
+    done
+    for i in "${THEMEINSTALL2[@]}"
     do
       echo -e "${OTHER}Installing $i...${NC}"
       sudo aura -Ax $i
