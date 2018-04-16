@@ -240,7 +240,7 @@ reflector --country "${MYCOUNTRY}" --age 12 --protocol https --sort rate --save 
 cat /etc/pacman.d/mirrorlist
 
 ##############################################################################################################
-##### Update /etc/pacman.d/mirrorlist using Reflector
+##### Update local databases with multilib repo
 ##############################################################################################################
 
 echo -e ${TEXTCOLOR}$drawline
