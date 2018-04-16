@@ -136,7 +136,7 @@ function efi_create_fs {
   mkfs.ext2 ${storagedevice}2
 }
 
-function mount_efi {
+function efi_mount {
   echo -e ${TEXTCOLOR}$drawline
   echo -e "Mounting the new system..."
   echo -e $drawline${NC}
@@ -179,7 +179,7 @@ function bios_partition {
   sgdisk -n 0:0:0 -t 0:8300 -c 0:"data" $storagedevice
 }
 
-function mount_bios {
+function bios_mount {
   echo -e ${TEXTCOLOR}$drawline
   echo -e "Mounting the new system..."
   echo -e $drawline${NC}
@@ -202,7 +202,7 @@ function efi_install {
   inform_os_partitions
   efi_create_fs
   encrypt_device
-  mount_efi
+  efi_mount
 }
 
 function bios_install {
@@ -212,7 +212,7 @@ function bios_install {
   inform_os_partitions
   bios_create_fs
   encrypt_device
-  mount_bios
+  bios_mount
 }
 
 ##############################################################################################################
@@ -288,7 +288,7 @@ arch-chroot /mnt /bin/bash /root/arch-install-gumby-2.sh
 
 echo -e ${WARN1}$drawline
 echo -e "Installation is complete."
-echo -e "${CHOICE}Are you ready to reboot? Press ENTER to continue, CTRL+C to stay in chroot.${BLUE}"
+echo -e "${CHOICE}Are you ready to reboot? Press ENTER to continue, CTRL+C to stay in chroot.${TEXTCOLOR}"
 echo -e "If you stay in chroot, be sure to type 'exit' when you are done working to reboot."
 echo -e ${WARN1}$drawline${NC}
 read MYREBOOT
