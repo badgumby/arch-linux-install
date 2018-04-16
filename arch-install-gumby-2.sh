@@ -240,6 +240,15 @@ reflector --country "${MYCOUNTRY}" --age 12 --protocol https --sort rate --save 
 cat /etc/pacman.d/mirrorlist
 
 ##############################################################################################################
+##### Update /etc/pacman.d/mirrorlist using Reflector
+##############################################################################################################
+
+echo -e ${TEXTCOLOR}$drawline
+echo -e "Synchronizing package databases..."
+echo -e $drawline${NC}
+pacman -Syy
+
+##############################################################################################################
 ##### Install common packages from Official Repo
 ##############################################################################################################
 
