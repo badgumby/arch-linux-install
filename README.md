@@ -40,9 +40,9 @@
 3. Boot from the usb. If the usb fails to boot, make sure that secure boot is disabled in the BIOS configuration.
 4. Setup network connections
 
-   > systemctl start dhcpcd@eth0.service (this could be a different NIC name: eth1, eno0, enp0, etc...)
+   `systemctl start dhcpcd@eth0.service (this could be a different NIC name: eth1, eno0, enp0, etc...)`
 
-   > For WiFi only system, use wifi-menu
+   `For WiFi only system, use wifi-menu`
 
 ## Executing the script
 `bash <(curl -s --tlsv1.2 --request GET "https://raw.githubusercontent.com/badgumby/arch-linux-install/master/arch-install-gumby.sh")`
