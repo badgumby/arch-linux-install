@@ -118,7 +118,7 @@ function efi_pacstrap {
   echo -e ${TEXTCOLOR}$drawline
   echo -e "Installing packages for EFI system"
   echo -e $drawline${NC}
-  pacstrap /mnt base base-devel grub-efi-x86_64 efibootmgr zsh vim wget git dialog wpa_supplicant reflector
+  pacstrap /mnt base base-devel grub-efi-x86_64 efibootmgr linux-headers zsh vim wget git dialog wpa_supplicant reflector
 }
 
 function efi_partition {
@@ -172,7 +172,7 @@ function bios_pacstrap {
   echo -e ${TEXTCOLOR}$drawline
   echo -e "Installing packages for BIOS"
   echo -e $drawline${NC}
-  pacstrap /mnt base base-devel grub-bios zsh vim wget git dialog wpa_supplicant reflector
+  pacstrap /mnt base base-devel grub-bios linux-headers zsh vim wget git dialog wpa_supplicant reflector
 }
 
 function bios_create_fs {

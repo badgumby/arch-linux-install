@@ -67,11 +67,11 @@ echo -e ${TEXTCOLOR}$drawline${NC}
 ##### Install packages for AUR
 ##############################################################################################################
 
-AURINSTALL=(mate-tweak oh-my-zsh-git correcthorse neovim-gtk-git remmina-plugin-rdesktop visual-studio-code-bin wps-office google-chrome mopidy-gmusic keybase-bin signal-desktop-bin multibootusb skype-electron)
+AURINSTALL=(evdi displaylink mate-tweak oh-my-zsh-git correcthorse neovim-gtk-git remmina-plugin-rdesktop visual-studio-code-bin wps-office google-chrome mopidy-gmusic keybase-bin signal-desktop-bin multibootusb skype-electron)
 
 echo -e ${TEXTCOLOR}$drawline
 echo -e "BAD Gumby's packages from the Arch User Repository"
-echo -e "${DEF1}Default:${TEXTCOLOR} (${OTHER}mate-tweak oh-my-zsh-git correcthorse neovim-gtk-git remmina-plugin-rdesktop visual-studio-code-bin wps-office google-chrome mopidy-gmusic keybase-bin signal-desktop-bin multibootusb skype-electron${TEXTCOLOR})"
+echo -e "${DEF1}Default:${TEXTCOLOR} (${OTHER}evdi displaylink mate-tweak oh-my-zsh-git correcthorse neovim-gtk-git remmina-plugin-rdesktop visual-studio-code-bin wps-office google-chrome mopidy-gmusic keybase-bin signal-desktop-bin multibootusb skype-electron${TEXTCOLOR})"
 echo -e "${CHOICE}"
 read -r -p "Would you like to customize your AUR PACKAGES? [y/n]: " response
 echo -e ${NC}
@@ -95,6 +95,34 @@ if [[ "$response" =~ ^([yY][eE][sS]|[yY])+$ ]]
     done
 fi
 echo -e ${TEXTCOLOR}$drawline${NC}
+
+##############################################################################################################
+##### Start services - after aura
+##############################################################################################################
+
+echo -e ${TEXTCOLOR}$drawline
+echo -e "Enabling system services from AUR: 'sudo systemctl enable service'"
+echo -e "${CHOICE}"
+read -r -p "Would you like to set any services to start at boot? [y/n]: " response
+echo -e ${NC}
+if [[ "$response" =~ ^([yY][eE][sS]|[yY])+$ ]]
+  then
+    echo -e ""
+    echo -e "${CHOICE}Please enter services, separated by spaces.${NC}"
+    echo -e "${TEXTCOLOR}Suggested: displaylink${NC}"
+    read -a MYSERVICES
+    for i in "${MYSERVICES[@]}"
+    do
+      echo -e "${OTHER}Enabling $i...${NC}"
+      sudo systemctl enable $i
+    done
+  else
+    echo -e ""
+    echo -e "${OTHER}No services will be enabled.${NC}"
+fi
+echo -e ${TEXTCOLOR}$drawline${NC}
+echo -e "${CHOICE}Pausing to display results. Press ENTER to continue...${NC}"
+read HEYWAITNOW
 
 ##############################################################################################################
 ##### BAD Gumby's favorite themes/fonts

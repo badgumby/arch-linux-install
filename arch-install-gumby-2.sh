@@ -288,11 +288,11 @@ pacman-key-init
 base-install-packages
 
 ##############################################################################################################
-##### Start services
+##### Start services - after pacman
 ##############################################################################################################
 
 echo -e ${TEXTCOLOR}$drawline
-echo -e "Enabling system services: 'systemctl enable service'"
+echo -e "Enabling system services from Arch repo: 'systemctl enable service'"
 echo -e "${CHOICE}"
 read -r -p "Would you like to set any services to start at boot? [y/n]: " response
 echo -e ${NC}

@@ -78,11 +78,11 @@
 3. Run `pacstrap` (base install) based on choice of system. Packages listed below:
    + EFI:
 
-   `base base-devel grub-efi-x86_64 efibootmgr zsh vim wget git dialog wpa_supplicant reflector`
+   `base base-devel grub-efi-x86_64 efibootmgr linux-headers zsh vim wget git dialog wpa_supplicant reflector`
 
    + BIOS:
 
-   `base base-devel grub-bios zsh vim wget git dialog wpa_supplicant reflector`
+   `base base-devel grub-bios linux-headers zsh vim wget git dialog wpa_supplicant reflector`
 
 4. Generate /etc/fstab
 5. Make a tmpfs for /tmp (used by installer)
@@ -149,7 +149,7 @@
 
       `Enter packages separated by spaces`
 
-23. Enable services
+23. Enable services after `pacman` packages have been installed
 
    `Enter services separated by spaces`
 
@@ -170,15 +170,17 @@
 28. Install packages from Arch user repository
     + BAD Gumby's default packages:
 
-      `mate-tweak oh-my-zsh-git correcthorse neovim-gtk-git remmina-plugin-rdesktop visual-studio-code-bin wps-office google-chrome mopidy-gmusic keybase-bin signal-desktop-bin multibootusb skype-electron`
+      `evdi displaylink mate-tweak oh-my-zsh-git correcthorse neovim-gtk-git remmina-plugin-rdesktop visual-studio-code-bin wps-office google-chrome mopidy-gmusic keybase-bin signal-desktop-bin multibootusb skype-electron`
 
     + Custom:
 
       `Enter packages separated by spaces`
 
-29. Prompt to install BAD Gumby's favorite themes/fonts
+29. Enable services after `aura` packages have been installed
+
+30. Prompt to install BAD Gumby's favorite themes/fonts
     + Packages:
-    
+
       `arc-gtk-theme arc-solid-gtk-theme materia-theme-git candy-gtk-theme paper-icon-theme ttf-material-icons ttf-ms-fonts ttf-wps-fonts`
 
-30. Prompt to reboot
+31. Prompt to reboot
