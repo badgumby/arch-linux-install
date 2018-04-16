@@ -1,4 +1,5 @@
 #!/bin/bash
+# Begin arch-install-gumby-2.sh
 
 #Line separator variable
 drawline=`printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' -`
@@ -9,9 +10,14 @@ BLUE='\033[0;34m'
 WARN1='\033[0;31m' # Red
 DEF1='\033[0;32m' # Green
 BROWN='\033[0;33m' # Brown/Orange
-TEXTCOLOR='\033[0;34m' # Blue
-OTHER='\033[1;35m' # Purple
+BLUE='\033[0;34m' # Blue
+TEXTCOLOR='\033[0;36m' # Cyan
+#OTHER='\033[1;35m' # Purple
+OTHER='\033[1;36m' # Light Cyan
+#OTHER='\033[1;34m' # Light Blue
 CHOICE='\033[1;33m' # Yellow
+LIGHTCYAN='\033[1;36m' # Light Cyan
+LIGHTGREEN='\033[1;32m' # Light Green
 
 BOLD='\e[1m'
 NB='\e[21m' #No Bold
@@ -304,7 +310,7 @@ read HEYWAITNOW
 ##### Switching user for AUR package installations
 ##############################################################################################################
 
-curl -o /home/${MYUSERNAME}/arch-install-gumby-3.sh -s --tlsv1.2 --insecure --request GET "https://raw.githubusercontent.com/badgumby/arch-linux-install/master/arch-install-gumby-3.sh"
+curl -o /home/${MYUSERNAME}/arch-install-gumby-3.sh -s --tlsv1.2 --request GET "https://raw.githubusercontent.com/badgumby/arch-linux-install/master/arch-install-gumby-3.sh"
 chmod +x /home/${MYUSERNAME}/arch-install-gumby-3.sh
 
 echo -e ${TEXTCOLOR}$drawline
@@ -313,23 +319,11 @@ echo -e $drawline${NC}
 su -p $MYUSERNAME /home/${MYUSERNAME}/arch-install-gumby-3.sh
 
 ##############################################################################################################
+##############################################################################################################
+##############################################################################################################
+##############################################################################################################
 ##### Finished with second script, back to 1
 ##############################################################################################################
-
-echo -e ${WARN1}$drawline
-echo -e "Installation is complete."
-echo -e "${CHOICE}Are you ready to reboot? Press ENTER to continue, CTRL+C to stay in chroot.${BLUE}"
-echo -e "If you stay in chroot, be sure to type 'exit' when you are done working to reboot."
-echo -e ${WARN1}$drawline${NC}
-read MYREBOOT
-
-echo -e ${TEXTCOLOR}$drawline
-echo -e "Exiting chroot..."
-echo -e $drawline${NC}
-# Exit su
-exit
-# Exit chroot
-exit
-##########################################################################################################################################################
-##########################################################################################################################################################
-##########################################################################################################################################################
+##############################################################################################################
+##############################################################################################################
+##############################################################################################################
