@@ -206,9 +206,10 @@ echo -e $drawline${RED}
 sed -i '/GRUB_CMDLINE_LINUX=/c\GRUB_CMDLINE_LINUX="cryptdevice='${storagedevice2}'3:luks:allow-discards"' /etc/default/grub
 echo -e ${CHOICE}
 echo 'Verify line below shows: GRUB_CMDLINE_LINUX="cryptdevice=/dev/sdX3:luks:allow-discards". Press ENTER to continue...'
-echo -e ${NC}
+echo -e ${OTHER}
 cat /etc/default/grub | grep GRUB_CMDLINE_LINUX=
 read HOLDUPHEY
+echo -E ${NC}
 grub-mkconfig -o /boot/grub/grub.cfg
 
 ##############################################################################################################

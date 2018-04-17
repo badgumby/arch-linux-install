@@ -32,8 +32,8 @@
 #### Set Keyboard Shortcuts
 > Take a screenshot: Alt+F12
 
-> (Custom) Screenshot
+> (Custom) Screenshot -
 > scrot-gui: Print
 
-> (Custom) Rofi
+> (Custom) Rofi -
 > rofi -show run: F2
