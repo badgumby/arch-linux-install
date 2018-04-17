@@ -84,7 +84,7 @@ function inform_os_partitions {
   echo -e ${TEXTCOLOR}$drawline
   echo -e "Informing OS of changes..."
   echo -e $drawline${NC}
-  partprobe $
+  partprobe $storagedevice
   fdisk -l $
 
   echo -e ${CHOICE}$drawline
