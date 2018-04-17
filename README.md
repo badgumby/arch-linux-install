@@ -55,34 +55,34 @@
 
    + EFI Formatting
 
-   `Partition 1: 200MB EFI Partition (ef00) - Formats to FAT32`
+      `Partition 1: 200MB EFI Partition (ef00) - Formats to FAT32`
 
-   `Partition 2: 500MB Linux File System BOOT Partition (8300) - Formats to EXT2`
+      `Partition 2: 500MB Linux File System BOOT Partition (8300) - Formats to EXT2`
 
-   `Partition 3: Remainder: Linux File System (8300) - Creates logical volume that is LUKS encrypted (aes-xts-plain64)`
+      `Partition 3: Remainder: Linux File System (8300) - Creates logical volume that is LUKS encrypted (aes-xts-plain64)`
 
-      + `Creates 8GB SWAP on LUKS volume`
-      + `Uses remaining for EXT4 on LUKS volume`
+         + `Creates 8GB SWAP on LUKS volume`
+         + `Uses remaining for EXT4 on LUKS volume`
 
    + BIOS Formatting
 
-   `Partition 1: 10MB MBR Partition (ef02) - Formats to FAT32`
+      `Partition 1: 10MB MBR Partition (ef02) - Formats to FAT32`
 
-   `Partition 2: 250MB Linux File System BOOT Parition (8300) - Formats to EXT2`
+      `Partition 2: 250MB Linux File System BOOT Parition (8300) - Formats to EXT2`
 
-   `Partition 3: Remainder: Linux File System (8300) - Creates logical volume that is LUKS encrypted (aes-xts-plain64)`
+      `Partition 3: Remainder: Linux File System (8300) - Creates logical volume that is LUKS encrypted (aes-xts-plain64)`
 
-      + `Creates 8GB SWAP on LUKS volume`
-      + `Uses remaining for EXT4 on LUKS volume`
+         + `Creates 8GB SWAP on LUKS volume`
+         + `Uses remaining for EXT4 on LUKS volume`
 
 3. Run `pacstrap` (base install) based on choice of system. Packages listed below:
    + EFI:
 
-   `base base-devel grub-efi-x86_64 efibootmgr linux-headers zsh vim wget git dialog wpa_supplicant reflector`
+      `base base-devel grub-efi-x86_64 efibootmgr linux-headers zsh vim wget git dialog wpa_supplicant reflector`
 
    + BIOS:
 
-   `base base-devel grub-bios linux-headers zsh vim wget git dialog wpa_supplicant reflector`
+      `base base-devel grub-bios linux-headers zsh vim wget git dialog wpa_supplicant reflector`
 
 4. Generate /etc/fstab
 5. Make a tmpfs for /tmp (used by installer)
@@ -143,7 +143,7 @@
 22. Install packages from Arch official repository
     + BAD Gumby's default packages:
 
-      `xf86-video-intel xorg-server gdm mate mate-extra xorg-appsbluez-utils intel-ucode system-config-printer network-manager-applet dconf-editor remmina tilda filezilla poedit jdk8-openjdk jre8-openjdk scrot keepass atom ncmpcpp mopidy steam gimp inkscape neofetch conky p7zip ntfs-3g samba openconnect networkmanager-openconnect networkmanager-openvpn networkmanager-vpnc nm-connection-editor aircrack-ng hexchat nmap`
+      `xf86-video-intel xorg-server gdm mate mate-extra xorg-appsbluez-utils intel-ucode system-config-printer network-manager-applet dconf-editor remmina tilda filezilla poedit jdk8-openjdk jre8-openjdk scrot keepass atom ncmpcpp mopidy steam gimp inkscape neofetch conky p7zip ntfs-3g samba openconnect networkmanager-openconnect networkmanager-openvpn networkmanager-vpnc nm-connection-editor aircrack-ng hexchat nmap rofi`
 
     + Custom:
 
