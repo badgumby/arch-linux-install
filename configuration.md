@@ -28,3 +28,12 @@
 
 #### Set MATE defaults
 ###### mate-default-applications-properties
+
+#### Set Keyboard Shortcuts
+> Take a screenshot: Alt+F12
+
+> (Custom) Screenshot
+> scrot-gui: Print
+
+> (Custom) Rofi
+> rofi -show run: F2

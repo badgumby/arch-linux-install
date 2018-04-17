@@ -61,8 +61,8 @@
 
       `Partition 3: Remainder: Linux File System (8300) - Creates logical volume that is LUKS encrypted (aes-xts-plain64)`
 
-         + `Creates 8GB SWAP on LUKS volume`
-         + `Uses remaining for EXT4 on LUKS volume`
+         + Creates 8GB SWAP on LUKS volume
+         + Uses remaining for EXT4 on LUKS volume
 
    + BIOS Formatting
 
@@ -72,8 +72,8 @@
 
       `Partition 3: Remainder: Linux File System (8300) - Creates logical volume that is LUKS encrypted (aes-xts-plain64)`
 
-         + `Creates 8GB SWAP on LUKS volume`
-         + `Uses remaining for EXT4 on LUKS volume`
+         + Creates 8GB SWAP on LUKS volume
+         + Uses remaining for EXT4 on LUKS volume
 
 3. Run `pacstrap` (base install) based on choice of system. Packages listed below:
    + EFI:
