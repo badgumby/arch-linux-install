@@ -79,13 +79,13 @@ function inform_os_partitions {
   echo -e ${TEXTCOLOR}$drawline
   echo -e "Printing written partitions..."
   echo -e $drawline${NC}
-  sgdisk -p $
+  sgdisk -p $storagedevice
 
   echo -e ${TEXTCOLOR}$drawline
   echo -e "Informing OS of changes..."
   echo -e $drawline${NC}
-  partprobe $
-  fdisk -l $
+  partprobe $storagedevice
+  fdisk -l $storagedevice
 
   echo -e ${CHOICE}$drawline
   echo -e "Enter the first device partition? (ex. /dev/sda1)"
