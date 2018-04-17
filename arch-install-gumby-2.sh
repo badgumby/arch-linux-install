@@ -209,7 +209,7 @@ echo 'Verify line below shows: GRUB_CMDLINE_LINUX="cryptdevice=/dev/PARTITION3:l
 echo -e ${OTHER}
 cat /etc/default/grub | grep GRUB_CMDLINE_LINUX=
 read HOLDUPHEY
-echo -E ${NC}
+echo -e ${NC}
 grub-mkconfig -o /boot/grub/grub.cfg
 
 ##############################################################################################################
