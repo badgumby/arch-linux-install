@@ -79,13 +79,13 @@ function inform_os_partitions {
   echo -e ${TEXTCOLOR}$drawline
   echo -e "Printing written partitions..."
   echo -e $drawline${NC}
-  sgdisk -p $
+  sgdisk -p $storagedevice
 
   echo -e ${TEXTCOLOR}$drawline
   echo -e "Informing OS of changes..."
   echo -e $drawline${NC}
   partprobe $storagedevice
-  fdisk -l $
+  fdisk -l $storagedevice
 
   echo -e ${CHOICE}$drawline
   echo -e "Enter the first device partition? (ex. /dev/sda1)"
@@ -194,8 +194,8 @@ function bios_create_fs {
   echo -e ${TEXTCOLOR}$drawline
   echo -e "Creating file systems on the EFI/BIOS and boot partitions..."
   echo -e $drawline${NC}
-  mkfs.vfat -F32 ${storagedevice}1
-  mkfs.ext2 ${storagedevice}2
+  mkfs.vfat -F32 ${storagedevice1}
+  mkfs.ext2 ${storagedevice2}
 }
 
 function bios_partition {
@@ -220,11 +220,11 @@ function bios_mount {
   fi
   swapon /dev/mapper/vg0-swap
   mkdir /mnt/boot
-  mount ${storagedevice}2 /mnt/boot
+  mount ${storagedevice2} /mnt/boot
   if [ $? -eq 0 ]; then
-    echo "Mounted ${storagedevice}2 /mnt/boot"
+    echo "Mounted ${storagedevice2} /mnt/boot"
   else
-    echo "Failed to mount ${storagedevice}2 /mnt/boot"
+    echo "Failed to mount ${storagedevice2} /mnt/boot"
   fi
 }
 
