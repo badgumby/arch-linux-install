@@ -142,7 +142,7 @@ if [[ "$response" =~ ^([yY][eE][sS]|[yY])+$ ]]
     for i in "${THEMEINSTALL1[@]}"
     do
       echo -e "${OTHER}Installing $i...${NC}"
-      sudo aura -Ax $i
+      sudo pacman -S $i
     done
     for i in "${THEMEINSTALL2[@]}"
     do
