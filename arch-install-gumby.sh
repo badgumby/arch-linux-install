@@ -86,14 +86,29 @@ function inform_os_partitions {
   echo -e $drawline${NC}
   partprobe $storagedevice
   fdisk -l $storagedevice
+
+  echo -e ${CHOICE}$drawline
+  echo -e "Enter the first device partition? (ex. /dev/sda1)"
+  echo -e $drawline${NC}
+  read storagedevice1
+
+  echo -e ${CHOICE}$drawline
+  echo -e "Enter the second device partition? (ex. /dev/sda2)"
+  echo -e $drawline${NC}
+  read storagedevice2
+
+  echo -e ${CHOICE}$drawline
+  echo -e "Enter the third device partition? (ex. /dev/sda3)"
+  echo -e $drawline${NC}
+  read storagedevice3
 }
 
 function encrypt_device {
   echo -e ${TEXTCOLOR}$drawline
   echo -e "Setting up the encryption of the system..."
   echo -e $drawline${NC}
-  cryptsetup -c aes-xts-plain64 -y --use-random luksFormat ${storagedevice}3
-  cryptsetup luksOpen ${storagedevice}3 luks
+  cryptsetup -c aes-xts-plain64 -y --use-random luksFormat ${storagedevice3}
+  cryptsetup luksOpen ${storagedevice3} luks
 
   echo -e ${TEXTCOLOR}$drawline
   echo -e "Creating encrypted partitions..."
@@ -132,8 +147,8 @@ function efi_create_fs {
   echo -e ${TEXTCOLOR}$drawline
   echo -e "Creating file systems on the EFI/BIOS and boot partitions..."
   echo -e $drawline${NC}
-  mkfs.vfat -F32 ${storagedevice}1
-  mkfs.ext2 ${storagedevice}2
+  mkfs.vfat -F32 ${storagedevice1}
+  mkfs.ext2 ${storagedevice2}
 }
 
 function efi_mount {
@@ -148,18 +163,18 @@ function efi_mount {
   fi
   swapon /dev/mapper/vg0-swap
   mkdir /mnt/boot
-  mount ${storagedevice}2 /mnt/boot
+  mount ${storagedevice2} /mnt/boot
   if [ $? -eq 0 ]; then
-    echo "Mounted ${storagedevice}2 /mnt/boot"
+    echo "Mounted ${storagedevice2} /mnt/boot"
   else
-    echo "Failed to mount ${storagedevice}2 /mnt/boot"
+    echo "Failed to mount ${storagedevice2} /mnt/boot"
   fi
   mkdir /mnt/boot/efi
   mount ${storagedevice}1 /mnt/boot/efi
   if [ $? -eq 0 ]; then
-    echo "Mounted ${storagedevice}1 /mnt/boot/efi"
+    echo "Mounted ${storagedevice1} /mnt/boot/efi"
   else
-    echo "Failed to mount ${storagedevice}1 /mnt/boot/efi"
+    echo "Failed to mount ${storagedevice1} /mnt/boot/efi"
   fi
 }
 
@@ -298,7 +313,7 @@ echo -e $drawline${NC}
 curl -o /mnt/root/arch-install-gumby-2.sh -s --tlsv1.2 --request GET "https://raw.githubusercontent.com/badgumby/arch-linux-install/master/arch-install-gumby-2.sh"
 chmod +x /mnt/root/arch-install-gumby-2.sh
 # Exporting storagedevice variable
-echo $storagedevice > /mnt/root/storagedevice.txt
+echo $storagedevice3 > /mnt/root/storagedevice.txt
 
 arch-chroot /mnt /bin/bash /root/arch-install-gumby-2.sh
 
