@@ -79,13 +79,13 @@ function inform_os_partitions {
   echo -e ${TEXTCOLOR}$drawline
   echo -e "Printing written partitions..."
   echo -e $drawline${NC}
-  sgdisk -p $storagedevice
+  sgdisk -p $
 
   echo -e ${TEXTCOLOR}$drawline
   echo -e "Informing OS of changes..."
   echo -e $drawline${NC}
-  partprobe $storagedevice
-  fdisk -l $storagedevice
+  partprobe $
+  fdisk -l $
 
   echo -e ${CHOICE}$drawline
   echo -e "Enter the first device partition? (ex. /dev/sda1)"
@@ -170,7 +170,7 @@ function efi_mount {
     echo "Failed to mount ${storagedevice2} /mnt/boot"
   fi
   mkdir /mnt/boot/efi
-  mount ${storagedevice}1 /mnt/boot/efi
+  mount ${storagedevice1} /mnt/boot/efi
   if [ $? -eq 0 ]; then
     echo "Mounted ${storagedevice1} /mnt/boot/efi"
   else
