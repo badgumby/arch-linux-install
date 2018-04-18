@@ -254,11 +254,11 @@ pacman -Syy
 ##############################################################################################################
 
 function base-install-packages {
-  BASEINSTALL=(xf86-video-intel xorg-server gdm mate mate-extra xorg-appsbluez-utils intel-ucode system-config-printer network-manager-applet dconf-editor remmina tilda filezilla poedit jdk8-openjdk jre8-openjdk scrot keepass atom ncmpcpp mopidy steam gimp inkscape neofetch conky p7zip ntfs-3g samba openconnect networkmanager-openconnect networkmanager-openvpn networkmanager-vpnc nm-connection-editor aircrack-ng hexchat nmap rofi)
+  BASEINSTALL=(xf86-video-intel xorg-server gdm mate mate-extra xorg-appsbluez-utils intel-ucode system-config-printer network-manager-applet dconf-editor remmina tilda filezilla poedit jdk8-openjdk jre8-openjdk scrot keepass atom ncmpcpp mopidy steam gimp inkscape neofetch conky p7zip ntfs-3g samba openconnect networkmanager-openconnect networkmanager-openvpn networkmanager-vpnc nm-connection-editor aircrack-ng hexchat nmap rofi openssh blueman virtualbox pidgin gnome-keyring freerdp)
 
   echo -e ${TEXTCOLOR}$drawline
   echo -e "BAD Gumby's base packages from the Official Arch Repo"
-  echo -e "${DEF1}Default:${TEXTCOLOR} (${OTHER}xf86-video-intel xorg-server xorg-apps gdm mate mate-extra bluez-utils intel-ucode mate-media system-config-printer network-manager-applet dconf-editor remmina tilda filezilla poedit jdk8-openjdk jre8-openjdk scrot keepass atom ncmpcpp mopidy steam gimp inkscape neofetch conky p7zip ntfs-3g samba openconnect networkmanager-openconnect networkmanager-openvpn networkmanager-vpnc nm-connection-editor aircrack-ng hexchat nmap rofi${TEXTCOLOR})"
+  echo -e "${DEF1}Default:${TEXTCOLOR} (${OTHER}xf86-video-intel xorg-server xorg-apps gdm mate mate-extra bluez-utils intel-ucode mate-media system-config-printer network-manager-applet dconf-editor remmina tilda filezilla poedit jdk8-openjdk jre8-openjdk scrot keepass atom ncmpcpp mopidy steam gimp inkscape neofetch conky p7zip ntfs-3g samba openconnect networkmanager-openconnect networkmanager-openvpn networkmanager-vpnc nm-connection-editor aircrack-ng hexchat nmap rofi openssh blueman virtualbox pidgin gnome-keyring freerdp${TEXTCOLOR})"
   echo -e "${CHOICE}"
   read -r -p "Would you like to customize your PACKAGES? [y/n]: " response
   echo -e ${NC}
@@ -287,34 +287,6 @@ function base-install-packages {
 pacman-key-init
 # Execute install function
 base-install-packages
-
-##############################################################################################################
-##### Start services - after pacman
-##############################################################################################################
-
-echo -e ${TEXTCOLOR}$drawline
-echo -e "Enabling system services from Arch repo: 'systemctl enable service'"
-echo -e "${CHOICE}"
-read -r -p "Would you like to set any services to start at boot? [y/n]: " response
-echo -e ${NC}
-if [[ "$response" =~ ^([yY][eE][sS]|[yY])+$ ]]
-  then
-    echo -e ""
-    echo -e "${CHOICE}Please enter services, separated by spaces.${NC}"
-    echo -e "${TEXTCOLOR}Suggested: NetworkManager, bluetooth, gdm${NC}"
-    read -a MYSERVICES
-    for i in "${MYSERVICES[@]}"
-    do
-      echo -e "${OTHER}Enabling $i...${NC}"
-      systemctl enable $i
-    done
-  else
-    echo -e ""
-    echo -e "${OTHER}No services will be enabled.${NC}"
-fi
-echo -e ${TEXTCOLOR}$drawline${NC}
-echo -e "${CHOICE}Pausing to display results. Press ENTER to continue...${NC}"
-read HEYWAITNOW
 
 ##############################################################################################################
 ##### Switching user for AUR package installations

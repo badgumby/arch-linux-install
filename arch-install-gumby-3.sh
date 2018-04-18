@@ -101,7 +101,7 @@ echo -e ${TEXTCOLOR}$drawline${NC}
 ##############################################################################################################
 
 echo -e ${TEXTCOLOR}$drawline
-echo -e "Enabling system services from AUR: 'sudo systemctl enable service'"
+echo -e "Enabling system services: 'sudo systemctl enable service'"
 echo -e "${CHOICE}"
 read -r -p "Would you like to set any services to start at boot? [y/n]: " response
 echo -e ${NC}
@@ -109,7 +109,7 @@ if [[ "$response" =~ ^([yY][eE][sS]|[yY])+$ ]]
   then
     echo -e ""
     echo -e "${CHOICE}Please enter services, separated by spaces.${NC}"
-    echo -e "${TEXTCOLOR}Suggested: displaylink${NC}"
+    echo -e "${OTHER}Suggested: NetworkManager bluetooth sshd gdm displaylink${NC}"
     read -a MYSERVICES
     for i in "${MYSERVICES[@]}"
     do
