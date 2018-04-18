@@ -37,3 +37,13 @@
 
 > (Custom) Rofi -
 > rofi -show run: F2
+
+
+#### Theme Settings
+> Controls - Arc
+
+> Windows Border - Materia-compact
+
+> Icons - Paper
+
+> Pointer - MATE
