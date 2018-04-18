@@ -40,9 +40,11 @@
 
 
 #### Theme Settings
+> Copy afflatus-compact theme folder to /home/*user*/.themes/
+
 > Controls - Arc
 
-> Windows Border - Materia-compact
+> Windows Border - Afflatus-compact
 
 > Icons - Paper
 
