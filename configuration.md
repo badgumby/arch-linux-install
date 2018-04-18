@@ -40,6 +40,7 @@
 
 
 #### Theme Settings
+###### Themes
 > Copy afflatus-compact theme folder to /home/*user*/.themes/
 
 > Controls - Arc
@@ -49,3 +50,8 @@
 > Icons - Paper
 
 > Pointer - MATE
+
+###### Localization
+> sudo cp mate-panel.mo /usr/share/locale/e_US/LC_MESSAGES/mate-panel.mo
+
+> mate-panel --replace
