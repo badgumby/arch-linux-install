@@ -88,6 +88,7 @@ function inform_os_partitions {
   fdisk -l $storagedevice
 
   echo -e ${CHOICE}$drawline
+  # WIP # cat fdisk.txt | grep ^/dev/sda.*1$
   echo -e "Enter the first device partition? (ex. /dev/sda1)"
   echo -e $drawline${NC}
   read storagedevice1
