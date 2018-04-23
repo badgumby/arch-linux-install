@@ -88,20 +88,44 @@ function inform_os_partitions {
   fdisk -l $storagedevice
 
   echo -e ${CHOICE}$drawline
-  # WIP # cat fdisk.txt | grep ^/dev/sda.*1$
-  echo -e "Enter the first device partition? (ex. /dev/sda1)"
+  storagedevice1=`sudo fdisk -l | grep -o ^$storagedevice[^\s]1`
+  echo -e "${TEXTCOLOR}Detected as: ${OTHER}$storagedevice1${CHOICE}"
+  read -r -p "Is this correct? [y/n]: " response
+  if [[ "$response" =~ ^([yY][eE][sS]|[yY])+$ ]]
+    then
+      echo -e "${TEXTCOLOR}Using partition: ${OTHER}$storagedevice1${NC}"
+    else
+      echo -e "${CHOICE}Please enter the correct partition 1 name: ${NC}"
+      read storagedevice1
+      echo -e "${TEXTCOLOR}Using partition: ${OTHER}$storagedevice1${NC}"
+  fi
   echo -e $drawline${NC}
-  read storagedevice1
 
   echo -e ${CHOICE}$drawline
-  echo -e "Enter the second device partition? (ex. /dev/sda2)"
+  storagedevice2=`sudo fdisk -l | grep -o ^$storagedevice[^\s]2`
+  echo -e "${TEXTCOLOR}Detected as: ${OTHER}$storagedevice2${TEXTCOLOR}"
+  read -r -p "Is this correct? [y/n]: " response
+  if [[ "$response" =~ ^([yY][eE][sS]|[yY])+$ ]]
+    then
+      echo -e "${TEXTCOLOR}Using partition: ${OTHER}$storagedevice2${NC}"
+    else
+      echo -e "${CHOICE}Please enter the correct partition 2 name: ${NC}"
+      read storagedevice2
+      echo -e "${TEXTCOLOR}Using partition: ${OTHER}$storagedevice2${NC}"
+  fi
   echo -e $drawline${NC}
-  read storagedevice2
 
-  echo -e ${CHOICE}$drawline
-  echo -e "Enter the third device partition? (ex. /dev/sda3)"
-  echo -e $drawline${NC}
-  read storagedevice3
+  storagedevice3=`sudo fdisk -l | grep -o ^$storagedevice[^\s]3`
+  echo -e "${TEXTCOLOR}Detected as: ${OTHER}$storagedevice3${TEXTCOLOR}"
+  read -r -p "Is this correct? [y/n]: " response
+  if [[ "$response" =~ ^([yY][eE][sS]|[yY])+$ ]]
+    then
+      echo -e "${TEXTCOLOR}Using partition: ${OTHER}$storagedevice3${NC}"
+    else
+      echo -e "${CHOICE}Please enter the correct partition 3 name: ${NC}"
+      read storagedevice3
+      echo -e "${TEXTCOLOR}Using partition: ${OTHER}$storagedevice3${NC}"
+  fi
 }
 
 function encrypt_device {
