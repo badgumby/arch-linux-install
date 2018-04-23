@@ -205,9 +205,22 @@ echo -e "Modifying GRUB file to select encrypted partition..."
 echo -e $drawline${RED}
 sed -i '/GRUB_CMDLINE_LINUX=/c\GRUB_CMDLINE_LINUX="cryptdevice='${storagedevice3}':luks:allow-discards"' /etc/default/grub
 echo -e ${CHOICE}
-echo 'Verify line below shows: GRUB_CMDLINE_LINUX="cryptdevice=/dev/PARTITION3:luks:allow-discards". Press ENTER to continue...'
+echo 'Verify line below shows: GRUB_CMDLINE_LINUX="cryptdevice=/dev/PARTITION3:luks:allow-discards"'
 echo -e ${OTHER}
 cat /etc/default/grub | grep GRUB_CMDLINE_LINUX=
+echo -e ${CHOICE}
+read -r -p "Is this correct? [y/n]: " response
+echo -e ${NC}
+if [[ "$response" =~ ^([yY][eE][sS]|[yY])+$ ]]
+  then
+    echo -e "${TEXTCOLOR}Continuing using partition: ${OTHER}$storagedevice3${NC}"
+  else
+    echo -e "${CHOICE}Please enter the correct partition 3 name: ${NC}"
+    read storagedevice3
+    echo -e "${TEXTCOLOR}Using partition: ${OTHER}$storagedevice3${NC}"
+    sed -i '/GRUB_CMDLINE_LINUX=/c\GRUB_CMDLINE_LINUX="cryptdevice='${storagedevice3}':luks:allow-discards"' /etc/default/grub
+    cat /etc/default/grub | grep GRUB_CMDLINE_LINUX=
+fi
 read HOLDUPHEY
 echo -e ${NC}
 grub-mkconfig -o /boot/grub/grub.cfg

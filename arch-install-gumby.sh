@@ -88,7 +88,7 @@ function inform_os_partitions {
   fdisk -l $storagedevice
 
   echo -e ${CHOICE}$drawline
-  storagedevice1=`sudo fdisk -l | grep -o ^$storagedevice[^\s]1`
+  storagedevice1=`fdisk -l | grep -o ^$storagedevice[^\s]1`
   echo -e "${TEXTCOLOR}Detected as: ${OTHER}$storagedevice1${CHOICE}"
   read -r -p "Is this correct? [y/n]: " response
   if [[ "$response" =~ ^([yY][eE][sS]|[yY])+$ ]]
@@ -102,7 +102,7 @@ function inform_os_partitions {
   echo -e $drawline${NC}
 
   echo -e ${CHOICE}$drawline
-  storagedevice2=`sudo fdisk -l | grep -o ^$storagedevice[^\s]2`
+  storagedevice2=`fdisk -l | grep -o ^$storagedevice[^\s]2`
   echo -e "${TEXTCOLOR}Detected as: ${OTHER}$storagedevice2${TEXTCOLOR}"
   read -r -p "Is this correct? [y/n]: " response
   if [[ "$response" =~ ^([yY][eE][sS]|[yY])+$ ]]
@@ -115,7 +115,7 @@ function inform_os_partitions {
   fi
   echo -e $drawline${NC}
 
-  storagedevice3=`sudo fdisk -l | grep -o ^$storagedevice[^\s]3`
+  storagedevice3=`fdisk -l | grep -o ^$storagedevice[^\s]3`
   echo -e "${TEXTCOLOR}Detected as: ${OTHER}$storagedevice3${TEXTCOLOR}"
   read -r -p "Is this correct? [y/n]: " response
   if [[ "$response" =~ ^([yY][eE][sS]|[yY])+$ ]]
