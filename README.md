@@ -164,7 +164,7 @@
    `su -p $MYUSERNAME /home/${MYUSERNAME}/arch-install-gumby-3.sh`
 
 26. Download and install `aura` Arch user repository package manager
-27. Prompt to install System76 drivers/modules
+27. Prompt to install System76 drivers/modules (installed from AUR)
     + Packages
 
       `system76-driver system76-dkms-git system76-wallpapers`
