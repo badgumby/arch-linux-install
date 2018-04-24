@@ -184,7 +184,10 @@ function efi_mount {
   if [ $? -eq 0 ]; then
     echo "Mounted /dev/mapper/vg0-root /mnt"
   else
-    echo "Failed to mount /dev/mapper/vg0-root /mnt"
+    echo -e "${WARN1}Failed to mount ${OTHER}/dev/mapper/vg0-root${WARN1} /mnt${NC}"
+    echo -e "${OTHER}Exiting... Press enter to continue${NC}"
+    read ITBROKE
+    exit
   fi
   swapon /dev/mapper/vg0-swap
   mkdir /mnt/boot
@@ -192,14 +195,20 @@ function efi_mount {
   if [ $? -eq 0 ]; then
     echo "Mounted ${storagedevice2} /mnt/boot"
   else
-    echo "Failed to mount ${storagedevice2} /mnt/boot"
+    echo -e "${WARN1}Failed to mount ${OTHER}${storagedevice2}${WARN1} /mnt/boot${NC}"
+    echo -e "${OTHER}Exiting... Press enter to continue${NC}"
+    read ITBROKE
+    exit
   fi
   mkdir /mnt/boot/efi
   mount ${storagedevice1} /mnt/boot/efi
   if [ $? -eq 0 ]; then
     echo "Mounted ${storagedevice1} /mnt/boot/efi"
   else
-    echo "Failed to mount ${storagedevice1} /mnt/boot/efi"
+    echo -e "${WARN1}Failed to mount ${OTHER}${storagedevice1}${WARN1} /mnt/boot/efi${NC}"
+    echo -e "${OTHER}Exiting... Press enter to continue${NC}"
+    read ITBROKE
+    exit
   fi
 }
 
@@ -241,7 +250,10 @@ function bios_mount {
   if [ $? -eq 0 ]; then
     echo "Mounted /dev/mapper/vg0-root /mnt"
   else
-    echo "Failed to mount /dev/mapper/vg0-root /mnt"
+    echo -e "${WARN1}Failed to mount ${OTHER}/dev/mapper/vg0-root${WARN1} /mnt${NC}"
+    echo -e "${OTHER}Exiting... Press enter to continue${NC}"
+    read ITBROKE
+    exit
   fi
   swapon /dev/mapper/vg0-swap
   mkdir /mnt/boot
@@ -249,7 +261,10 @@ function bios_mount {
   if [ $? -eq 0 ]; then
     echo "Mounted ${storagedevice2} /mnt/boot"
   else
-    echo "Failed to mount ${storagedevice2} /mnt/boot"
+    echo -e "${WARN1}Failed to mount ${OTHER}${storagedevice2}${WARN1} /mnt/boot${NC}"
+    echo -e "${OTHER}Exiting... Press enter to continue${NC}"
+    read ITBROKE
+    exit
   fi
 }
 
