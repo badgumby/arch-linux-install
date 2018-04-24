@@ -151,25 +151,21 @@
 
       `Enter packages separated by spaces`
 
-23. Enable services after `pacman` packages have been installed
-
-   `Enter services separated by spaces`
-
-24. Download third script
+23. Download third script
 
    `arch-install-gumby-3.sh`
 
-25. Switch into newly created user
+24. Switch into newly created user
 
    `su -p $MYUSERNAME /home/${MYUSERNAME}/arch-install-gumby-3.sh`
 
-26. Download and install `aura` Arch user repository package manager
-27. Prompt to install System76 drivers/modules (installed from AUR)
+25. Download and install `aura` Arch user repository package manager
+26. Prompt to install System76 drivers/modules (installed from AUR)
     + Packages
 
       `system76-driver system76-dkms-git system76-wallpapers`
 
-28. Install packages from Arch user repository
+27. Install packages from Arch user repository
     + BAD Gumby's default packages:
 
       [List of AUR packages](../master/Apps-User-Repo.md)
@@ -178,11 +174,13 @@
 
       `Enter packages separated by spaces`
 
-29. Enable services after `aura` packages have been installed
+28. Enable services `sytemctl enable *` after packages have been installed
 
-30. Prompt to install BAD Gumby's favorite themes/fonts
+   `Enter services separated by spaces`
+
+29. Prompt to install BAD Gumby's favorite themes/fonts
     + Packages:
 
       `arc-gtk-theme arc-solid-gtk-theme materia-theme-git candy-gtk-theme paper-icon-theme ttf-material-icons ttf-ms-fonts ttf-wps-fonts`
 
-31. Prompt to reboot
+30. Prompt to reboot
