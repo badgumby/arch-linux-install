@@ -67,11 +67,11 @@ echo -e ${TEXTCOLOR}$drawline${NC}
 ##### Install packages for AUR
 ##############################################################################################################
 
-AURINSTALL=(evdi displaylink mate-tweak oh-my-zsh-git correcthorse neovim-gtk-git remmina-plugin-rdesktop visual-studio-code-bin wps-office google-chrome mopidy-gmusic keybase-bin signal-desktop-bin multibootusb skype-electron)
+AURINSTALL=(correcthorse displaylink evdi google-chrome keybase-bin mate-tweak mopidy-gmusic multibootusb neovim-gtk-git oh-my-zsh-git signal-desktop-bin skype-electron visual-studio-code-bin wps-office)
 
 echo -e ${TEXTCOLOR}$drawline
 echo -e "BAD Gumby's packages from the Arch User Repository"
-echo -e "${DEF1}Default:${TEXTCOLOR} (${OTHER}evdi displaylink mate-tweak oh-my-zsh-git correcthorse neovim-gtk-git remmina-plugin-rdesktop visual-studio-code-bin wps-office google-chrome mopidy-gmusic keybase-bin signal-desktop-bin multibootusb skype-electron${TEXTCOLOR})"
+echo -e "${DEF1}Default:${TEXTCOLOR} (${OTHER}correcthorse displaylink evdi google-chrome keybase-bin mate-tweak mopidy-gmusic multibootusb neovim-gtk-git oh-my-zsh-git signal-desktop-bin skype-electron visual-studio-code-bin wps-office${TEXTCOLOR})"
 echo -e "${CHOICE}"
 read -r -p "Would you like to customize your AUR PACKAGES? [y/n]: " response
 echo -e ${NC}

@@ -267,11 +267,11 @@ pacman -Syy
 ##############################################################################################################
 
 function base-install-packages {
-  BASEINSTALL=(xf86-video-intel xorg-server gdm mate mate-extra xorg-apps bluez-utils intel-ucode system-config-printer network-manager-applet dconf-editor remmina tilda filezilla poedit jdk8-openjdk jre8-openjdk scrot keepass atom ncmpcpp mopidy steam gimp inkscape neofetch conky p7zip ntfs-3g samba openconnect networkmanager-openconnect networkmanager-openvpn networkmanager-vpnc nm-connection-editor aircrack-ng hexchat nmap rofi openssh blueman virtualbox pidgin gnome-keyring freerdp)
+  BASEINSTALL=(aircrack-ng atom blueman bluez-utils conky dconf-editor filezilla freerdp gdm gimp gnome-keyring hexchat inkscape intel-ucode jdk8-openjdk jre8-openjdk keepass mate mate-extra mopidy ncmpcpp neofetch network-manager-applet networkmanager-openconnect networkmanager-openvpn networkmanager-vpnc nm-connection-editor nmap ntfs-3g openconnect openssh p7zip pidgin poedit remmina rofi tilda samba scrot steam system-config-printer virtualbox xf86-video-intel xorg-apps xorg-server)
 
   echo -e ${TEXTCOLOR}$drawline
   echo -e "BAD Gumby's base packages from the Official Arch Repo"
-  echo -e "${DEF1}Default:${TEXTCOLOR} (${OTHER}xf86-video-intel xorg-server xorg-apps gdm mate mate-extra bluez-utils intel-ucode mate-media system-config-printer network-manager-applet dconf-editor remmina tilda filezilla poedit jdk8-openjdk jre8-openjdk scrot keepass atom ncmpcpp mopidy steam gimp inkscape neofetch conky p7zip ntfs-3g samba openconnect networkmanager-openconnect networkmanager-openvpn networkmanager-vpnc nm-connection-editor aircrack-ng hexchat nmap rofi openssh blueman virtualbox pidgin gnome-keyring freerdp${TEXTCOLOR})"
+  echo -e "${DEF1}Default:${TEXTCOLOR} (${OTHER}aircrack-ng atom blueman bluez-utils conky dconf-editor filezilla freerdp gdm gimp gnome-keyring hexchat inkscape intel-ucode jdk8-openjdk jre8-openjdk keepass mate mate-extra mopidy ncmpcpp neofetch network-manager-applet networkmanager-openconnect networkmanager-openvpn networkmanager-vpnc nm-connection-editor nmap ntfs-3g openconnect openssh p7zip pidgin poedit remmina rofi tilda samba scrot steam system-config-printer virtualbox xf86-video-intel xorg-apps xorg-server${TEXTCOLOR})"
   echo -e "${CHOICE}"
   read -r -p "Would you like to customize your PACKAGES? [y/n]: " response
   echo -e ${NC}
