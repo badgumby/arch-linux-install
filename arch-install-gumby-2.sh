@@ -267,7 +267,7 @@ pacman -Syy
 ##############################################################################################################
 
 function base-install-packages {
-  BASEINSTALL=(xf86-video-intel xorg-server gdm mate mate-extra xorg-appsbluez-utils intel-ucode system-config-printer network-manager-applet dconf-editor remmina tilda filezilla poedit jdk8-openjdk jre8-openjdk scrot keepass atom ncmpcpp mopidy steam gimp inkscape neofetch conky p7zip ntfs-3g samba openconnect networkmanager-openconnect networkmanager-openvpn networkmanager-vpnc nm-connection-editor aircrack-ng hexchat nmap rofi openssh blueman virtualbox pidgin gnome-keyring freerdp)
+  BASEINSTALL=(xf86-video-intel xorg-server gdm mate mate-extra xorg-apps bluez-utils intel-ucode system-config-printer network-manager-applet dconf-editor remmina tilda filezilla poedit jdk8-openjdk jre8-openjdk scrot keepass atom ncmpcpp mopidy steam gimp inkscape neofetch conky p7zip ntfs-3g samba openconnect networkmanager-openconnect networkmanager-openvpn networkmanager-vpnc nm-connection-editor aircrack-ng hexchat nmap rofi openssh blueman virtualbox pidgin gnome-keyring freerdp)
 
   echo -e ${TEXTCOLOR}$drawline
   echo -e "BAD Gumby's base packages from the Official Arch Repo"
