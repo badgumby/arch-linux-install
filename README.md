@@ -55,6 +55,14 @@
 
    + EFI Formatting
 
+      | Partition | Size | Type | Format |
+      | --- | --- | --- | --- |
+      | 1 | 200 MB | EFI (ef00) | FAT32 |
+      | 2 | 500 MB | Linux File System (8300) | EXT2 |
+      | 3 | Remainder + | Linux File System (8300) | LUKS (aes-xts-plain64) logical volume group (vg0) |
+      | vg0-swap | 8 GB | n/a | swap on vg0 |
+      | vg0-root | Remainder + | n/a | EXT4 on vg0 |
+
       `Partition 1: 200MB EFI Partition (ef00) - Formats to FAT32`
 
       `Partition 2: 500MB Linux File System BOOT Partition (8300) - Formats to EXT2`
@@ -70,18 +78,9 @@
       | --- | --- | --- | --- |
       | 1 | 10 MB | MBR (ef02) | FAT32 |
       | 2 | 250 MB | Linux File System (8300) | EXT2 |
-      | 3 | Remainder + | Linux File System (8300) | LUKS logical volume group |
-      | vg0-swap | 8 GB | n/a | swap |
-      | vg0-root | Remainder + | n/a | EXT4 |
-
-      `Partition 1: 10MB MBR Partition (ef02) - Formats to FAT32`
-
-      `Partition 2: 250MB Linux File System BOOT Parition (8300) - Formats to EXT2`
-
-      `Partition 3: Remainder: Linux File System (8300) - Creates logical volume that is LUKS encrypted (aes-xts-plain64)`
-
-         + Creates 8GB SWAP on LUKS volume
-         + Uses remaining for EXT4 on LUKS volume
+      | 3 | Remainder + | Linux File System (8300) | LUKS (aes-xts-plain64) logical volume group (vg0) |
+      | vg0-swap | 8 GB | n/a | swap on vg0 |
+      | vg0-root | Remainder + | n/a | EXT4 on vg0 |
 
 3. Run `pacstrap` (base install) based on choice of system. Packages listed below:
    + EFI:
