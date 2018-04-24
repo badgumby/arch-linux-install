@@ -145,7 +145,7 @@
 22. Install packages from Arch official repository
     + BAD Gumby's default packages:
 
-      [List of packages](../master/Apps-Arch-Repo.md)
+      [List of official repo packages](../master/Apps-Arch-Repo.md)
 
     + Custom:
 
@@ -172,7 +172,7 @@
 28. Install packages from Arch user repository
     + BAD Gumby's default packages:
 
-      `evdi displaylink mate-tweak oh-my-zsh-git correcthorse neovim-gtk-git remmina-plugin-rdesktop visual-studio-code-bin wps-office google-chrome mopidy-gmusic keybase-bin signal-desktop-bin multibootusb skype-electron`
+      [List of AUR packages](../master/Apps-User-Repo.md)
 
     + Custom:
 
