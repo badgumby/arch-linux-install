@@ -1,3 +1,5 @@
+## 'BAD Gumby's base packages' from the Official Arch Repository
+### Table of Apps
 | Package | Description |
 | --- | --- |
 | [aircrack-ng](https://www.archlinux.org/packages/community/x86_64/aircrack-ng/) | Key cracker for the 802.11 WEP and WPA-PSK protocols |
@@ -44,3 +46,7 @@
 | [xf86-video-intel](https://www.archlinux.org/packages/extra/x86_64/xf86-video-intel/) |	Xorg Intel i810/i830/i915/945G/G965+ video drivers |
 | [xorg-server](https://www.archlinux.org/packages/extra/x86_64/xorg-server/) | Xorg X server |
 | xorg-appsbluez-utils |  |
+
+### List of Apps
+Below you will find the list of all the apps from above. This can be copied and pasted directly into the installer, and you can add additional or remove unwanted packages during install.
+   `aircrack-ng atom blueman conky dconf-editor filezilla freerdp gdm gimp gnome-keyring hexchat inkscape intel-ucode jdk8-openjdk jre8-openjdk keepass mate mate-extra mopidy ncmpcpp neofetch network-manager-applet networkmanager-openconnect networkmanager-openvpn networkmanager-vpnc nm-connection-editor nmap ntfs-3g openconnect openssh p7zip pidgin poedit remmina rofi tilda samba scrot steam system-config-printer virtualbox xf86-video-intel xorg-server xorg-appsbluez-utils`
