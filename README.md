@@ -76,7 +76,7 @@
 3. Run `pacstrap` (base install) based on choice of system. Packages listed below:
    + EFI:
 
-      `base base-devel grub-efi-x86_64 efibootmgr linux-headers zsh vim wget git dialog wpa_supplicant reflector`
+      `base base-devel grub-efi-x86_64 [efibootmgr](https://www.archlinux.org/packages/core/x86_64/efibootmgr/) [linux-headers](https://www.archlinux.org/packages/core/x86_64/linux-headers/) [zsh](https://www.archlinux.org/packages/extra/x86_64/zsh/) [vim](https://www.archlinux.org/packages/extra/x86_64/vim/) [wget](https://www.archlinux.org/packages/extra/x86_64/wget/) [git](https://www.archlinux.org/packages/extra/x86_64/git/) [dialog](https://www.archlinux.org/packages/core/x86_64/dialog/) [wpa_supplicant](https://www.archlinux.org/packages/core/x86_64/wpa_supplicant/) [reflector](https://www.archlinux.org/packages/community/any/reflector/)`
 
    + BIOS:
 
