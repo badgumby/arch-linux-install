@@ -6,6 +6,7 @@
 | [atom](https://www.archlinux.org/packages/community/x86_64/atom/) | A hackable text editor for the 21st Century |
 | [blueman](https://www.archlinux.org/packages/community/x86_64/blueman/) | GTK+ Bluetooth Manager |
 | [bluez-utils](https://www.archlinux.org/packages/extra/x86_64/bluez-utils/) | Development and debugging utilities for the bluetooth protocol stack |
+| [clamav](https://www.archlinux.org/packages/extra/x86_64/clamav/) | Anti-virus toolkit for Unix |
 | [conky](https://www.archlinux.org/packages/extra/x86_64/conky/) | Lightweight system monitor for X |
 | [dconf-editor](https://www.archlinux.org/packages/extra/x86_64/dconf-editor/) | dconf Editor |
 | [filezilla](https://www.archlinux.org/packages/community/x86_64/filezilla/) | Fast and reliable FTP, FTPS and SFTP client |
@@ -51,4 +52,4 @@
 ### List of Apps
 Below you will find the list of all the apps from above. This can be copied and pasted directly into the installer, and you can add additional or remove unwanted packages during install.
 
-   `aircrack-ng atom blueman bluez-utils conky dconf-editor filezilla freerdp gdm gimp gnome-keyring hexchat inkscape intel-ucode jdk8-openjdk jre8-openjdk keepass mate mate-extra mopidy ncmpcpp neofetch network-manager-applet networkmanager-openconnect networkmanager-openvpn networkmanager-vpnc nm-connection-editor nmap ntfs-3g openconnect openssh p7zip pidgin poedit remmina rofi tilda samba scrot steam system-config-printer virtualbox xf86-video-intel xorg-apps xorg-server`
+   `aircrack-ng atom blueman bluez-utils clamav conky dconf-editor filezilla freerdp gdm gimp gnome-keyring hexchat inkscape intel-ucode jdk8-openjdk jre8-openjdk keepass mate mate-extra mopidy ncmpcpp neofetch network-manager-applet networkmanager-openconnect networkmanager-openvpn networkmanager-vpnc nm-connection-editor nmap ntfs-3g openconnect openssh p7zip pidgin poedit remmina rofi tilda samba scrot steam system-config-printer virtualbox xf86-video-intel xorg-apps xorg-server`
