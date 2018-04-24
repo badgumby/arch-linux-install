@@ -22,7 +22,7 @@
    > Table of apps that will be installed from the official Arch repository if you use BAD Gumby's defaults
 
 #### Apps-User-Repo.md
-    > Table of apps that will be installed from the Arch user repository (AUR) if you use BAD Gumby's defaults
+   > Table of apps that will be installed from the Arch user repository (AUR) if you use BAD Gumby's defaults
 
 #### arch-install-gumby(-2/3).sh
    > What you came to see
