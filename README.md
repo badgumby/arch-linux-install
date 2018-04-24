@@ -70,7 +70,9 @@
       | --- | --- | --- | --- |
       | 1 | 10 MB | MBR (ef02) | FAT32 |
       | 2 | 250 MB | Linux File System (8300) | EXT2 |
-      | 3 | Remainder + | Linux File System (8300) | LUKS logical with EXT4 |
+      | 3 | Remainder + | Linux File System (8300) | LUKS logical volume group |
+      | vg0-swap | 8 GB | n/a | swap |
+      | vg0-root | Remainder + | n/a | EXT4 |
 
       `Partition 1: 10MB MBR Partition (ef02) - Formats to FAT32`
 
