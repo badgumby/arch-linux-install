@@ -18,6 +18,12 @@
 #### This script was created by BAD Gumby for his own install. The very first step is wiping your storage device. If you use it, be sure to backup your data before starting the script. BAD Gumby takes no responsibility for lost data or damage to your device.
 
 ## Files
+#### Apps-Arch-Repo.md
+   > Table of apps that will be installed from the official Arch repository if you use BAD Gumby's defaults
+
+#### Apps-User-Repo.md
+    > Table of apps that will be installed from the Arch user repository (AUR) if you use BAD Gumby's defaults
+
 #### arch-install-gumby(-2/3).sh
    > What you came to see
 
