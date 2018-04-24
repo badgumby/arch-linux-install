@@ -145,7 +145,7 @@
 22. Install packages from Arch official repository
     + BAD Gumby's default packages:
 
-      [List of packages](../blob/master/Apps-Arch-Repo.md)
+      [List of packages](../master/Apps-Arch-Repo.md)
 
     + Custom:
 
