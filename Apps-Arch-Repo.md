@@ -1,20 +1,20 @@
 | Package | Description |
 | --- | --- |
-| [aircrack-ng](https://www.archlinux.org/packages/community/x86_64/aircrack-ng/) |  |
-| [atom](https://www.archlinux.org/packages/community/x86_64/atom/) |  |
-| [blueman](https://www.archlinux.org/packages/community/x86_64/blueman/) |  |
-| [conky](https://www.archlinux.org/packages/extra/x86_64/conky/) |  |
-| [dconf-editor](https://www.archlinux.org/packages/extra/x86_64/dconf-editor/) |  |
-| [filezilla](https://www.archlinux.org/packages/community/x86_64/filezilla/) |  |
-| [freerdp](https://www.archlinux.org/packages/community/x86_64/freerdp/) |  |
-| [gdm](https://www.archlinux.org/packages/extra/x86_64/gdm/) |  |
-| [gimp](https://www.archlinux.org/packages/extra/x86_64/gimp/) |  |
-| [gnome-keyring](https://www.archlinux.org/packages/extra/x86_64/gnome-keyring/) |  |
-| [hexchat](https://www.archlinux.org/packages/community/x86_64/hexchat/) |  |
-| [inkscape](https://www.archlinux.org/packages/extra/x86_64/inkscape/) |  |
-| [intel-ucode](https://www.archlinux.org/packages/extra/any/intel-ucode/) |  |
-| [jdk8-openjdk](https://www.archlinux.org/packages/extra/x86_64/jdk8-openjdk/) |  |
-| [jre8-openjdk](https://www.archlinux.org/packages/extra/x86_64/jre8-openjdk/) |  |
+| [aircrack-ng](https://www.archlinux.org/packages/community/x86_64/aircrack-ng/) | Key cracker for the 802.11 WEP and WPA-PSK protocols |
+| [atom](https://www.archlinux.org/packages/community/x86_64/atom/) | A hackable text editor for the 21st Century |
+| [blueman](https://www.archlinux.org/packages/community/x86_64/blueman/) | GTK+ Bluetooth Manager |
+| [conky](https://www.archlinux.org/packages/extra/x86_64/conky/) | Lightweight system monitor for X |
+| [dconf-editor](https://www.archlinux.org/packages/extra/x86_64/dconf-editor/) | dconf Editor |
+| [filezilla](https://www.archlinux.org/packages/community/x86_64/filezilla/) | Fast and reliable FTP, FTPS and SFTP client |
+| [freerdp](https://www.archlinux.org/packages/community/x86_64/freerdp/) |	Free RDP client |
+| [gdm](https://www.archlinux.org/packages/extra/x86_64/gdm/) |	Display manager and login screen |
+| [gimp](https://www.archlinux.org/packages/extra/x86_64/gimp/) | GNU Image Manipulation Program |
+| [gnome-keyring](https://www.archlinux.org/packages/extra/x86_64/gnome-keyring/) | Stores passwords and encryption keys |
+| [hexchat](https://www.archlinux.org/packages/community/x86_64/hexchat/) | A popular and easy to use graphical IRC (chat) client |
+| [inkscape](https://www.archlinux.org/packages/extra/x86_64/inkscape/) |	Professional vector graphics editor |
+| [intel-ucode](https://www.archlinux.org/packages/extra/any/intel-ucode/) |	Microcode update files for Intel CPUs |
+| [jdk8-openjdk](https://www.archlinux.org/packages/extra/x86_64/jdk8-openjdk/) | OpenJDK Java 8 development kit |
+| [jre8-openjdk](https://www.archlinux.org/packages/extra/x86_64/jre8-openjdk/) | OpenJDK Java 8 full runtime environment |
 | [keepass](https://www.archlinux.org/packages/community/any/keepass/) | An easy-to-use password manager for Windows, Linux, Mac OS X and mobile devices. |
 | [mate](https://www.archlinux.org/groups/x86_64/mate/) | Group contains the core desktop environment required for the standard MATE experience. |
 | [mate-extra](https://www.archlinux.org/groups/x86_64/mate-extra/) | Group contains additional utilities and applications that integrate well with the MATE desktop |
