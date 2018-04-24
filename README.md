@@ -63,15 +63,6 @@
       | vg0-swap | 8 GB | n/a | swap on vg0 |
       | vg0-root | Remainder + | n/a | EXT4 on vg0 |
 
-      `Partition 1: 200MB EFI Partition (ef00) - Formats to FAT32`
-
-      `Partition 2: 500MB Linux File System BOOT Partition (8300) - Formats to EXT2`
-
-      `Partition 3: Remainder: Linux File System (8300) - Creates logical volume that is LUKS encrypted (aes-xts-plain64)`
-
-         + Creates 8GB SWAP on LUKS volume
-         + Uses remaining for EXT4 on LUKS volume
-
    + BIOS Formatting
 
       | Partition | Size | Type | Format |
