@@ -55,3 +55,17 @@
 > sudo cp mate-panel.mo /usr/share/locale/e_US/LC_MESSAGES/mate-panel.mo
 
 > mate-panel --replace
+
+#### GRUB2 Config (/etc/default/grub)
+###### Set font for HiDPI
+> `sudo grub-mkfont --output=/boot/grub/fonts/DejaVuSansMono24.pf2 --size=24 /usr/share/fonts/TTF/DejaVuSanMono.ttf`
+> GRUB_FONT="/boot/grub/fonts/DejaVuSansMono24.pf2"
+
+###### Add a custom background (TGA, PNG, or JPG[8-bit, 256 colors, non-indexed] )
+> GRUB_BACKGROUND="/boot/grub/splash1.png"
+
+###### Show splash and suppress PCIe error messages
+> GRUB_CMDLINE_LINUX_DEFAULT="quiet splash pci=nomsi"
+
+###### After changes, build grub.cfg
+> `sudo grub-mkconfig -o /boot/grub/grub.cfg`
