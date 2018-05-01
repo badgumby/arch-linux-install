@@ -187,6 +187,6 @@
 29. Prompt to install BAD Gumby's favorite themes/fonts
     + Packages:
 
-      `arc-gtk-theme arc-solid-gtk-theme materia-theme-git candy-gtk-theme paper-icon-theme ttf-material-icons ttf-ms-fonts ttf-wps-fonts`
+      [List of Themes/Fonts](../master/Themes-Fonts.md)
 
 30. Prompt to reboot

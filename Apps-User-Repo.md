@@ -1,5 +1,5 @@
 ## BAD Gumby's base packages from the Arch User Repository
-### Table of Apps
+### Table of Packages
 | Package | Description |
 | --- | --- |
 | [correcthorse](https://aur.archlinux.org/packages/correcthorse) | Passphrase generator based on [XKCD 936](https://xkcd.com/936/) |

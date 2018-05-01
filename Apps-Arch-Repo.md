@@ -1,5 +1,5 @@
 ## BAD Gumby's base packages from the Official Arch Repository
-### Table of Apps
+### Table of Packages
 | Package | Description |
 | --- | --- |
 | [aircrack-ng](https://www.archlinux.org/packages/community/x86_64/aircrack-ng/) | Key cracker for the 802.11 WEP and WPA-PSK protocols |
