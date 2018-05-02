@@ -1,5 +1,5 @@
 ## BAD Gumby's base themes and fonts from the Official Arch Repository and the Arch User Repository
-### Table of Packages - Another
+### Table of Packages
 | Package | Description |
 | --- | --- |
 | [arc-gtk-theme](https://www.archlinux.org/packages/community/any/arc-gtk-theme/) |	A flat theme with transparent elements for GTK 3, GTK 2 and Gnome-Shell |
