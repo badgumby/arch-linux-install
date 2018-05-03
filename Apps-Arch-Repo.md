@@ -4,6 +4,7 @@
 | --- | --- |
 | [aircrack-ng](https://www.archlinux.org/packages/community/x86_64/aircrack-ng/) | Key cracker for the 802.11 WEP and WPA-PSK protocols |
 | [atom](https://www.archlinux.org/packages/community/x86_64/atom/) | A hackable text editor for the 21st Century |
+| [bind-tools](https://www.archlinux.org/packages/extra/x86_64/bind-tools/) | The ISC DNS tools |
 | [blueman](https://www.archlinux.org/packages/community/x86_64/blueman/) | GTK+ Bluetooth Manager |
 | [bluez-utils](https://www.archlinux.org/packages/extra/x86_64/bluez-utils/) | Development and debugging utilities for the bluetooth protocol stack |
 | [clamav](https://www.archlinux.org/packages/extra/x86_64/clamav/) | Anti-virus toolkit for Unix |
