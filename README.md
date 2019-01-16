@@ -165,7 +165,7 @@
 
    `su -p $MYUSERNAME /home/${MYUSERNAME}/arch-install-gumby-3.sh`
 
-25. Download and install `aura` Arch user repository package manager
+25. Download and install `yay` Arch user repository helper and pacman wrapper
 26. Prompt to install System76 drivers/modules (installed from AUR)
     + Packages
 
