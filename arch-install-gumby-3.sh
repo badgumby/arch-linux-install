@@ -26,16 +26,16 @@ NC='\033[0m' # No Color
 echo -e "${WARN1}Loaded script 3...${NC}"
 
 ##############################################################################################################
-##### Install AUR Helper (Aura)
+##### Install AUR Helper (yay: https://github.com/Jguer/yay)
 ##############################################################################################################
 
 echo -e ${TEXTCOLOR}$drawline
-echo -e "Installing aura (Arch User Repository package manager)"
+echo -e "Installing yay (AUR Helper and Pacman wrapper)"
 echo -e $drawline${NC}
-# Pull down the aura PKGBUILD.
-mkdir /home/${MYUSERNAME}/aura-bin
-cd /home/${MYUSERNAME}/aura-bin
-wget --no-check-certificate https://aur.archlinux.org/cgit/aur.git/plain/PKGBUILD\?h\=aura-bin --output-document=./PKGBUILD
+# Pull down the yay PKGBUILD.
+mkdir /home/${MYUSERNAME}/yay
+cd /home/${MYUSERNAME}/yay
+wget --no-check-certificate https://aur.archlinux.org/cgit/aur.git/plain/PKGBUILD?h=yay --output-document=./PKGBUILD
 makepkg -si
 
 ##############################################################################################################
@@ -55,7 +55,7 @@ if [[ "$response" =~ ^([yY][eE][sS]|[yY])+$ ]]
     for i in "${INSTALL76[@]}"
     do
       echo -e "${OTHER}Installing $i...${NC}"
-      sudo aura -Ax $i
+      sudo yay -S $i
     done
   else
     echo -e ""
@@ -83,7 +83,7 @@ if [[ "$response" =~ ^([yY][eE][sS]|[yY])+$ ]]
     for i in "${MYAUR[@]}"
     do
       echo -e "${OTHER}Installing $i...${NC}"
-      sudo aura -Ax $i
+      sudo yay -S $i
     done
   else
     echo -e ""
@@ -91,13 +91,13 @@ if [[ "$response" =~ ^([yY][eE][sS]|[yY])+$ ]]
     for i in "${AURINSTALL[@]}"
     do
       echo -e "${OTHER}Installing $i...${NC}"
-      sudo aura -Ax $i
+      sudo yay -S $i
     done
 fi
 echo -e ${TEXTCOLOR}$drawline${NC}
 
 ##############################################################################################################
-##### Start services - after aura
+##### Start services - after yay
 ##############################################################################################################
 
 echo -e ${TEXTCOLOR}$drawline
@@ -147,7 +147,7 @@ if [[ "$response" =~ ^([yY][eE][sS]|[yY])+$ ]]
     for i in "${THEMEINSTALL2[@]}"
     do
       echo -e "${OTHER}Installing $i...${NC}"
-      sudo aura -Ax $i
+      sudo yay -S $i
     done
   else
     echo -e ""
